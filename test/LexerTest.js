@@ -73,19 +73,20 @@ module.exports = Unit.Suite("Lexer Suite")([
                 assertion2,
                 lexer.next().next(),
                 2, "hello", [6, 1], 5);
-        }))
+        })),
+
+
+    Unit.Test("given a lexer with an input of only whitespace")(Promise
+        .resolve(lexerDefinition.fromString("   "))
+        .then(lexer =>
+            assertLexerState(
+                Assertion,
+                lexer,
+                0, "", [4, 1], 3)
+        ))
 ]);
 
 
-//
-//     .case("given a lexer with an input of only whitespace", () => {
-//         const lexer = lexerDefinition.fromString("   ");
-//
-//         assertLexerState(
-//             lexer,
-//             0, "", Tuple(4)(1), 3);
-//     })
-//
 //     .case("given a lexer with input contain non-nested comments should ignore the comments", () => {
 //         const lexer = lexerDefinition.fromString("123\n// some comments\nabc");
 //
