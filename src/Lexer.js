@@ -1,5 +1,5 @@
 const Array = require("./Libs").Array;
-const Maybe = require("./Libs").Maybe;
+const String = require("./Libs").String;
 
 
 function LexerState(configuration, state) {
@@ -33,9 +33,9 @@ LexerState.prototype.next = function () {
         } else {
             const errorState = advanceState(currentState)(currentState.input[currentState.index])(this.configuration.err(currentState.input[currentState.index]));
             const mapTokenPattern = tokenPattern =>
-                tokenPattern.first.matchFrom(currentState.input)(currentState.index).map(text => advanceState(currentState)(text)(tokenPattern.second(text)));
+                tokenPattern[0].matchFrom(currentState.input)(currentState.index).map(text => advanceState(currentState)(text)(tokenPattern[1](text)));
 
-            return new LexerState(this.configuration, this.configuration.tokenPatterns.findMap(mapTokenPattern).withDefault(errorState));
+            return new LexerState(this.configuration, Array.findMap(mapTokenPattern)(this.configuration.tokenPatterns).withDefault(errorState));
         }
     }
 };
@@ -99,7 +99,7 @@ const advanceState = currentState => matchedText => matchedToken => {
         item.charCodeAt(0) === 10
             ? [1, position[1] + 1]
             : [position[0] + 1, position[1]];
-    const advancedPosition = String.foldl(matchedText)(currentState.position)(advancePositionOnCharacter);
+    const advancedPosition = String.foldl(currentState.position)(advancePositionOnCharacter)(matchedText);
 
     return mkRunningState(currentState.input)(advancedIndex)(advancedPosition)(matchedToken)(currentState.position)(currentState.index);
 };

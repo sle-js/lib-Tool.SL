@@ -31,27 +31,19 @@ module.exports = Unit.Suite("Lexer Suite")([
                 Assertion,
                 lexer,
                 0, "", [1, 1], 0)
+        )),
+
+    Unit.Test("given a lexer with a defined token should return that token")(Promise
+        .resolve(lexerDefinition.fromString("2912 hello"))
+        .then(lexer =>
+            assertLexerState(
+                Assertion,
+                lexer,
+                1, 2912, [1, 1], 0)
         ))
 ]);
 
 
-// Test.newSuite("Lexer Suite")
-//     .case("given an empty lexer should be at EOF", () => {
-//         const lexer = lexerDefinition.fromString("");
-//
-//         assertLexerState(
-//             lexer,
-//             0, "", [1, 1], 0);
-//     })
-//
-//     .case("given a lexer with a defined token should return that token", () => {
-//         const lexer = lexerDefinition.fromString("2912 hello");
-//
-//         assertLexerState(
-//             lexer,
-//             1, 2912, Tuple(1)(1), 0);
-//     })
-//
 //     .case("given a lexer with a defined token should return that token and the next token whilst skipping whitespace", () => {
 //         const lexer = lexerDefinition.fromString("2912 hello");
 //
