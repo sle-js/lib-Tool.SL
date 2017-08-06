@@ -4,7 +4,7 @@ const Unit = require("./Libs").Unit;
 const Int = require("./Int");
 
 
-module.exports = Unit.Suite("Native.Data.Init")([
+module.exports = Unit.Suite("Native.Data.Int")([
     Unit.Suite("fromString")([
         Unit.Test("'123' equals 123")(Assertion
             .equals(Int.fromString("123").withDefault(0))(123)),
