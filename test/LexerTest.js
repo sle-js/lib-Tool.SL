@@ -40,21 +40,24 @@ module.exports = Unit.Suite("Lexer Suite")([
                 Assertion,
                 lexer,
                 1, 2912, [1, 1], 0)
-        ))
+        )),
+
+    Unit.Test("given a lexer with a defined token should return that token and the next token whilst skipping whitespace")(Promise
+        .resolve(lexerDefinition.fromString("2912 hello"))
+        .then(lexer => {
+            const assertion1 = assertLexerState(
+                Assertion,
+                lexer,
+                1, 2912, [1, 1], 0);
+
+            return assertLexerState(
+                assertion1,
+                lexer.next(),
+                2, "hello", [6, 1], 5);
+        }))
 ]);
 
 
-//     .case("given a lexer with a defined token should return that token and the next token whilst skipping whitespace", () => {
-//         const lexer = lexerDefinition.fromString("2912 hello");
-//
-//         assertLexerState(
-//             lexer,
-//             1, 2912, Tuple(1)(1), 0);
-//
-//         assertLexerState(
-//             lexer.next(),
-//             2, "hello", Tuple(6)(1), 5);
-//     })
 //
 //     .case("given a lexer with a character that the lexer does not recognise then the error token is returned and the lexer is advanced onto the next character", () => {
 //         const lexer = lexerDefinition.fromString("2912*hello");
