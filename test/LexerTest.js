@@ -83,21 +83,23 @@ module.exports = Unit.Suite("Lexer Suite")([
                 Assertion,
                 lexer,
                 0, "", [4, 1], 3)
-        ))
+        )),
+
+    Unit.Test("given a lexer with input contain non-nested comments should ignore the comments")(Promise
+        .resolve(lexerDefinition.fromString("123\n// some comments\nabc"))
+        .then(lexer => {
+            const assertion1 = assertLexerState(
+                Assertion,
+                lexer,
+                1, 123, [1, 1], 0);
+
+            return assertLexerState(
+                assertion1,
+                lexer.next(),
+                2, "abc", [1, 3], 21);
+
+        }))
 ]);
-
-
-//     .case("given a lexer with input contain non-nested comments should ignore the comments", () => {
-//         const lexer = lexerDefinition.fromString("123\n// some comments\nabc");
-//
-//         assertLexerState(
-//             lexer,
-//             1, 123, Tuple(1)(1), 0);
-//
-//         assertLexerState(
-//             lexer.next(),
-//             2, "abc", Tuple(1)(3), 21);
-//     });
 
 
 function assertLexerState(assertion, lexer, id, value, position, index) {
