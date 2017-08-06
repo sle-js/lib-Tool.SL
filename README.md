@@ -81,10 +81,10 @@ The following table lists the operators and their associated precedence.
 
 | Operators | Description |
 |-----------|-------------|
-| <| |> | Backwards and forwards pipe |
+| <\| \|> | Backwards and forwards pipe |
 | o | Function composition |
 | && | Boolean and |
-| || | Boolean or |
+| \|\| | Boolean or |
 | obj.n | Reference a object's field |
 | f x | Function application |
 
