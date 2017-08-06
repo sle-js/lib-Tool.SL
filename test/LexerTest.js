@@ -52,7 +52,7 @@ module.exports = Unit.Suite("Lexer Suite")([
 
             return assertLexerState(
                 assertion1,
-                lexer.next(),
+                lexer.tail(),
                 2, "hello", [6, 1], 5);
         })),
 
@@ -66,12 +66,12 @@ module.exports = Unit.Suite("Lexer Suite")([
 
             const assertion2 = assertLexerState(
                 assertion1,
-                lexer.next(),
+                lexer.tail(),
                 -1, "*", [5, 1], 4);
 
             return assertLexerState(
                 assertion2,
-                lexer.next().next(),
+                lexer.drop(2),
                 2, "hello", [6, 1], 5);
         })),
 
@@ -95,7 +95,7 @@ module.exports = Unit.Suite("Lexer Suite")([
 
             return assertLexerState(
                 assertion1,
-                lexer.next(),
+                lexer.tail(),
                 2, "abc", [1, 3], 21);
 
         }))
@@ -103,10 +103,12 @@ module.exports = Unit.Suite("Lexer Suite")([
 
 
 function assertLexerState(assertion, lexer, id, value, position, index) {
+    const hd = lexer.head();
+
     return assertion
-        .equals(lexer.token().id)(id)
-        .equals(lexer.token().value)(value)
-        .equals(lexer.position()[0])(position[0])
-        .equals(lexer.position()[1])(position[1])
-        .equals(lexer.index())(index);
+        .equals(hd.token().id)(id)
+        .equals(hd.token().value)(value)
+        .equals(hd.position()[0])(position[0])
+        .equals(hd.position()[1])(position[1])
+        .equals(hd.index())(index);
 }

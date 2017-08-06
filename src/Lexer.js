@@ -1,5 +1,6 @@
 const Array = require("./Libs").Array;
 const String = require("./Libs").String;
+const Stream = require("./Libs").Stream;
 
 
 function LexerState(configuration, state) {
@@ -113,8 +114,12 @@ const finalState = configuration => state =>
     mkRunningState(state.input)(state.input.length)(state.position)(configuration.eof)(state.position)(state.input.length);
 
 
+const lexerAsStream = lexer =>
+    Stream.Cons(lexer)(() => lexerAsStream(lexer.next()));
+
+
 const setup = configuration => ( {
-    fromString: input => new LexerState(configuration, initialState(input)).next()
+    fromString: input => lexerAsStream(new LexerState(configuration, initialState(input)).next())
 });
 
 
