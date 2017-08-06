@@ -9,6 +9,7 @@ The features that I would like to be included in this language are:
 - Native data types: Char, Int, String, Float, Unit and functions
 - Type constraints through type signatures
 - Object based where an object is a collection of named values
+- No side-effects
 - No null values and no exceptions
 - No inheritance but object composition using delegation
 - No modules for now
