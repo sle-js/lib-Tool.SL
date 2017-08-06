@@ -5,6 +5,6 @@ Unit.Suite("All")([
     require("./test/IntTest"),
     require("./test/LexerTest")
 ])
-    .then(Unit.showErrors)
+    .then(Unit.showDetail)
     .then(Unit.showSummary)
     .then(Unit.setExitCodeOnFailures);
