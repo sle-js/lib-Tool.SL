@@ -24,12 +24,14 @@ const lexerDefinition = Lexer.setup({
 
 
 module.exports = Unit.Suite("Lexer Suite")([
-    Unit.Test("given an empty lexer should be at EOF")(
-        assertLexerState(
-            Assertion,
-            lexerDefinition.fromString(""),
-            0, "", [1, 1], 0)
-    )
+    Unit.Test("given an empty lexer should be at EOF")(Promise
+        .resolve(lexerDefinition.fromString(""))
+        .then(lexer =>
+            assertLexerState(
+                Assertion,
+                lexer,
+                0, "", [1, 1], 0)
+        ))
 ]);
 
 
