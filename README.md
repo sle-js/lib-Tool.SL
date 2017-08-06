@@ -83,6 +83,10 @@ The following table lists the operators and their associated precedence.
 |-----------|-------------|
 | <| |> | Backwards and forwards pipe |
 | o | Function composition |
+| && | Boolean and |
+| || | Boolean or |
+| obj.n | Reference a object's field |
+| f x | Function application |
 
 
 ## Example
