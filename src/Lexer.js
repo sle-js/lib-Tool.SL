@@ -97,7 +97,7 @@ const mkRunningState = input => index => position => token => oldPosition => old
 const advanceState = currentState => matchedText => matchedToken => {
     const advancedIndex = currentState.index + matchedText.length;
     const advancePositionOnCharacter = position => item =>
-        item.charCodeAt(0) === 10
+        item === 10
             ? [1, position[1] + 1]
             : [position[0] + 1, position[1]];
     const advancedPosition = String.foldl(currentState.position)(advancePositionOnCharacter)(matchedText);

@@ -4,13 +4,13 @@
 const Maybe = mrequire("core:Native.Data.Maybe:1.0.0");
 
 
-//= at :: Int -> String -> Maybe String
+//= at :: Int -> String -> Maybe Char
 const at = i => s =>
     i >= 0 && i < s.length
-        ? Maybe.Just(s[i])
+        ? Maybe.Just(s.charCodeAt(i))
         : Maybe.Nothing;
-assumptionEqual(at(0)("Hello"), Maybe.Just("H"));
-assumptionEqual(at(1)("Hello"), Maybe.Just("e"));
+assumptionEqual(at(0)("Hello"), Maybe.Just("H".charCodeAt(0)));
+assumptionEqual(at(1)("Hello"), Maybe.Just("e".charCodeAt(0)));
 assumptionEqual(at(5)("Hello"), Maybe.Nothing);
 
 
@@ -100,18 +100,18 @@ assumptionEqual(replaceAll("*")("=")("he**o"), "he==o");
 
 
 //- Reduce a string from the left.
-//= foldl :: a -> (a -> String -> a) -> a
+//= foldl :: a -> (a -> Char -> a) -> a
 const foldl = z => f => s => {
     let result = z;
     for (let i = 0; i < s.length; i += 1) {
-        result = f(result)(s[i]);
+        result = f(result)(s.charCodeAt(i));
     }
 
     return result;
 };
 assumptionEqual(foldl(0)(acc => _ => acc + 1)(""), 0);
 assumptionEqual(foldl(0)(acc => _ => acc + 1)("Hello"), 5);
-assumptionEqual(foldl("")(acc => item => item + acc)("Hello"), "olleH");
+assumptionEqual(foldl("")(acc => item => String.fromCharCode(item) + acc)("Hello"), "olleH");
 
 
 //- Converts the string to all lowercase letters.
