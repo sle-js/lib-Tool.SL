@@ -114,9 +114,7 @@ const finalState = configuration => state =>
 
 
 const setup = configuration => ( {
-    fromString: function (input) {
-        return new LexerState(configuration, initialState(input)).next();
-    }
+    fromString: input => new LexerState(configuration, initialState(input)).next()
 });
 
 
