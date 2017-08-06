@@ -81,12 +81,17 @@ The following table lists the operators and their associated precedence.
 
 | Operators | Description |
 |-----------|-------------|
+| if        | if-then-else |
+| let       | Local declarations |
+| where     | Local declarations within the let expression |
 | <\| \|> | Backwards and forwards pipe |
 | o | Function composition |
-| && | Boolean and |
 | \|\| | Boolean or |
-| obj.n | Reference a object's field |
+| && | Boolean and |
+| + - | Additive operators |
+| * / | Multiplicative operators |
 | f x | Function application |
+| obj.n | Reference an object's field |
 
 
 ## Example
