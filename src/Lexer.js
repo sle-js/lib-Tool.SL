@@ -24,26 +24,26 @@ LexerState.prototype.index = function () {
 };
 
 
-LexerState.prototype.next = function () {
-    if (this.eof()) {
-        return this;
-    } else {
-        const currentState = skipWhitespaceComments(this.configuration)(this.state);
-        if (isEndOfFile(currentState.index)(currentState.input)) {
-            return new LexerState(this.configuration, finalState(this.configuration)(currentState));
-        } else {
-            const errorState = advanceState(currentState)(currentState.input[currentState.index])(this.configuration.err(currentState.input[currentState.index]));
-            const mapTokenPattern = tokenPattern =>
-                tokenPattern[0].matchFrom(currentState.input)(currentState.index).map(text => advanceState(currentState)(text)(tokenPattern[1](text)));
-
-            return new LexerState(this.configuration, Array.findMap(mapTokenPattern)(this.configuration.tokenPatterns).withDefault(errorState));
-        }
-    }
+LexerState.prototype.eof = function () {
+    return this.state.token === this.configuration.eof;
 };
 
 
-LexerState.prototype.eof = function () {
-    return this.state.token === this.configuration.eof;
+const next = lexer => {
+    if (lexer.eof()) {
+        return this;
+    } else {
+        const currentState = skipWhitespaceComments(lexer.configuration)(lexer.state);
+        if (isEndOfFile(currentState.index)(currentState.input)) {
+            return new LexerState(lexer.configuration, finalState(lexer.configuration)(currentState));
+        } else {
+            const errorState = advanceState(currentState)(currentState.input[currentState.index])(lexer.configuration.err(currentState.input[currentState.index]));
+            const mapTokenPattern = tokenPattern =>
+                tokenPattern[0].matchFrom(currentState.input)(currentState.index).map(text => advanceState(currentState)(text)(tokenPattern[1](text)));
+
+            return new LexerState(lexer.configuration, Array.findMap(mapTokenPattern)(lexer.configuration.tokenPatterns).withDefault(errorState));
+        }
+    }
 };
 
 
@@ -115,11 +115,11 @@ const finalState = configuration => state =>
 
 
 const lexerAsStream = lexer =>
-    Stream.Cons(lexer)(() => lexerAsStream(lexer.next()));
+    Stream.Cons(lexer)(() => lexerAsStream(next(lexer)));
 
 
 const setup = configuration => ( {
-    fromString: input => lexerAsStream(new LexerState(configuration, initialState(input)).next())
+    fromString: input => lexerAsStream(next(new LexerState(configuration, initialState(input))))
 });
 
 
