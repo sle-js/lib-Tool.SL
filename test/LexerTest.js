@@ -54,26 +54,29 @@ module.exports = Unit.Suite("Lexer Suite")([
                 assertion1,
                 lexer.next(),
                 2, "hello", [6, 1], 5);
+        })),
+
+    Unit.Test("given a lexer with a character that the lexer does not recognise then the error token is returned and the lexer is advanced onto the next character")(Promise
+        .resolve(lexerDefinition.fromString("2912*hello"))
+        .then(lexer => {
+            const assertion1 = assertLexerState(
+                Assertion,
+                lexer,
+                1, 2912, [1, 1], 0);
+
+            const assertion2 = assertLexerState(
+                assertion1,
+                lexer.next(),
+                -1, "*", [5, 1], 4);
+
+            return assertLexerState(
+                assertion2,
+                lexer.next().next(),
+                2, "hello", [6, 1], 5);
         }))
 ]);
 
 
-//
-//     .case("given a lexer with a character that the lexer does not recognise then the error token is returned and the lexer is advanced onto the next character", () => {
-//         const lexer = lexerDefinition.fromString("2912*hello");
-//
-//         assertLexerState(
-//             lexer,
-//             1, 2912, Tuple(1)(1), 0);
-//
-//         assertLexerState(
-//             lexer.next(),
-//             -1, "*", Tuple(5)(1), 4);
-//
-//         assertLexerState(
-//             lexer.next().next(),
-//             2, "hello", Tuple(6)(1), 5);
-//     })
 //
 //     .case("given a lexer with an input of only whitespace", () => {
 //         const lexer = lexerDefinition.fromString("   ");
