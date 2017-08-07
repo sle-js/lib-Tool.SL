@@ -12,7 +12,18 @@ The features that I would like to be included in this language are:
 - No side-effects
 - No null values and no exceptions
 - No inheritance but object composition using delegation
-- No modules for now
+
+
+## Approach
+
+The approach to be taken in building a compiler for this language is:
+
+- Parser for the entire language
+- First phase is to ignore all of the type information and perform a translation
+- Second phase is to introduce type verification
+
+The rationale is that compiling with this syntax is still an improvement over writing native JavaScript.  The type 
+information offers itself as documentation whilst benefit can be derived from the syntax.
 
 
 ## Grammar
@@ -94,6 +105,8 @@ The following table lists the operators and their associated precedence.
 | * / | Multiplicative operators |
 | f x | Function application |
 | obj.n | Reference an object's field |
+| & | Composition |
+| - | Constants and reference |
 
 
 ## Example
@@ -119,4 +132,3 @@ data List a b = a :: Parity & Show => Parity & Show &
       Cons x xs -> x.show() ++ ", " ++ xs.show()
 }
 ```
-
