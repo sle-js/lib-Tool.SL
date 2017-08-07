@@ -84,8 +84,10 @@ The following table lists the operators and their associated precedence.
 | if        | if-then-else |
 | let       | Local declarations |
 | where     | Local declarations within the let expression |
+| case      | Case expression |
 | <\| \|> | Backwards and forwards pipe |
 | o | Function composition |
+| -> | Lambda functions |
 | \|\| | Boolean or |
 | && | Boolean and |
 | + - | Additive operators |
@@ -104,17 +106,17 @@ data List a b = a :: Parity & Show => Parity & Show &
         | Cons a (List a) {
   $EQEQ :: Parity a => Self -> Bool
   $EQEQ other =
-    match (self, other)
-    | (Nil, Nil) => true
-    | (Cons s ss, Cons o os) => s.$EQEQ(o) && ss.$EQEQ(os)
-    | else => false
+    case (self, other) of
+      (Nil, Nil) -> true
+      (Cons s ss, Cons o os) -> s == o && ss == os
+      else -> false
 
   show :: Show a => () -> String
   show () =
-    match self
-    | Nil => ""
-    | Cons x Nil => x.show()
-    | Cons x xs => x.show() ++ ", " ++ xs.show()
+    case self of
+      Nil -> ""
+      Cons x Nil -> x.show()
+      Cons x xs -> x.show() ++ ", " ++ xs.show()
 }
 ```
 
