@@ -17,7 +17,7 @@ const importReference = nextToken();
 
 const AMPERSAND = nextToken();
 const AMPERSAND_AMPERSAND = nextToken();
-const BACK_SLASH = nextToken();
+const BACKSLASH = nextToken();
 const BANG_EQUAL = nextToken();
 const BAR = nextToken();
 const BAR_BAR = nextToken();
@@ -81,7 +81,7 @@ names[constantString] = "constant string";
 names[importReference] = "import reference";
 names[AMPERSAND] = "&";
 names[AMPERSAND_AMPERSAND] = "&&";
-names[BACK_SLASH] = "\\";
+names[BACKSLASH] = "\\";
 names[BANG_EQUAL] = "!=";
 names[BAR] = "|";
 names[BAR_BAR] = "||";
@@ -144,7 +144,7 @@ module.exports = {
     importReference,
     AMPERSAND,
     AMPERSAND_AMPERSAND,
-    BACK_SLASH,
+    BACKSLASH,
     BANG_EQUAL,
     BAR,
     BAR_BAR,
