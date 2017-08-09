@@ -83,10 +83,17 @@ DataDeclaration =
       {Declaration};
 
 NameSignatureDeclaration = 
-      lowerID "::" Type;
+      Name "::" Type;
 
 NameDeclaration = 
-      lowerID {lowerID | "()"} "=" IfExpression;
+      Name {lowerID | "()"} "=" IfExpression;
+
+Name =
+      lowerID
+    | "(" OperatorName ")";
+    
+OperatorName =
+      "+" | "-" | "*" | "/" | "=" | "!=" | "<" | "<=" | ">" | ">=" | "||" | "&&";
       
 Expression = 
       IF LetExpression THEN LetExpression ELSE LetExpression
@@ -148,6 +155,7 @@ SimpleExpression =
     | constantFloat
     | "()"
     | "(" Expression {"," Expression} )";
+    | "(" OperatorName ")"
     | "{" [Expression "|"] (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
     
 Case =
@@ -166,6 +174,11 @@ Pattern =
     | "(" Pattern {"," Pattern} )"
     | upperID {Pattern};
 ```
+
+Commentary:
+
+* The grammar is ambiguous with the ambiguity resolved through indentation.
+
 
 ### Precedence
 
@@ -202,8 +215,8 @@ use core:Show:1.0.0
 data List a b = a :: Parity & Show => Parity & Show &
           Nil
         | Cons a (List a) 
-  $EQEQ :: Parity a => Self -> Bool
-  $EQEQ other =
+  (==) :: Parity a => Self -> Bool
+  (==) other =
     case (self, other) of
       (Nil, Nil) -> true
       (Cons s ss, Cons o os) -> s == o && ss == os
