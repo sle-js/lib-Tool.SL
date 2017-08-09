@@ -81,10 +81,81 @@ NameSignatureDeclaration =
       lowerID "::" Type;
 
 NameDeclaration = 
-      lowerID {lowerID | "()"} "=" Expression;
+      lowerID {lowerID | "()"} "=" IfExpression;
       
 Expression = 
-      ...
+      IF LetExpression THEN LetExpression ELSE LetExpression
+    | LetExpression;
+    
+LetExpression =
+      LET Declaration {Declaration} IN WhereExpression
+    | WhereExpression;
+    
+WhereExpression =
+      CaseExpression [WHERE Declaration {Declaration}];
+      
+CaseExpression =
+      CASE PipeExpression OF Case {Case} [ELSE 
+    | PipeExpression;
+    
+PipeExpression =
+      CompositionExpression {("<|" | "|>") CompositionExpression};
+      
+CompositionExpression =
+      LambdaExpression {"o" LambdaExpression};
+      
+LambdaExpression =
+      "\" (lowerID | "()") {lowerID | "()"} "->" ObjectCompositionExpression
+    | ObjectCompositionExpression;
+
+ObjectCompositionExpression =
+      OrExpression {"&" OrExpression};
+    
+OrExpression =
+      AndExpression {"||" AndExpression};
+      
+AndExpression = 
+      RelationalExpression {"&&" RelationalExpression};
+      
+RelationalExpression =
+      AdditiveExpression {("==" | "!=" | "<" | ">" | "<=" | "=>") AdditiveExpression};
+      
+AdditiveExpression =
+      MultiplicativeExpression {("+" | "-") MultiplicativeExpression};
+       
+MultiplicativeExpression =
+      ApplicationExpression {("*" | "/") ApplicationExpression}''
+
+ApplicationExpression =
+      ReferenceExpression {ReferenceExpression};
+      
+ReferenceExpression =
+      SimpleExpression "." (upperID | lowerID);
+      
+SimpleExpression =
+      TRUE
+    | FALSE
+    | constantString
+    | constantChar
+    | constantInteger
+    | constantFloat
+    | "()"
+    | "(" Expression {"," Expression} )";
+    
+Case =
+      Pattern "->" Expression;
+      
+Pattern =
+      TRUE
+    | FALSE
+    | constantString
+    | constantChar
+    | constantInteger
+    | constantFloat
+    | "_"
+    | "()"
+    | "(" Pattern {"," Pattern} )"
+    | upperID {Pattern};
 ```
 
 ### Precedence
@@ -100,6 +171,7 @@ The following table lists the operators and their associated precedence.
 | <\| \|> | Backwards and forwards pipe |
 | o | Function composition |
 | -> | Lambda functions |
+| & | Composition |
 | \|\| | Boolean or |
 | && | Boolean and |
 | == != < <= > >= | Relational operators |
@@ -107,7 +179,6 @@ The following table lists the operators and their associated precedence.
 | * / | Multiplicative operators |
 | f x | Function application |
 | obj.n | Reference an object's field |
-| & | Composition |
 | - | Constants and reference |
 
 
