@@ -56,7 +56,8 @@ TypeReference1 =
       TypeReference2 {"*" TypeReference2};
     
 TypeReference2 = 
-      upperID {TypeReference}
+      upperID {Type}
+    | lowerID
     | "{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
     | INT
     | STRING
@@ -80,7 +81,7 @@ NameSignatureDeclaration =
       lowerID "::" Type;
 
 NameDeclaration = 
-      lowerID {lowerID} "=" Expression;
+      lowerID {lowerID | "()"} "=" Expression;
       
 Expression = 
       ...
