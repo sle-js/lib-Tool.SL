@@ -32,8 +32,12 @@ The following describes the grammar of the language.
 
 ```text
 Module = 
+      {Import}
       Declaration {Declaration};
 
+Import = 
+      USE importReference [IMPORT (AS upperID | id AS id | "(" id AS id {"," id AS id} ")"];
+      
 Declaration = 
       TypeDeclaration 
     | DataDeclaration 
@@ -153,6 +157,7 @@ Pattern =
     | constantInteger
     | constantFloat
     | "_"
+    | lowerID
     | "()"
     | "(" Pattern {"," Pattern} )"
     | upperID {Pattern};
@@ -187,6 +192,10 @@ The following table lists the operators and their associated precedence.
 The following is an example of a piece of code showing off the usage of types and data.
 
 ```haskell
+use core:Parity:1.0.0
+use core:Show:1.0.0
+
+
 data List a b = a :: Parity & Show => Parity & Show &
           Nil
         | Cons a (List a) {
