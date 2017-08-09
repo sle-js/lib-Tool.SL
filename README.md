@@ -102,6 +102,7 @@ The following table lists the operators and their associated precedence.
 | -> | Lambda functions |
 | \|\| | Boolean or |
 | && | Boolean and |
+| == != < <= > >= | Relational operators |
 | + - | Additive operators |
 | * / | Multiplicative operators |
 | f x | Function application |
