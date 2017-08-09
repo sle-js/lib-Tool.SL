@@ -146,7 +146,7 @@ ApplicationExpression =
       ReferenceExpression {ReferenceExpression};
       
 ReferenceExpression =
-      SimpleExpression "." (upperID | lowerID);
+      SimpleExpression "." Id;
       
 SimpleExpression =
       SELF
