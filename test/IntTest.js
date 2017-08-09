@@ -1,7 +1,7 @@
 const Assertion = require("./Libs").Assertion;
 const Unit = require("./Libs").Unit;
 
-const Int = require("./Int");
+const Int = require("../src/Int");
 
 
 module.exports = Unit.Suite("Native.Data.Int")([
