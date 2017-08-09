@@ -97,7 +97,7 @@ Name =
     | "(" OperatorName ")";
     
 OperatorName =
-      "+" | "-" | "*" | "/" | "=" | "!=" | "<" | "<=" | ">" | ">=" | "||" | "&&";
+      "+" | "-" | "*" | "/" | "==" | "!=" | "<" | "<=" | ">" | ">=" | "||" | "&&";
       
 Expression = 
       IF LetExpression THEN LetExpression ELSE LetExpression
