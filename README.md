@@ -67,6 +67,7 @@ TypeReference2 =
     | STRING
     | BOOL
     | CHAR
+    | SELF
     | "()"
     | "(" TypeReference ")";
 
@@ -137,7 +138,9 @@ ReferenceExpression =
       SimpleExpression "." (upperID | lowerID);
       
 SimpleExpression =
-      TRUE
+      SELF
+    | id
+    | TRUE
     | FALSE
     | constantString
     | constantChar
@@ -145,6 +148,7 @@ SimpleExpression =
     | constantFloat
     | "()"
     | "(" Expression {"," Expression} )";
+    | "{" [Expression "|"] (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
     
 Case =
       Pattern "->" Expression;
@@ -195,10 +199,9 @@ The following is an example of a piece of code showing off the usage of types an
 use core:Parity:1.0.0
 use core:Show:1.0.0
 
-
 data List a b = a :: Parity & Show => Parity & Show &
           Nil
-        | Cons a (List a) {
+        | Cons a (List a) 
   $EQEQ :: Parity a => Self -> Bool
   $EQEQ other =
     case (self, other) of
@@ -212,5 +215,4 @@ data List a b = a :: Parity & Show => Parity & Show &
       Nil -> ""
       Cons x Nil -> x.show()
       Cons x xs -> x.show() ++ ", " ++ xs.show()
-}
 ```
