@@ -13,6 +13,7 @@ const listEquals = l1 => l2 =>
         ? false
         : (l1[0] === l2[0] && listEquals(Array.drop(1)(l1))(Array.drop(1)(l2)));
 
+
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("LexerConfiguration")([
         Unit.Test("'use core:Native.Data.List:1.0.0 import List as L'")(Assertion
