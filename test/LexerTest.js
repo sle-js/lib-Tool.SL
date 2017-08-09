@@ -3,7 +3,7 @@ const Maybe = require("./Libs").Maybe;
 const Unit = require("./Libs").Unit;
 
 const Int = require("../src/Int");
-const Regex = require("./Regex");
+const Regex = require("../src/Regex");
 
 
 const Lexer = require("../src/Lexer");
