@@ -31,58 +31,58 @@ information offers itself as documentation whilst benefit can be derived from th
 The following describes the grammar of the language.
 
 ```text
-start ::= 
-      declaration+
+Module = 
+      Declaration {Declaration};
 
-declaration ::= 
-      type_declaration 
-    | data_declaration 
-    | name_signature_declaration 
-    | name_declaration
+Declaration = 
+      TypeDeclaration 
+    | DataDeclaration 
+    | NameSignatureDeclaration 
+    | NameDeclaration;
 
-type_declaration ::= 
-      TYPE UPPER_ID LOWER_ID* EQUAL type
+TypeDeclaration = 
+      TYPE upperID {lowerID} "=" Type;
  
-type ::= 
-      type_constraints? type_references
+Type = 
+      [TypeConstraints] TypeReferences;
 
-type_references ::= 
-      type_reference ( AMPERSAND type_reference )*
+TypeReferences = 
+      TypeReference {"&" TypeReference};
 
-type_reference ::= 
-      type_reference_1 ( MINUSGREATER type_reference_1 )*
+TypeReference = 
+      TypeReference1 {"->" TypeReference1};
     
-type_reference_1 ::= 
-      type_reference_2 ( STAR type_reference_2 )*
+TypeReference1 = 
+      TypeReference2 {"*" TypeReference2};
     
-type_reference_2 ::= 
-      UPPER_ID type_reference*
-    | LCURLY ( name_signature_declaration | name_declaration ) ( COMMA ( name_signature_declaration | name_declaration ) )* RCURLY
+TypeReference2 = 
+      upperID {TypeReference}
+    | "{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
     | INT
     | STRING
     | BOOL
     | CHAR
-    | LPAREN RPAREN
-    | LPAREN type_reference RPAREN
+    | "()"
+    | "(" TypeReference ")";
 
-type_constraints ::= 
-      type_constraint ( COMMA type_constraint )*
+TypeConstraints = 
+      TypeConstraint {"," TypeConstraint};
 
-type_constraint ::= 
-      LOWER_ID COLONCOLON type_references
+TypeConstraint = 
+      lowerID "::" TypeReferences;
 
-data_declaration ::= 
-      DATA UPPER_ID LOWER_ID* EQUAL type_constraints? EQUALGREATER type_references 
-      UPPER_ID type_references ( BAR UPPER_ID type_references )*
-      declaration*
+DataDeclaration = 
+      DATA upperID {lowerID} "=" [TypeConstraints] "=>" TypeReferences 
+      upperID TypeReferences {"|" upperID type_references}
+      {Declaration};
 
-name_signature_decalaration ::= 
-      LOWER_ID COLONCOLON type
+NameSignatureDeclaration = 
+      lowerID "::" Type;
 
-name_declaration ::= 
-      LOWER_ID LOWER_ID* EQUAL expression
+NameDeclaration = 
+      lowerID {lowerID} "=" Expression;
       
-expression ::= 
+Expression = 
       ...
 ```
 
