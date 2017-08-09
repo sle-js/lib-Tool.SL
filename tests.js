@@ -2,6 +2,7 @@ const Unit = require("./test/Libs").Unit;
 
 
 Unit.Suite("All")([
+    require("./test/FloatTest"),
     require("./test/IntTest"),
     require("./test/LexerTest")
 ])
