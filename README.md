@@ -36,8 +36,12 @@ Module =
       Declaration {Declaration};
 
 Import = 
-      USE importReference [IMPORT (AS upperID | id AS id | "(" id AS id {"," id AS id} ")"];
+      USE importReference [IMPORT (AS upperID | Id AS Id | "(" Id AS Id {"," Id AS Id} ")"];
       
+Id =
+      upperID
+    | lowerID;
+    
 Declaration = 
       TypeDeclaration 
     | DataDeclaration 
@@ -146,7 +150,7 @@ ReferenceExpression =
       
 SimpleExpression =
       SELF
-    | id
+    | Id
     | TRUE
     | FALSE
     | constantString
