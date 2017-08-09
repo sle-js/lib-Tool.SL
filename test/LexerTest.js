@@ -33,6 +33,23 @@ module.exports = Unit.Suite("Lexer Suite")([
                 0, "", [1, 1], 0)
         )),
 
+    Unit.Test("given an empty lexer should be at EOF after multiple attempts")(Promise
+        .resolve(lexerDefinition.fromString(""))
+        .then(lexer => {
+            const assertion1 = assertLexerState(
+                Assertion,
+                lexer,
+                0, "", [1, 1], 0);
+            const assertion2 = assertLexerState(
+                assertion1,
+                lexer.drop(1),
+                0, "", [1, 1], 0);
+            return assertLexerState(
+                assertion2,
+                lexer.drop(2),
+                0, "", [1, 1], 0);
+        })),
+
     Unit.Test("given a lexer with a defined token should return that token")(Promise
         .resolve(lexerDefinition.fromString("2912 hello"))
         .then(lexer =>

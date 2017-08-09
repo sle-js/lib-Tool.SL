@@ -31,7 +31,7 @@ LexerState.prototype.eof = function () {
 
 const next = lexer => {
     if (lexer.eof()) {
-        return this;
+        return lexer;
     } else {
         const currentState = skipWhitespaceComments(lexer.configuration)(lexer.state);
         if (isEndOfFile(currentState.index)(currentState.input)) {
