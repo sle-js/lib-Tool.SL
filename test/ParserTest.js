@@ -76,6 +76,19 @@ module.exports = Unit.Suite("Tool.SL")([
                         urn: "core:Native.Data.Array:1.1.0",
                         names: [{name: "length", qualified: Maybe.Just("arrayLength")}]
                     })))
+                )),
+            Unit.Test("use core:Native.Data.Array:1.1.0 import (length, substring as subs)")(Promise
+                .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 import (length, substring as subs)"))
+                .then(lexer => Parser.parseImport(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.QualifiedNameImport({
+                        urn: "core:Native.Data.Array:1.1.0",
+                        names: [
+                            {name: "length", qualified: Maybe.Nothing},
+                            {name: "substring", qualified: Maybe.Just("subs")}
+                        ]
+                    })))
                 ))
         ])
     ])
