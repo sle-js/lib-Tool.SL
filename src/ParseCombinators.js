@@ -60,6 +60,26 @@ const or = parsers => lexer => {
 };
 
 
+const chainl1 = parser => sep => lexer => {
+    let currentResult = mapResult(r => [r])(parser(lexer));
+    const tailParser = andMap([sep, parser])(a => a[1]);
+
+    if (currentResult.isOkay()) {
+        while(true) {
+            const tmpResult = tailParser(currentResult.content[1].lexer);
+
+            if (tmpResult.isOkay()) {
+                currentResult = mapResult(r => Array.append(r)(currentResult.content[1].result))(tmpResult);
+            } else {
+                return currentResult;
+            }
+        }
+    } else {
+        return currentResult;
+    }
+};
+
+
 const tokenMap = tokenID => f => lexer =>
     lexer.head().token().id === tokenID
         ? okayResult(lexer.tail())(f(lexer.head()))
@@ -82,6 +102,7 @@ const optional = parser => lexer => {
 module.exports = {
     and,
     andMap,
+    chainl1,
     many,
     manyOne,
     optional,
