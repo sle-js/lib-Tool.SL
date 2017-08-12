@@ -48,21 +48,17 @@ const upperID = nextToken();
 const lowerID = nextToken();
 
 const AS = nextToken();
-const BOOL = nextToken();
 const CASE = nextToken();
-const CHAR = nextToken();
 const DATA = nextToken();
 const ELSE = nextToken();
 const FALSE = nextToken();
 const IF = nextToken();
 const IMPORT = nextToken();
 const IN = nextToken();
-const INT = nextToken();
 const LET = nextToken();
 const OF = nextToken();
 const PERIOD = nextToken();
 const SELF = nextToken();
-const STRING = nextToken();
 const THEN = nextToken();
 const TRUE = nextToken();
 const TYPE = nextToken();
@@ -110,21 +106,17 @@ names[STAR] = "*";
 names[upperID] = "identifier starting with upper case";
 names[lowerID] = "identifier starting with lower case";
 names[AS] = "as";
-names[BOOL] = "Bool";
 names[CASE] = "case";
-names[CHAR] = "Char";
 names[DATA] = "data";
 names[ELSE] = "else";
 names[FALSE] = "false";
 names[IF] = "if";
 names[IMPORT] = "import";
 names[IN] = "in";
-names[INT] = "Int";
 names[LET] = "let";
 names[OF] = "of";
 names[PERIOD] = ".";
 names[SELF] = "self";
-names[STRING] = "String";
 names[THEN] = "then";
 names[TRUE] = "true";
 names[TYPE] = "type";
@@ -173,21 +165,17 @@ module.exports = {
     upperID,
     lowerID,
     AS,
-    BOOL,
     CASE,
-    CHAR,
     DATA,
     ELSE,
     FALSE,
     IF,
     IMPORT,
     IN,
-    INT,
     LET,
     OF,
     PERIOD,
     SELF,
-    STRING,
     THEN,
     TRUE,
     TYPE,
