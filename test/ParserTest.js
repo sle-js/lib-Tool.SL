@@ -39,6 +39,13 @@ module.exports = Unit.Suite("Tool.SL")([
                 ))
         ]),
         Unit.Suite("parseImport")([
+            Unit.Test("use core:Native.Data.Array:1.1.0")(Promise
+                .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0"))
+                .then(lexer => Parser.parseImport(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.UnqualifiedImport({urn: "core:Native.Data.Array:1.1.0"})))
+                )),
             Unit.Test("use core:Native.Data.Array:1.1.0 as Array")(Promise
                 .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 as Array"))
                 .then(lexer => Parser.parseImport(lexer))
