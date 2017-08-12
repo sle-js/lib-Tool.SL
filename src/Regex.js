@@ -25,6 +25,8 @@ Regex.prototype.matchFrom = function (input) {
 assumption(from(/a+/iy).matchFrom("aaab")(0).withDefault("") === "aaa");
 assumption(from(/a+/iy).matchFrom("aaab")(1).withDefault("") === "aa");
 assumption(from(/a+/iy).matchFrom("aaab")(3).withDefault("") === "");
+assumption(from(/[a-z]+/y).matchFrom("--Hello--")(2).withDefault("") === "");
+assumption(from(/[a-z]+/y).matchFrom("--hello--")(2).withDefault("") === "hello");
 
 
 module.exports = {
