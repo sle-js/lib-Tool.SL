@@ -99,7 +99,7 @@ const optional = parser => lexer => {
     const result = parser(lexer);
 
     return result.isOkay()
-        ? mapResult(r => Maybe.Just(r))(result)
+        ? mapResult(Maybe.Just)(result)
         : okayResult(lexer)(Maybe.Nothing);
 };
 
