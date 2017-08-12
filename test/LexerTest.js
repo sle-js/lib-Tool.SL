@@ -15,7 +15,8 @@ const lexerDefinition = Lexer.setup({
     whitespacePattern: Maybe.Just(Regex.from(/\s+/iy)),
     tokenPatterns: [
         [Regex.from(/[0-9]+/iy), text => ({id: 1, value: Int.fromString(text).withDefault(0)})],
-        [Regex.from(/[A-Za-z_][A-Za-z0-9_]*/iy), text => ({id: 2, value: text})]
+        [Regex.from(/[a-z_][A-Za-z0-9_]*/y), text => ({id: 2, value: text})],
+        [Regex.from(/[A-Z][A-Za-z0-9_]*/y), text => ({id: 3, value: text})],
     ],
     comments: [
         {open: Regex.from(/\/\//my), close: Regex.from(/\n/my), nested: false}
@@ -71,6 +72,20 @@ module.exports = Unit.Suite("Lexer Suite")([
                 assertion1,
                 lexer.drop(1),
                 2, "hello", [6, 1], 5);
+        })),
+
+    Unit.Test("given a lexer with a defined token should be able to discriminate between lower case IDs and upper case IDs")(Promise
+        .resolve(lexerDefinition.fromString("hello Hello"))
+        .then(lexer => {
+            const assertion1 = assertLexerState(
+                Assertion,
+                lexer,
+                2, "hello", [1, 1], 0);
+
+            return assertLexerState(
+                assertion1,
+                lexer.drop(1),
+                3, "Hello", [7, 1], 6);
         })),
 
     Unit.Test("given a lexer with a character that the lexer does not recognise then the error token is returned and the lexer is advanced onto the next character")(Promise
