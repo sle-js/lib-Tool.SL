@@ -74,8 +74,12 @@ function parseTypeReference2(lexer) {
     return C.tokenMap(Tokens.upperID)(t => {
         if (t.token().value === "Int") {
             return AST.Int;
-        } else {
+        } else if (t.token().value === "String") {
             return AST.String;
+        } else if (t.token().value === "Bool") {
+            return AST.Bool;
+        } else if (t.token().value === "Char") {
+            return AST.Char;
         }
     })(lexer);
 }

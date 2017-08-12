@@ -60,12 +60,22 @@ const String =
     new TypeReferenceType([1]);
 
 
+const Bool =
+    new TypeReferenceType([2]);
+
+
+const Char =
+    new TypeReferenceType([3]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
     QualifiedImport,
     QualifiedNameImport,
 
+    Bool,
+    Char,
     Int,
     String
 };
