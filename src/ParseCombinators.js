@@ -16,12 +16,8 @@ const resultThen = currentResult => parser =>
     currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
 
 
-const and = parsers => lexer => {
-    const initialResult =
-        okayResult(lexer)([]);
-
-    return Array.foldl(initialResult)(resultThen)(parsers);
-};
+const and = parsers => lexer =>
+    Array.foldl(okayResult(lexer)([]))(resultThen)(parsers);
 
 
 const andMap = parsers => f => lexer =>
