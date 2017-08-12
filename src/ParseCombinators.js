@@ -1,4 +1,6 @@
+const Array = require("./Libs").Array;
 const Errors = require("./Errors");
+const Maybe = require("./Libs").Maybe;
 const Result = require("./Result");
 
 
@@ -15,14 +17,15 @@ const manyOne = parsers => lexer =>
 
 
 const or = parsers => lexer => {
-    for (let lp = 0; lp < parsers.length; lp += 1) {
-        const result = parsers[lp](lexer);
+    const parseOption = parser => {
+        const optionResult = parser(lexer);
 
-        if (result.isOkay()) {
-            return result;
-        }
-    }
-    return Result.Error(Errors.orFailed(lexer.head()));
+        return optionResult.isOkay()
+            ? Maybe.Just(optionResult)
+            : Maybe.Nothing;
+    };
+
+    return Array.findMap(parseOption)(parsers).withDefault(Result.Error(Errors.orFailed(lexer.head())));
 };
 
 
