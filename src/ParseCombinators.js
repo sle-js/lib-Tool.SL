@@ -4,8 +4,35 @@ const Maybe = require("./Libs").Maybe;
 const Result = require("./Result");
 
 
-const and = parsers => lexer =>
-    lexer;
+const identity = i =>
+    i;
+
+
+const okayResult = lexer => result =>
+    Result.Okay({lexer: lexer, result: result});
+
+
+const andMap = parsers => f => lexer => {
+    let resultArray = [];
+    let tmpLexer = lexer;
+
+    for (let lp = 0; lp < parsers.length; lp += 1){
+        const parserResult = parsers[lp](tmpLexer);
+
+        if (parserResult.isOkay()) {
+            tmpLexer = parserResult.content[1].lexer;
+            resultArray.push(parserResult.content[1].result);
+        } else {
+            return parserResult;
+        }
+    }
+
+    return okayResult(tmpLexer)(f(resultArray));
+};
+
+
+const and = parsers =>
+    andMap(parsers)(identity);
 
 
 const many = parsers => lexer =>
@@ -31,16 +58,17 @@ const or = parsers => lexer => {
 
 const tokenMap = tokenID => f => lexer =>
     lexer.head().token().id === tokenID
-        ? Result.Okay({lexer: lexer.tail(), result: f(lexer.head())})
+        ? okayResult(lexer.tail())(f(lexer.head()))
         : Result.Error(Errors.tokenExpected(lexer.head())(tokenID));
 
 
 const token = tokenID =>
-    tokenMap(tokenID)(i => i);
+    tokenMap(tokenID)(identity);
 
 
 module.exports = {
     and,
+    andMap,
     many,
     manyOne,
     or,
