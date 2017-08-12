@@ -71,7 +71,13 @@ function parseDeclaration(x) {
 
 
 function parseTypeReference2(lexer) {
-    return C.tokenMap(Tokens.upperID)(_ => AST.Int)(lexer);
+    return C.tokenMap(Tokens.upperID)(t => {
+        if (t.token().value === "Int") {
+            return AST.Int;
+        } else {
+            return AST.String;
+        }
+    })(lexer);
 }
 
 

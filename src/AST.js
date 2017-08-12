@@ -56,11 +56,16 @@ const Int =
     new TypeReferenceType([0]);
 
 
+const String =
+    new TypeReferenceType([1]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
     QualifiedImport,
     QualifiedNameImport,
 
-    Int
+    Int,
+    String
 };

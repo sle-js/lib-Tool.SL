@@ -83,7 +83,11 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("Int")(assertParseInput(
                 "Int",
                 Parser.parseTypeReference2,
-                AST.Int))
+                AST.Int)),
+            Unit.Test("String")(assertParseInput(
+                "String",
+                Parser.parseTypeReference2,
+                AST.String))
         ])
     ])
 ]);
