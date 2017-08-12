@@ -29,10 +29,14 @@ const or = parsers => lexer => {
 };
 
 
-const token = tokenID => lexer =>
+const tokenMap = tokenID => f => lexer =>
     lexer.head().token().id === tokenID
-        ? Result.Okay({lexer: lexer.tail(), result: lexer.head()})
+        ? Result.Okay({lexer: lexer.tail(), result: f(lexer.head())})
         : Result.Error(Errors.tokenExpected(lexer.head())(tokenID));
+
+
+const token = tokenID =>
+    tokenMap(tokenID)(i => i);
 
 
 module.exports = {
@@ -40,5 +44,6 @@ module.exports = {
     many,
     manyOne,
     or,
-    token
+    token,
+    tokenMap
 };
