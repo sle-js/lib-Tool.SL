@@ -70,6 +70,11 @@ function parseDeclaration(x) {
 }
 
 
+function parseTypeReference(lexer) {
+    return parseTypeReference2(lexer);
+}
+
+
 function parseTypeReference2(lexer) {
     return C.or([
         C.tokenMap(Tokens.upperID)(t => {
@@ -85,7 +90,12 @@ function parseTypeReference2(lexer) {
                 return AST.Self;
             }
         }),
-        C.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit)
+        C.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit),
+        C.andMap([
+            C.token(Tokens.LPAREN),
+            parseTypeReference,
+            C.token(Tokens.RPAREN)
+        ])(a => a[1])
     ])(lexer);
 }
 
