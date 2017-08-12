@@ -34,9 +34,33 @@ const QualifiedNameImport = qualifiedNameImport =>
     new ImportType([2, qualifiedNameImport]);
 
 
+// data TypeReference =
+//        Int                                      -- 0
+//      | String                                   -- 1
+//      | Bool                                     -- 2
+//      | Char                                     -- 3
+//      | Self                                     -- 4
+//      | Unit                                     -- 5
+//      | DataReference String Array(Type)         -- 6
+//      | Reference String                         -- 7
+//      | Union Array(TypeReference)               -- 8
+//      | Function TypeReference TypeReference     -- 9
+//      | NTuple Array(TypeReference)              -- 10
+
+function TypeReferenceType(content) {
+    this.content = content;
+}
+
+
+const Int =
+    new TypeReferenceType([0]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
     QualifiedImport,
     QualifiedNameImport,
+
+    Int
 };
