@@ -19,14 +19,12 @@ function parseImport(lexer) {
         C.token(Tokens.USE),
         tokenValue(Tokens.importReference),
         C.optional(
-            C.andMap([
-                C.or([
-                    C.andMap([
-                        C.token(Tokens.AS),
-                        parseId
-                    ])(s => s[1])
-                ])
-            ])(s => s[0]))
+            C.or([
+                C.andMap([
+                    C.token(Tokens.AS),
+                    parseId
+                ])(s => s[1])
+            ]))
     ])(a => a[2].isJust()
         ? AST.QualifiedImport({urn: a[1], name: a[2].content[1]})
         : AST.UnqualifiedImport({urn: a[1]}))(lexer);
