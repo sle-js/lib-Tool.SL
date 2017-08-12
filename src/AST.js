@@ -68,6 +68,10 @@ const Char =
     new TypeReferenceType([3]);
 
 
+const Self =
+    new TypeReferenceType([4]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -77,5 +81,6 @@ module.exports = {
     Bool,
     Char,
     Int,
+    Self,
     String
 };

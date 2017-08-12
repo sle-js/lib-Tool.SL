@@ -95,7 +95,11 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("Char")(assertParseInput(
                 "Char",
                 Parser.parseTypeReference2,
-                AST.Char))
+                AST.Char)),
+            Unit.Test("Self")(assertParseInput(
+                "Self",
+                Parser.parseTypeReference2,
+                AST.Self))
         ])
     ])
 ]);

@@ -80,6 +80,8 @@ function parseTypeReference2(lexer) {
             return AST.Bool;
         } else if (t.token().value === "Char") {
             return AST.Char;
+        } else if (t.token().value === "Self") {
+            return AST.Self;
         }
     })(lexer);
 }
