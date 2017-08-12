@@ -12,11 +12,15 @@ const okayResult = lexer => result =>
     Result.Okay({lexer: lexer, result: result});
 
 
+const mapResult = f => result =>
+    result.map(r => ({lexer: r.lexer, result: f(r.result)}));
+
+
 const andMap = parsers => f => lexer => {
     let resultArray = [];
     let tmpLexer = lexer;
 
-    for (let lp = 0; lp < parsers.length; lp += 1){
+    for (let lp = 0; lp < parsers.length; lp += 1) {
         const parserResult = parsers[lp](tmpLexer);
 
         if (parserResult.isOkay()) {
@@ -66,11 +70,21 @@ const token = tokenID =>
     tokenMap(tokenID)(identity);
 
 
+const optional = parser => lexer => {
+    const result = parser(lexer);
+
+    return result.isOkay()
+        ? mapResult(r => Maybe.Just(r))(result)
+        : okayResult(lexer)(Maybe.Nothing);
+};
+
+
 module.exports = {
     and,
     andMap,
     many,
     manyOne,
+    optional,
     or,
     token,
     tokenMap
