@@ -71,19 +71,22 @@ function parseDeclaration(x) {
 
 
 function parseTypeReference2(lexer) {
-    return C.tokenMap(Tokens.upperID)(t => {
-        if (t.token().value === "Int") {
-            return AST.Int;
-        } else if (t.token().value === "String") {
-            return AST.String;
-        } else if (t.token().value === "Bool") {
-            return AST.Bool;
-        } else if (t.token().value === "Char") {
-            return AST.Char;
-        } else if (t.token().value === "Self") {
-            return AST.Self;
-        }
-    })(lexer);
+    return C.or([
+        C.tokenMap(Tokens.upperID)(t => {
+            if (t.token().value === "Int") {
+                return AST.Int;
+            } else if (t.token().value === "String") {
+                return AST.String;
+            } else if (t.token().value === "Bool") {
+                return AST.Bool;
+            } else if (t.token().value === "Char") {
+                return AST.Char;
+            } else if (t.token().value === "Self") {
+                return AST.Self;
+            }
+        }),
+        C.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit)
+    ])(lexer);
 }
 
 

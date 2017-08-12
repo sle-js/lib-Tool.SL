@@ -99,7 +99,11 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("Self")(assertParseInput(
                 "Self",
                 Parser.parseTypeReference2,
-                AST.Self))
+                AST.Self)),
+            Unit.Test("()")(assertParseInput(
+                "()",
+                Parser.parseTypeReference2,
+                AST.Unit))
         ])
     ])
 ]);

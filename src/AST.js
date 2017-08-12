@@ -72,6 +72,10 @@ const Self =
     new TypeReferenceType([4]);
 
 
+const Unit =
+    new TypeReferenceType([5]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -82,5 +86,6 @@ module.exports = {
     Char,
     Int,
     Self,
-    String
+    String,
+    Unit
 };
