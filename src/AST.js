@@ -76,6 +76,10 @@ const Unit =
     new TypeReferenceType([5]);
 
 
+const Reference = name =>
+    new TypeReferenceType([7, name]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -85,6 +89,7 @@ module.exports = {
     Bool,
     Char,
     Int,
+    Reference,
     Self,
     String,
     Unit

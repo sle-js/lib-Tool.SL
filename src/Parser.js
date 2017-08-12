@@ -90,6 +90,7 @@ function parseTypeReference2(lexer) {
                 return AST.Self;
             }
         }),
+        C.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
         C.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit),
         C.andMap([
             C.token(Tokens.LPAREN),
