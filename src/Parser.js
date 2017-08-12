@@ -70,13 +70,19 @@ function parseDeclaration(x) {
 }
 
 
+function parseTypeReference2(lexer) {
+    return C.tokenMap(Tokens.upperID)(_ => AST.Int)(lexer);
+}
+
+
 const tokenValue = token =>
     C.tokenMap(token)(t => t.token().value);
 
 
 module.exports = {
-    parseModule,
+    parseDeclaration,
     parseId,
     parseImport,
-    parseDeclaration
+    parseModule,
+    parseTypeReference2
 };

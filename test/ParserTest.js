@@ -90,6 +90,15 @@ module.exports = Unit.Suite("Tool.SL")([
                         ]
                     })))
                 ))
+        ]),
+        Unit.Suite("parseTypeReference2")([
+            Unit.Test("Int")(Promise
+                .resolve(LexerConfiguration.fromString("Int"))
+                .then(lexer => Parser.parseTypeReference2(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.Int))
+                ))
         ])
     ])
 ]);
