@@ -16,6 +16,10 @@ const listEquals = l1 => l2 =>
 
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("LexerConfiguration")([
+        Unit.Test("hello")(Assertion
+            .equals(LexerConfiguration.fromString("hello").head().token().id)(Tokens.lowerID)),
+        Unit.Test("Hello")(Assertion
+            .equals(LexerConfiguration.fromString("Hello").head().token().id)(Tokens.upperID)),
         Unit.Test("'use core:Native.Data.List:1.0.0 import List as L'")(Assertion
             .isTrue(listEquals(LexerConfiguration.fromString("use core:Native.Data.List:1.0.0 import List as L").map(x => x.token().value).takeAsArray(6))(["use", "core:Native.Data.List:1.0.0", "import", "List", "as", "L"]))
             .isTrue(listEquals(LexerConfiguration.fromString("use core:Native.Data.List:1.0.0 import List as L").map(x => x.token().id).takeAsArray(6))([Tokens.USE, Tokens.importReference, Tokens.IMPORT, Tokens.upperID, Tokens.AS, Tokens.upperID])))

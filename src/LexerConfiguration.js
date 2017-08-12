@@ -81,8 +81,8 @@ module.exports = Lexer.setup({
         [Regex.from(/\*/iy), text => ({id: Tokens.STAR, value: text})],
         [Regex.from(/\./iy), text => ({id: Tokens.PERIOD, value: text})],
 
-        [Regex.from(/[A-Z][A-Za-z0-9_]*'*\??/iy), text => resolveIdentifier(text)(Tokens.upperID)],
-        [Regex.from(/[a-z_][A-Za-z0-9_]*'*\??/iy), text => resolveIdentifier(text)(Tokens.lowerID)]
+        [Regex.from(/[A-Z][A-Za-z0-9_]*'*\??/y), text => resolveIdentifier(text)(Tokens.upperID)],
+        [Regex.from(/[a-z_][A-Za-z0-9_]*'*\??/y), text => resolveIdentifier(text)(Tokens.lowerID)]
     ],
     comments: [
         {open: Regex.from(/\/\//my), close: Regex.from(/\n/my), nested: false},
