@@ -16,22 +16,15 @@ const mapResult = f => result =>
     result.map(r => ({lexer: r.lexer, result: f(r.result)}));
 
 
+const resultThen = currentResult => parser =>
+    currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
+
+
 const andMap = parsers => f => lexer => {
-    let resultArray = [];
-    let tmpLexer = lexer;
+    const initialResult =
+        okayResult(lexer)([]);
 
-    for (let lp = 0; lp < parsers.length; lp += 1) {
-        const parserResult = parsers[lp](tmpLexer);
-
-        if (parserResult.isOkay()) {
-            tmpLexer = parserResult.content[1].lexer;
-            resultArray.push(parserResult.content[1].result);
-        } else {
-            return parserResult;
-        }
-    }
-
-    return okayResult(tmpLexer)(f(resultArray));
+    return mapResult(f)(Array.foldl(initialResult)(resultThen)(parsers));
 };
 
 
@@ -41,7 +34,7 @@ const and = parsers =>
 
 const manyResult = parser => currentResult => {
     const nextResult =
-        currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
+        resultThen(currentResult)(parser);
 
     return nextResult.isOkay()
         ? manyResult(parser)(nextResult)
