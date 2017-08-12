@@ -1,8 +1,10 @@
+const AST = require("./AST");
 const C = require("./ParseCombinators");
 const Tokens = require("./Tokens");
 
 
-// Parser a b :: Stream Lexer -> Result a { lexer :: Stream Lexer, result :: b }
+// type ParseError :: Errors
+// type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
 
 parseModule =
     C.and([
@@ -11,20 +13,22 @@ parseModule =
     ]);
 
 
+// parseId :: Parser AST.Import
 function parseImport(lexer) {
-    return C.and([
+    return C.andMap([
         C.token(Tokens.USE),
-        C.token(Tokens.importReference),
+        tokenValue(Tokens.importReference),
         C.token(Tokens.AS),
         parseId
-    ])(lexer);
+    ])(a => AST.QualifiedImport({urn: a[1], name: a[3]}))(lexer);
 }
 
 
+// parseId :: Parser String
 function parseId(lexer) {
     return C.or([
-        C.tokenMap(Tokens.upperID)(t => t.token().value),
-        C.tokenMap(Tokens.lowerID)(t => t.token().value)
+        tokenValue(Tokens.upperID),
+        tokenValue(Tokens.lowerID)
     ])(lexer);
 }
 
@@ -32,6 +36,10 @@ function parseId(lexer) {
 function parseDeclaration(x) {
     return x;
 }
+
+
+const tokenValue = token =>
+    C.tokenMap(token)(t => t.token().value);
 
 
 module.exports = {

@@ -1,10 +1,15 @@
 const Array = require("./Libs").Array;
 const Assertion = require("./Libs").Assertion;
+const AST = require("../src/AST");
 const Unit = require("./Libs").Unit;
 
 const Tokens = require("../src/Tokens");
 const LexerConfiguration = require("../src/LexerConfiguration");
 const Parser = require("../src/Parser");
+
+
+const asString = o =>
+    JSON.stringify(o, null, 2);
 
 
 module.exports = Unit.Suite("Tool.SL")([
@@ -33,11 +38,14 @@ module.exports = Unit.Suite("Tool.SL")([
                     .equals(result.content[1].content[1].position()[1])(1)
                 ))
         ]),
-        Unit.Test("use core:Native.Data.Array:1.1.0 as Array")(Promise
-            .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 as Array"))
-            .then(lexer => Assertion
-                .equals(Parser.parseModule(lexer))(Parser.parseModule(lexer))
-            ))
+        Unit.Suite("parseImport")([
+            Unit.Test("use core:Native.Data.Array:1.1.0 as Array")(Promise
+                .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 as Array"))
+                .then(lexer => Parser.parseImport(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.QualifiedImport({urn: "core:Native.Data.Array:1.1.0", name: "Array"})))
+                ))
+        ])
     ])
-])
-;
+]);
