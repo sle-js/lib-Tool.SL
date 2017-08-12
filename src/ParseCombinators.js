@@ -39,8 +39,18 @@ const and = parsers =>
     andMap(parsers)(identity);
 
 
-const many = parsers => lexer =>
-    lexer;
+const manyResult = parser => currentResult => {
+    const nextResult =
+        currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
+
+    return nextResult.isOkay()
+        ? manyResult(parser)(nextResult)
+        : currentResult;
+};
+
+
+const many = parser => lexer =>
+    manyResult(okayResult(lexer)([]));
 
 
 const manyOne = parsers => lexer =>
@@ -61,19 +71,14 @@ const or = parsers => lexer => {
 
 
 const chainl1 = parser => sep => lexer => {
-    let currentResult = mapResult(r => [r])(parser(lexer));
-    const tailParser = andMap([sep, parser])(a => a[1]);
+    const currentResult =
+        mapResult(r => [r])(parser(lexer));
+
+    const tailParser =
+        andMap([sep, parser])(a => a[1]);
 
     if (currentResult.isOkay()) {
-        while(true) {
-            const tmpResult = tailParser(currentResult.content[1].lexer);
-
-            if (tmpResult.isOkay()) {
-                currentResult = mapResult(r => Array.append(r)(currentResult.content[1].result))(tmpResult);
-            } else {
-                return currentResult;
-            }
-        }
+        return manyResult(tailParser)(currentResult);
     } else {
         return currentResult;
     }
