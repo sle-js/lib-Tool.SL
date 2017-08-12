@@ -28,6 +28,13 @@ assumption(Okay(10).withDefault(1) === 10);
 assumption(Error(10).withDefault(1) === 1);
 
 
+Result.prototype.errorWithDefault = function(okayValue) {
+    return this.reduce(constant(okayValue))(identity);
+};
+assumptionEqual(Okay(10).errorWithDefault(0), 0);
+assumptionEqual(Error(10).errorWithDefault(0), 10);
+
+
 Result.prototype.isOkay = function() {
     return this.reduce(constant(true))(constant(false));
 };
@@ -56,20 +63,6 @@ Result.prototype.map = function(f) {
 };
 assumptionEqual(Okay(10).map(n => n * 10), Okay(100));
 assumptionEqual(Error(10).map(n => n * 10), Error(10));
-
-
-Result.prototype.withDefault = function(errorValue) {
-    return this.reduce(identity)(constant(errorValue));
-};
-assumptionEqual(Okay(10).withDefault(0), 10);
-assumptionEqual(Error(10).withDefault(0), 0);
-
-
-Result.prototype.errorWithDefault = function(okayValue) {
-    return this.reduce(constant(okayValue))(identity);
-};
-assumptionEqual(Okay(10).errorWithDefault(0), 0);
-assumptionEqual(Error(10).errorWithDefault(0), 10);
 
 
 module.exports = {
