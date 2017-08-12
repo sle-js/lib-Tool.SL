@@ -13,8 +13,7 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("hello")(Promise
                 .resolve(LexerConfiguration.fromString("hello"))
                 .then(lexer => Parser.parseId(lexer))
-                .then(result =>
-                    Assertion
+                .then(result => Assertion
                     .isTrue(result.isOkay())
                     .equals(result.content[1].result)("hello")
                 )),
