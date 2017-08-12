@@ -13,16 +13,17 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("hello")(Promise
                 .resolve(LexerConfiguration.fromString("hello"))
                 .then(lexer => Parser.parseId(lexer))
-                .then(result => Assertion
+                .then(result =>
+                    Assertion
                     .isTrue(result.isOkay())
-                    .equals(result.content[1].result.token().id)(Tokens.lowerID)
+                    .equals(result.content[1].result)("hello")
                 )),
             Unit.Test("World")(Promise
                 .resolve(LexerConfiguration.fromString("World"))
                 .then(lexer => Parser.parseId(lexer))
                 .then(result => Assertion
                     .isTrue(result.isOkay())
-                    .equals(result.content[1].result.token().id)(Tokens.upperID)
+                    .equals(result.content[1].result)("World")
                 )),
             Unit.Test("-error-")(Promise
                 .resolve(LexerConfiguration.fromString("-error-"))

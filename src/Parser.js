@@ -23,8 +23,8 @@ function parseImport(lexer) {
 
 function parseId(lexer) {
     return C.or([
-        C.token(Tokens.upperID),
-        C.token(Tokens.lowerID)
+        C.tokenMap(Tokens.upperID)(t => t.token().value),
+        C.tokenMap(Tokens.lowerID)(t => t.token().value)
     ])(lexer);
 }
 
