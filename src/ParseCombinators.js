@@ -4,10 +4,6 @@ const Maybe = require("./Libs").Maybe;
 const Result = require("./Result");
 
 
-const identity = i =>
-    i;
-
-
 const okayResult = lexer => result =>
     Result.Okay({lexer: lexer, result: result});
 
@@ -20,24 +16,24 @@ const resultThen = currentResult => parser =>
     currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
 
 
-const andMap = parsers => f => lexer => {
+const and = parsers => lexer => {
     const initialResult =
         okayResult(lexer)([]);
 
-    return mapResult(f)(Array.foldl(initialResult)(resultThen)(parsers));
+    return Array.foldl(initialResult)(resultThen)(parsers);
 };
 
 
-const and = parsers =>
-    andMap(parsers)(identity);
+const andMap = parsers => f => lexer =>
+    mapResult(f)(and(parsers)(lexer));
 
 
-const manyResult = parser => currentResult => {
+const manyResult = currentResult => parser => {
     const nextResult =
         resultThen(currentResult)(parser);
 
     return nextResult.isOkay()
-        ? manyResult(parser)(nextResult)
+        ? manyResult(nextResult)(parser)
         : currentResult;
 };
 
@@ -64,28 +60,28 @@ const or = parsers => lexer => {
 
 
 const chainl1 = parser => sep => lexer => {
-    const currentResult =
+    const initialResult =
         mapResult(r => [r])(parser(lexer));
 
     const tailParser =
         andMap([sep, parser])(a => a[1]);
 
-    if (currentResult.isOkay()) {
-        return manyResult(tailParser)(currentResult);
+    if (initialResult.isOkay()) {
+        return manyResult(initialResult)(tailParser);
     } else {
-        return currentResult;
+        return initialResult;
     }
 };
 
 
-const tokenMap = tokenID => f => lexer =>
+const token = tokenID => lexer =>
     lexer.head().token().id === tokenID
-        ? okayResult(lexer.tail())(f(lexer.head()))
+        ? okayResult(lexer.tail())(lexer.head())
         : Result.Error(Errors.tokenExpected(lexer.head())(tokenID));
 
 
-const token = tokenID =>
-    tokenMap(tokenID)(identity);
+const tokenMap = tokenID => f => lexer =>
+    mapResult(f)(token(tokenID)(lexer));
 
 
 const optional = parser => lexer => {
