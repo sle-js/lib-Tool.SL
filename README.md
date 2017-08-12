@@ -36,7 +36,7 @@ Module =
       Declaration {Declaration};
 
 Import = 
-      USE importReference [IMPORT (AS upperID | Id [AS Id] | "(" Id [AS Id] {"," Id [AS Id]} ")"];
+      USE importReference [AS upperID | [IMPORT (Id [AS Id] | "(" Id [AS Id] {"," Id [AS Id]} ")")]];
       
 Id =
       upperID
