@@ -1,6 +1,7 @@
 const Array = require("./Libs").Array;
 const Assertion = require("./Libs").Assertion;
 const AST = require("../src/AST");
+const Maybe = require("./Libs").Maybe;
 const Unit = require("./Libs").Unit;
 
 const Tokens = require("../src/Tokens");
@@ -51,7 +52,30 @@ module.exports = Unit.Suite("Tool.SL")([
                 .then(lexer => Parser.parseImport(lexer))
                 .then(result => Assertion
                     .isTrue(result.isOkay())
-                    .equals(asString(result.content[1].result))(asString(AST.QualifiedImport({urn: "core:Native.Data.Array:1.1.0", name: "Array"})))
+                    .equals(asString(result.content[1].result))(asString(AST.QualifiedImport({
+                        urn: "core:Native.Data.Array:1.1.0",
+                        name: "Array"
+                    })))
+                )),
+            Unit.Test("use core:Native.Data.Array:1.1.0 import length")(Promise
+                .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 import length"))
+                .then(lexer => Parser.parseImport(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.QualifiedNameImport({
+                        urn: "core:Native.Data.Array:1.1.0",
+                        names: [{name: "length", qualified: Maybe.Nothing}]
+                    })))
+                )),
+            Unit.Test("use core:Native.Data.Array:1.1.0 import length as arrayLength")(Promise
+                .resolve(LexerConfiguration.fromString("use core:Native.Data.Array:1.1.0 import length as arrayLength"))
+                .then(lexer => Parser.parseImport(lexer))
+                .then(result => Assertion
+                    .isTrue(result.isOkay())
+                    .equals(asString(result.content[1].result))(asString(AST.QualifiedNameImport({
+                        urn: "core:Native.Data.Array:1.1.0",
+                        names: [{name: "length", qualified: Maybe.Just("arrayLength")}]
+                    })))
                 ))
         ])
     ])

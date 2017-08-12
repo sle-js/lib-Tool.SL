@@ -22,11 +22,20 @@ function parseImport(lexer) {
             C.or([
                 C.andMap([
                     C.token(Tokens.AS),
-                    parseId
-                ])(s => s[1])
+                    parseId])(s => urn => AST.QualifiedImport({urn: urn, name: s[1]})),
+                C.andMap([
+                    C.token(Tokens.IMPORT),
+                    parseId,
+                    C.optional(
+                        C.andMap([
+                            C.token(Tokens.AS),
+                            parseId
+                        ])(a => a[1])
+                    )
+                ])(a => urn => AST.QualifiedNameImport({urn: urn, names: [{name: a[1], qualified: a[2]}]}))
             ]))
     ])(a => a[2].isJust()
-        ? AST.QualifiedImport({urn: a[1], name: a[2].content[1]})
+        ? a[2].content[1](a[1])
         : AST.UnqualifiedImport({urn: a[1]}))(lexer);
 }
 
