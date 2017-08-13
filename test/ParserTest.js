@@ -100,18 +100,24 @@ module.exports = Unit.Suite("Tool.SL")([
                 "Self",
                 Parser.parseTypeReference2,
                 AST.Self)),
+            Unit.Test("Map Int a")(assertParseInput(
+                "Map Int a",
+                Parser.parseTypeReference2,
+                AST.DataReference("Map")([AST.Int, AST.Reference("a")]))),
+        ]),
+        Unit.Suite("parseTypeReference3")([
             Unit.Test("()")(assertParseInput(
                 "()",
-                Parser.parseTypeReference2,
+                Parser.parseTypeReference3,
                 AST.Unit)),
             Unit.Test("(Int)")(assertParseInput(
                 "(Int)",
-                Parser.parseTypeReference2,
+                Parser.parseTypeReference3,
                 AST.Int)),
             Unit.Test("a")(assertParseInput(
                 "a",
-                Parser.parseTypeReference2,
-                AST.Reference("a"))),
+                Parser.parseTypeReference3,
+                AST.Reference("a")))
         ])
     ])
 ]);

@@ -1,3 +1,4 @@
+const Array = require("./Libs").Array;
 const AST = require("./AST");
 const C = require("./ParseCombinators");
 const Tokens = require("./Tokens");
@@ -9,7 +10,7 @@ const Tokens = require("./Tokens");
 parseModule =
     C.and([
         C.many(parseImport),
-        C.manyOne(parseDeclaration)
+        C.many1(parseDeclaration)
     ]);
 
 
@@ -70,6 +71,11 @@ function parseDeclaration(x) {
 }
 
 
+function parseType(lexer) {
+    return parseTypeReference(lexer);
+}
+
+
 function parseTypeReference(lexer) {
     return parseTypeReference2(lexer);
 }
@@ -77,17 +83,32 @@ function parseTypeReference(lexer) {
 
 function parseTypeReference2(lexer) {
     return C.or([
-        C.tokenMap(Tokens.upperID)(t => {
-            if (t.token().value === "Int") {
+        C.andMap([
+            tokenValue(Tokens.upperID),
+            C.many1(parseTypeReference3)
+        ])(a => AST.DataReference(a[0])(a[1])),
+        parseTypeReference3
+    ])(lexer);
+}
+
+
+function parseTypeReference3(lexer) {
+    return C.or([
+        C.andMap([
+            tokenValue(Tokens.upperID)
+        ])(a => {
+            if (a[0] === "Int") {
                 return AST.Int;
-            } else if (t.token().value === "String") {
+            } else if (a[0] === "String") {
                 return AST.String;
-            } else if (t.token().value === "Bool") {
+            } else if (a[0] === "Bool") {
                 return AST.Bool;
-            } else if (t.token().value === "Char") {
+            } else if (a[0] === "Char") {
                 return AST.Char;
-            } else if (t.token().value === "Self") {
+            } else if (a[0] === "Self") {
                 return AST.Self;
+            } else {
+                return AST.DataReference(a[0])([]);
             }
         }),
         C.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
@@ -110,5 +131,6 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
-    parseTypeReference2
+    parseTypeReference2,
+    parseTypeReference3
 };
