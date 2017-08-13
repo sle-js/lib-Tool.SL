@@ -63,9 +63,12 @@ TypeReference =
 TypeReference1 = 
       TypeReference2 {"*" TypeReference2};
     
-TypeReference2 = 
-      upperID {Type}
-    | lowerID
+TypeReference2 =
+      upperID {TypeReference3}
+    | TypeReference3;
+    
+TypeReference3 = 
+      lowerID
     | "{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
     | INT
     | STRING
