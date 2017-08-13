@@ -52,7 +52,7 @@ TypeDeclaration =
       TYPE upperID {lowerID} "=" Type;
  
 Type = 
-      [TypeConstraints] TypeReferences;
+      [TypeConstraints "=>"] TypeReferences;
 
 TypeReferences = 
       TypeReference {"&" TypeReference};
