@@ -167,6 +167,10 @@ function parseTypeConstraint(lexer) {
 }
 
 
+const parseTypeConstraints =
+    C.chainl1(parseTypeConstraint)(C.token(Tokens.COMMA));
+
+
 const tokenValue = token =>
     C.tokenMap(token)(t => t.token().value);
 
@@ -177,6 +181,7 @@ module.exports = {
     parseImport,
     parseModule,
     parseTypeConstraint,
+    parseTypeConstraints,
     parseTypeDeclaration,
     parseTypeReference,
     parseTypeReference1,

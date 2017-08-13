@@ -85,6 +85,16 @@ module.exports = Unit.Suite("Tool.SL")([
                 Parser.parseTypeConstraint,
                 AST.TypeConstraint("a")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Bounded")([]), AST.DataReference("Show")([])]))))
         ]),
+        Unit.Suite("parseTypeConstraints")([
+            Unit.Test("a :: Parity & Show, b :: Bounded")(assertParseInput(
+                "a :: Parity & Show, b :: Bounded",
+                Parser.parseTypeConstraints,
+                [
+                    AST.TypeConstraint("a")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Show")([])])),
+                    AST.TypeConstraint("b")(AST.ReferencedType(AST.DataReference("Bounded")([])))
+                ]
+            ))
+        ]),
         Unit.Suite("parseTypeDeclaration")([
             Unit.Test("type Names = List String")(assertParseInput(
                 "type Names = List String",
