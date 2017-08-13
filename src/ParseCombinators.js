@@ -42,6 +42,10 @@ const many1 = parser => lexer =>
     manyResult(mapResult(r => [r])(parser(lexer)))(parser);
 
 
+const many1Map = parser => f => lexer =>
+    mapResult(f)(many1(parser)(lexer));
+
+
 const or = parsers => lexer => {
     const parseOption = parser => {
         const optionResult = parser(lexer);
@@ -70,6 +74,10 @@ const chainl1 = parser => sep => lexer => {
 };
 
 
+const chainl1Map = parser => sep => f => lexer =>
+    mapResult(f)(chainl1(parser)(sep)(lexer));
+
+
 const token = tokenID => lexer =>
     lexer.head().token().id === tokenID
         ? okayResult(lexer.tail())(lexer.head())
@@ -93,8 +101,10 @@ module.exports = {
     and,
     andMap,
     chainl1,
+    chainl1Map,
     many,
     many1,
+    many1Map,
     optional,
     or,
     token,
