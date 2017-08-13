@@ -76,6 +76,10 @@ const Unit =
     new TypeReferenceType([5]);
 
 
+const DataReference = name => parameters =>
+    new TypeReferenceType([6, name, parameters]);
+
+
 const Reference = name =>
     new TypeReferenceType([7, name]);
 
@@ -88,6 +92,7 @@ module.exports = {
 
     Bool,
     Char,
+    DataReference,
     Int,
     Reference,
     Self,
