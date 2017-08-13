@@ -89,6 +89,16 @@ module.exports = Unit.Suite("Tool.SL")([
                 Parser.parseTypeReference,
                 AST.Function(AST.Function(AST.DataReference("List")([AST.Int]))(AST.String))(AST.DataReference("List")([AST.Reference("a")]))))
         ]),
+        Unit.Suite("parseTypeReference1")([
+            Unit.Test("Int * String")(assertParseInput(
+                "Int * String",
+                Parser.parseTypeReference1,
+                AST.NTuple([AST.Int, AST.String]))),
+            Unit.Test("Char * List (Int * Bool * List String)")(assertParseInput(
+                "Char * List (Int * Bool * List String)",
+                Parser.parseTypeReference1,
+                AST.NTuple([AST.Char, AST.DataReference("List")([AST.NTuple([AST.Int, AST.Bool, AST.DataReference("List")([AST.String])])])])))
+        ]),
         Unit.Suite("parseTypeReference2")([
             Unit.Test("Int")(assertParseInput(
                 "Int",

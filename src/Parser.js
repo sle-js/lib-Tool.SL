@@ -90,8 +90,12 @@ function parseTypeReference(lexer) {
         return Array.foldr(lastTypeReference)(AST.Function)(butLastTypeReferences);
     };
 
-    return C.chainl1Map(parseTypeReference2)(C.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
+    return C.chainl1Map(parseTypeReference1)(C.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
 }
+
+
+const parseTypeReference1 =
+    C.chainl1Map(parseTypeReference2)(C.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : AST.NTuple(a));
 
 
 function parseTypeReference2(lexer) {
@@ -145,6 +149,7 @@ module.exports = {
     parseImport,
     parseModule,
     parseTypeReference,
+    parseTypeReference1,
     parseTypeReference2,
     parseTypeReference3
 };
