@@ -158,6 +158,15 @@ function parseTypeReference3(lexer) {
 }
 
 
+function parseTypeConstraint(lexer) {
+    return C.andMap([
+        tokenValue(Tokens.lowerID),
+        C.token(Tokens.COLON_COLON),
+        parseTypeReferences
+    ])(a => AST.TypeConstraint(a[0])(a[2]))(lexer);
+}
+
+
 const tokenValue = token =>
     C.tokenMap(token)(t => t.token().value);
 
@@ -167,6 +176,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseTypeConstraint,
     parseTypeDeclaration,
     parseTypeReference,
     parseTypeReference1,

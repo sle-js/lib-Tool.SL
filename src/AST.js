@@ -122,6 +122,14 @@ const NTuple = typeReferences =>
     new TypeReferenceType([10, typeReferences]);
 
 
+// type TypeConstraint = { name :: String, typeReferences :: List TypeReferences }
+
+const TypeConstraint = name => typeReferences => ({
+    name: name,
+    typeReferences: typeReferences
+});
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -142,5 +150,7 @@ module.exports = {
     Reference,
     Self,
     String,
-    Unit
+    Unit,
+
+    TypeConstraint
 };
