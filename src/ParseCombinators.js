@@ -35,11 +35,11 @@ const manyResult = currentResult => parser => {
 
 
 const many = parser => lexer =>
-    manyResult(okayResult(lexer)([]));
+    manyResult(okayResult(lexer)([]))(parser);
 
 
-const manyOne = parsers => lexer =>
-    lexer;
+const many1 = parser => lexer =>
+    manyResult(mapResult(r => [r])(parser(lexer)))(parser);
 
 
 const or = parsers => lexer => {
@@ -94,7 +94,7 @@ module.exports = {
     andMap,
     chainl1,
     many,
-    manyOne,
+    many1,
     optional,
     or,
     token,
