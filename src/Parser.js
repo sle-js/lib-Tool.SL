@@ -71,6 +71,17 @@ function parseDeclaration(x) {
 }
 
 
+function parseTypeDeclaration(lexer) {
+    return C.andMap([
+        C.token(Tokens.TYPE),
+        tokenValue(Tokens.upperID),
+        C.many(tokenValue(Tokens.lowerID)),
+        C.token(Tokens.EQUAL),
+        parseType
+    ])(a => AST.TypeDeclaration(a[1])(a[2])(a[4]))(lexer);
+}
+
+
 function parseType(lexer) {
     return parseTypeReference(lexer);
 }
@@ -148,6 +159,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseTypeDeclaration,
     parseTypeReference,
     parseTypeReference1,
     parseTypeReference2,
