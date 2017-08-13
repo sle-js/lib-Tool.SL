@@ -99,11 +99,15 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("type Names = List String")(assertParseInput(
                 "type Names = List String",
                 Parser.parseTypeDeclaration,
-                AST.TypeDeclaration("Names")([])(AST.ReferencedType(AST.DataReference("List")([AST.String]))))),
+                AST.TypeDeclaration("Names")([])(AST.Type([])(AST.ReferencedType(AST.DataReference("List")([AST.String])))))),
             Unit.Test("type Names a = Parity & List a")(assertParseInput(
                 "type Names a = Parity & List a",
                 Parser.parseTypeDeclaration,
-                AST.TypeDeclaration("Names")(["a"])(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("List")([AST.Reference("a")])])))),
+                AST.TypeDeclaration("Names")(["a"])(AST.Type([])(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("List")([AST.Reference("a")])]))))),
+            Unit.Test("type Names a = a :: Parity => Parity & List a")(assertParseInput(
+                "type Names a = a :: Parity => Parity & List a",
+                Parser.parseTypeDeclaration,
+                AST.TypeDeclaration("Names")(["a"])(AST.Type([AST.TypeConstraint("a")(AST.ReferencedType(AST.DataReference("Parity")([])))])(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("List")([AST.Reference("a")])])))))
         ]),
         Unit.Suite("parseTypeReference")([
             Unit.Test("Int -> String")(assertParseInput(

@@ -130,6 +130,13 @@ const TypeConstraint = name => typeReferences => ({
 });
 
 
+// type Type = { constraints :: List TypeConstraint, typeReferences :: TypeReferences }
+
+const Type = constraints => typeReferences => ({
+    constraints, typeReferences
+});
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -152,5 +159,7 @@ module.exports = {
     String,
     Unit,
 
-    TypeConstraint
+    TypeConstraint,
+
+    Type
 };

@@ -83,7 +83,13 @@ function parseTypeDeclaration(lexer) {
 
 
 function parseType(lexer) {
-    return parseTypeReferences(lexer);
+    return C.andMap([
+        C.optional(C.andMap([
+            parseTypeConstraints,
+            C.token(Tokens.EQUAL_GREATER)
+        ])(a => a[0])),
+        parseTypeReferences
+    ])(a => AST.Type(a[0].withDefault([]))(a[1]))(lexer);
 }
 
 
@@ -180,6 +186,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseType,
     parseTypeConstraint,
     parseTypeConstraints,
     parseTypeDeclaration,
