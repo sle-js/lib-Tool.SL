@@ -45,6 +45,23 @@ const TypeDeclaration = name => parameters => type =>
     new DeclarationType([0, {name: name, parameters: parameters, type: type}]);
 
 
+// data TypeReferences =
+//        ReferencedType TypeReference             -- 0
+//      | ComposedType Array(TypeReference)        -- 1
+
+function TypeReferencesType(content) {
+    this.content = content;
+}
+
+
+const ReferencedType = typeReferences =>
+    new TypeReferencesType([0, typeReferences]);
+
+
+const ComposedType = typeReferences =>
+    new TypeReferencesType([1, typeReferences]);
+
+
 // data TypeReference =
 //        Int                                      -- 0
 //      | String                                   -- 1
@@ -57,6 +74,8 @@ const TypeDeclaration = name => parameters => type =>
 //      | Union Array(TypeReference)               -- 8
 //      | Function TypeReference TypeReference     -- 9
 //      | NTuple Array(TypeReference)              -- 10
+//      | ComposedType Array(TypeReference)        -- 11
+
 
 function TypeReferenceType(content) {
     this.content = content;
@@ -110,7 +129,10 @@ module.exports = {
     QualifiedNameImport,
 
     TypeDeclaration,
-    
+
+    ComposedType,
+    ReferencedType,
+
     Bool,
     Char,
     DataReference,
