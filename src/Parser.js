@@ -77,7 +77,20 @@ function parseType(lexer) {
 
 
 function parseTypeReference(lexer) {
-    return parseTypeReference2(lexer);
+    const createASTFunction = typeReferences => {
+        const typeReferencesLength =
+            Array.length(typeReferences);
+
+        const lastTypeReference =
+            typeReferences[typeReferencesLength - 1];
+
+        const butLastTypeReferences =
+            Array.slice(0)(typeReferencesLength - 1)(typeReferences);
+
+        return Array.foldr(lastTypeReference)(AST.Function)(butLastTypeReferences);
+    };
+
+    return C.chainl1Map(parseTypeReference2)(C.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
 }
 
 
@@ -131,6 +144,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseTypeReference,
     parseTypeReference2,
     parseTypeReference3
 };
