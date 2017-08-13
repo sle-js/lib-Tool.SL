@@ -88,6 +88,10 @@ const Function = domain => range =>
     new TypeReferenceType([9, domain, range]);
 
 
+const NTuple = typeReferences =>
+    new TypeReferenceType([10, typeReferences]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -99,6 +103,7 @@ module.exports = {
     DataReference,
     Function,
     Int,
+    NTuple,
     Reference,
     Self,
     String,
