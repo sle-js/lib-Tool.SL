@@ -83,7 +83,15 @@ function parseTypeDeclaration(lexer) {
 
 
 function parseType(lexer) {
-    return parseTypeReference(lexer);
+    return parseTypeReferences(lexer);
+}
+
+
+function parseTypeReferences(lexer) {
+    return C.chainl1Map(parseTypeReference)(C.token(Tokens.AMPERSAND))(a =>
+        Array.length(a) === 1
+            ? AST.ReferencedType(a[0])
+            : AST.ComposedType(a))(lexer);
 }
 
 

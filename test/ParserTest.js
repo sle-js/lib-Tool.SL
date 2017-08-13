@@ -83,7 +83,11 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("type Names = List String")(assertParseInput(
                 "type Names = List String",
                 Parser.parseTypeDeclaration,
-                AST.TypeDeclaration("Names")([])(AST.DataReference("List")([AST.String])))),
+                AST.TypeDeclaration("Names")([])(AST.ReferencedType(AST.DataReference("List")([AST.String]))))),
+            Unit.Test("type Names a = Parity & List a")(assertParseInput(
+                "type Names a = Parity & List a",
+                Parser.parseTypeDeclaration,
+                AST.TypeDeclaration("Names")(["a"])(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("List")([AST.Reference("a")])])))),
         ]),
         Unit.Suite("parseTypeReference")([
             Unit.Test("Int -> String")(assertParseInput(
