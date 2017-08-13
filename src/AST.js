@@ -42,7 +42,7 @@ function DeclarationType(content) {
 
 
 const TypeDeclaration = name => parameters => type =>
-    new DeclarationType([0, {name: name, parameters: parameters, type: type}]);
+    new DeclarationType([0, {name, parameters, type}]);
 
 
 // data TypeReferences =
@@ -124,17 +124,12 @@ const NTuple = typeReferences =>
 
 // type TypeConstraint = { name :: String, typeReferences :: List TypeReferences }
 
-const TypeConstraint = name => typeReferences => ({
-    name: name,
-    typeReferences: typeReferences
-});
+const TypeConstraint = name => typeReferences => ({name, typeReferences});
 
 
 // type Type = { constraints :: List TypeConstraint, typeReferences :: TypeReferences }
 
-const Type = constraints => typeReferences => ({
-    constraints, typeReferences
-});
+const Type = constraints => typeReferences => ({constraints, typeReferences});
 
 
 module.exports = {
