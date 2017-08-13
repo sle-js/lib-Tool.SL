@@ -84,6 +84,10 @@ const Reference = name =>
     new TypeReferenceType([7, name]);
 
 
+const Function = domain => range =>
+    new TypeReferenceType([9, domain, range]);
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -93,6 +97,7 @@ module.exports = {
     Bool,
     Char,
     DataReference,
+    Function,
     Int,
     Reference,
     Self,
