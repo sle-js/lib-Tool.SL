@@ -34,6 +34,17 @@ const QualifiedNameImport = qualifiedNameImport =>
     new ImportType([2, qualifiedNameImport]);
 
 
+// data Declaration =
+//        TypeDeclaration { name :: String, parameters :: List String, type :: Type }
+function DeclarationType(content) {
+    this.content = content;
+}
+
+
+const TypeDeclaration = name => parameters => type =>
+    new DeclarationType([0, {name: name, parameters: parameters, type: type}]);
+
+
 // data TypeReference =
 //        Int                                      -- 0
 //      | String                                   -- 1
@@ -98,6 +109,8 @@ module.exports = {
     QualifiedImport,
     QualifiedNameImport,
 
+    TypeDeclaration,
+    
     Bool,
     Char,
     DataReference,
