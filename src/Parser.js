@@ -71,6 +71,15 @@ function parseDeclaration(x) {
 }
 
 
+function parseNameSignatureDeclaration(lexer) {
+    return C.andMap([
+        tokenValue(Tokens.lowerID),
+        C.token(Tokens.COLON_COLON),
+        parseType
+    ])(a => AST.NameSignatureDeclaration(a[0])(a[2]))(lexer);
+}
+
+
 function parseTypeDeclaration(lexer) {
     return C.andMap([
         C.token(Tokens.TYPE),
@@ -186,6 +195,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseNameSignatureDeclaration,
     parseType,
     parseTypeConstraint,
     parseTypeConstraints,

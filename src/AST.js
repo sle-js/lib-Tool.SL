@@ -36,6 +36,7 @@ const QualifiedNameImport = qualifiedNameImport =>
 
 // data Declaration =
 //        TypeDeclaration { name :: String, parameters :: List String, type :: Type }
+//      | NameSignatureDeclaration { name :: String, type :: Type }
 function DeclarationType(content) {
     this.content = content;
 }
@@ -43,6 +44,10 @@ function DeclarationType(content) {
 
 const TypeDeclaration = name => parameters => type =>
     new DeclarationType([0, {name, parameters, type}]);
+
+
+const NameSignatureDeclaration = name => type =>
+    new DeclarationType([1, {name, type}]);
 
 
 // data TypeReferences =
@@ -139,6 +144,7 @@ module.exports = {
     QualifiedNameImport,
 
     TypeDeclaration,
+    NameSignatureDeclaration,
 
     ComposedType,
     ReferencedType,
