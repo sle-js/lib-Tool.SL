@@ -80,6 +80,36 @@ function parseNameSignatureDeclaration(lexer) {
 }
 
 
+function parseName(lexer) {
+    return C.or([
+        tokenValue(Tokens.lowerID),
+        C.andMap([
+            C.token(Tokens.LPAREN),
+            parseOperatorName,
+            C.token(Tokens.RPAREN)
+        ])(a => "(" + a[1] + ")")
+    ])(lexer);
+}
+
+
+function parseOperatorName(lexer) {
+    return C.or([
+        tokenValue(Tokens.PLUS),
+        tokenValue(Tokens.MINUS),
+        tokenValue(Tokens.STAR),
+        tokenValue(Tokens.SLASH),
+        tokenValue(Tokens.EQUAL_EQUAL),
+        tokenValue(Tokens.BANG_EQUAL),
+        tokenValue(Tokens.LESS),
+        tokenValue(Tokens.LESS_EQUAL),
+        tokenValue(Tokens.GREATER),
+        tokenValue(Tokens.GREATER_EQUAL),
+        tokenValue(Tokens.BAR_BAR),
+        tokenValue(Tokens.AMPERSAND_AMPERSAND)
+    ])(lexer);
+}
+
+
 function parseTypeDeclaration(lexer) {
     return C.andMap([
         C.token(Tokens.TYPE),
@@ -195,6 +225,7 @@ module.exports = {
     parseId,
     parseImport,
     parseModule,
+    parseName,
     parseNameSignatureDeclaration,
     parseType,
     parseTypeConstraint,

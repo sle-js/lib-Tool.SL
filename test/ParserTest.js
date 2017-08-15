@@ -79,6 +79,16 @@ module.exports = Unit.Suite("Tool.SL")([
                     ]
                 })))
         ]),
+        Unit.Suite("parseName")([
+            Unit.Test("bob")(assertParseInput(
+                "bob",
+                Parser.parseName,
+                "bob")),
+            Unit.Test("(+)")(assertParseInput(
+                "(+)",
+                Parser.parseName,
+                "(+)")),
+        ]),
         Unit.Suite("parseNameSignatureDeclaration")([
             Unit.Test("bob :: a :: Parity => (List Int -> String) -> List a")(assertParseInput(
                 "bob :: a :: Parity => (List Int -> String) -> List a",
@@ -176,7 +186,6 @@ module.exports = Unit.Suite("Tool.SL")([
                 AST.Reference("a")))
         ])
     ])
-])
-;
+]);
 
 
