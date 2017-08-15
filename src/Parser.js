@@ -73,7 +73,7 @@ function parseDeclaration(x) {
 
 function parseNameSignatureDeclaration(lexer) {
     return C.andMap([
-        tokenValue(Tokens.lowerID),
+        parseName,
         C.token(Tokens.COLON_COLON),
         parseType
     ])(a => AST.NameSignatureDeclaration(a[0])(a[2]))(lexer);

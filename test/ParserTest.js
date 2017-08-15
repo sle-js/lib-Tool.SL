@@ -93,7 +93,11 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("bob :: a :: Parity => (List Int -> String) -> List a")(assertParseInput(
                 "bob :: a :: Parity => (List Int -> String) -> List a",
                 Parser.parseNameSignatureDeclaration,
-                AST.NameSignatureDeclaration("bob")(AST.Type([AST.TypeConstraint("a")(AST.ReferencedType(AST.DataReference("Parity")([])))])(AST.ReferencedType(AST.Function(AST.Function(AST.DataReference("List")([AST.Int]))(AST.String))(AST.DataReference("List")([AST.Reference("a")])))))))
+                AST.NameSignatureDeclaration("bob")(AST.Type([AST.TypeConstraint("a")(AST.ReferencedType(AST.DataReference("Parity")([])))])(AST.ReferencedType(AST.Function(AST.Function(AST.DataReference("List")([AST.Int]))(AST.String))(AST.DataReference("List")([AST.Reference("a")]))))))),
+            Unit.Test("(+) :: List a -> List a")(assertParseInput(
+                "(+) :: List a -> List a",
+                Parser.parseNameSignatureDeclaration,
+                AST.NameSignatureDeclaration("(+)")(AST.Type([])(AST.ReferencedType(AST.Function(AST.DataReference("List")([AST.Reference("a")]))(AST.DataReference("List")([AST.Reference("a")])))))))
         ]),
         Unit.Suite("parseTypeConstraint")([
             Unit.Test("a :: Parity & Bounded & Show")(assertParseInput(
