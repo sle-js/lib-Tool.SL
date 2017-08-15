@@ -87,7 +87,7 @@ TypeConstraint =
 
 DataDeclaration = 
       DATA upperID {lowerID} "=" [TypeConstraints] "=>" TypeReferences 
-      upperID TypeReferences {"|" upperID type_references}
+      upperID TypeReferences {"|" upperID TypeReferences}
       {Declaration};
 
 NameSignatureDeclaration = 
