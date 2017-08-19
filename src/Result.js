@@ -65,6 +65,13 @@ assumptionEqual(Okay(10).map(n => n * 10), Okay(100));
 assumptionEqual(Error(10).map(n => n * 10), Error(10));
 
 
+Result.prototype.mapError = function(f) {
+    return this.reduce(okay => Okay(okay))(error => Error(f(error)));
+};
+assumptionEqual(Okay(10).mapError(n => n * 10), Okay(10));
+assumptionEqual(Error(10).mapError(n => n * 10), Error(100));
+
+
 module.exports = {
     Error,
     Okay
