@@ -78,10 +78,14 @@ const chainl1Map = parser => sep => f => lexer =>
     mapResult(f)(chainl1(parser)(sep)(lexer));
 
 
-const token = tokenID => lexer =>
-    lexer.head().token().id === tokenID
+const condition = f => lexer =>
+    f(lexer.head())
         ? okayResult(lexer.tail())(lexer.head())
-        : Result.Error(Errors.tokenExpected(lexer.head())(tokenID));
+        : Result.Error(Errors.conditionFailed(lexer.head()));
+
+
+const token = tokenID =>
+    condition(h => h.token().id === tokenID);
 
 
 const tokenMap = tokenID => f => lexer =>

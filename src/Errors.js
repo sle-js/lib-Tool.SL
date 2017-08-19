@@ -3,15 +3,20 @@ function ErrorsType(content) {
 }
 
 
+const conditionFailed = lexer =>
+    new ErrorsType([0, lexer]);
+
+
 const tokenExpected = lexer => token =>
-    new ErrorsType([0, lexer, token]);
+    new ErrorsType([1, lexer, token]);
 
 
 const orFailed = lexer =>
-    new ErrorsType([1, lexer]);
+    new ErrorsType([2, lexer]);
 
 
 module.exports = {
-    tokenExpected,
-    orFailed
+    conditionFailed,
+    orFailed,
+    tokenExpected
 };
