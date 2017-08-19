@@ -84,6 +84,10 @@ const condition = f => lexer =>
         : Result.Error(Errors.conditionFailed(lexer.head()));
 
 
+const conditionMap = f => map => lexer =>
+    mapResult(map)(condition(f)(lexer));
+
+
 const token = tokenID =>
     condition(h => h.token().id === tokenID);
 
@@ -110,6 +114,8 @@ module.exports = {
     andMap,
     chainl1,
     chainl1Map,
+    condition,
+    conditionMap,
     many,
     many1,
     many1Map,
