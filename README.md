@@ -83,7 +83,7 @@ TypeConstraints =
       TypeConstraint {"," TypeConstraint};
 
 TypeConstraint = 
-      lowerID "::" TypeReferences;
+      (lowerID | "Self") "::" TypeReferences;
 
 DataDeclaration = 
       DATA upperID {lowerID} "=" [TypeConstraints "=>"] 
