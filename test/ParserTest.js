@@ -1,10 +1,8 @@
-const Array = require("./Libs").Array;
 const Assertion = require("./Libs").Assertion;
 const AST = require("../src/AST");
 const Maybe = require("./Libs").Maybe;
 const Unit = require("./Libs").Unit;
 
-const Tokens = require("../src/Tokens");
 const LexerConfiguration = require("../src/LexerConfiguration");
 const Parser = require("../src/Parser");
 
