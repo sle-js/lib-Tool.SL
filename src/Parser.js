@@ -1,7 +1,6 @@
 const Array = require("./Libs").Array;
 const AST = require("./AST");
 const C = require("./ParseCombinators");
-const Maybe = require("./Libs").Maybe;
 const Tokens = require("./Tokens");
 
 
