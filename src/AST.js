@@ -37,6 +37,7 @@ const QualifiedNameImport = qualifiedNameImport =>
 // data Declaration =
 //        TypeDeclaration { name :: String, parameters :: List String, type :: Type }
 //      | NameSignatureDeclaration { name :: String, type :: Type }
+//      | DataDeclaration { name :: String, parameters :: List String, constraints :: Sequence TypeConstraint, constructors ::  Sequence { name :: String, typeReferences :: Sequence TypeReference }, Sequence Declaration }
 function DeclarationType(content) {
     this.content = content;
 }
@@ -48,6 +49,10 @@ const TypeDeclaration = name => parameters => type =>
 
 const NameSignatureDeclaration = name => type =>
     new DeclarationType([1, {name, type}]);
+
+
+const DataDeclaration = name => parameters => constraints => constructors => declarations =>
+    new DeclarationType([2, {name, parameters, constraints, constructors, declarations}]);
 
 
 // data TypeReferences =
@@ -145,6 +150,7 @@ module.exports = {
 
     TypeDeclaration,
     NameSignatureDeclaration,
+    DataDeclaration,
 
     ComposedType,
     ReferencedType,
