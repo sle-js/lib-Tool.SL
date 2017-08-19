@@ -210,7 +210,10 @@ function parseTypeReference3(lexer) {
 
 function parseTypeConstraint(lexer) {
     return C.andMap([
-        tokenValue(Tokens.lowerID),
+        C.or([
+            tokenValue(Tokens.lowerID),
+            C.conditionMap(t => t.token().id === Tokens.upperID && t.token().value === "Self")(_ => "Self")
+        ]),
         C.token(Tokens.COLON_COLON),
         parseTypeReferences
     ])(a => AST.TypeConstraint(a[0])(a[2]))(lexer);

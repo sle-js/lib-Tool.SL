@@ -39,22 +39,22 @@ module.exports = Unit.Suite("Tool.SL")([
                 ])
                 ([])
             )),
-            // Unit.Test("data List a = a :: Parity & Show, Self :: Parity & Show => Nil | Cons a List a")(assertParseInput(
-            //     "data List a = a :: Parity & Show, Self :: Parity & Show => Nil | Cons a List a",
-            //     Parser.parseDataDeclaration,
-            //     AST.DataDeclaration("List")(["a"])([
-            //         AST.TypeConstraint("a")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Show")([])])),
-            //         AST.TypeConstraint("Self")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Show")([])]))
-            //     ])
-            //     ([
-            //         {name: "Nil", typeReferences: []},
-            //         {
-            //             name: "Cons",
-            //             typeReferences: [AST.Reference("a"), AST.DataReference("List")([AST.Reference("a")])]
-            //         }
-            //     ])
-            //     ([])
-            // ))
+            Unit.Test("data List a = a :: Parity & Show, Self :: Parity & Show => Nil | Cons a List a")(assertParseInput(
+                "data List a = a :: Parity & Show, Self :: Parity & Show => Nil | Cons a List a",
+                Parser.parseDataDeclaration,
+                AST.DataDeclaration("List")(["a"])([
+                    AST.TypeConstraint("a")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Show")([])])),
+                    AST.TypeConstraint("Self")(AST.ComposedType([AST.DataReference("Parity")([]), AST.DataReference("Show")([])]))
+                ])
+                ([
+                    {name: "Nil", typeReferences: []},
+                    {
+                        name: "Cons",
+                        typeReferences: [AST.Reference("a"), AST.DataReference("List")([AST.Reference("a")])]
+                    }
+                ])
+                ([])
+            ))
         ]),
         Unit.Suite("parseId")([
             Unit.Test("hello")(assertParseInput(
