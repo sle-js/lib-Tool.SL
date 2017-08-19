@@ -1,6 +1,7 @@
 const Array = require("./Libs").Array;
 const AST = require("./AST");
 const C = require("./ParseCombinators");
+const Maybe = require("./Libs").Maybe;
 const Tokens = require("./Tokens");
 
 
@@ -66,8 +67,12 @@ function parseId(lexer) {
 }
 
 
-function parseDeclaration(x) {
-    return x;
+function parseDeclaration(lexer) {
+    return C.or([
+        parseTypeDeclaration,
+        parseDataDeclaration,
+        parseNameSignatureDeclaration
+    ])(lexer);
 }
 
 
@@ -216,11 +221,44 @@ const parseTypeConstraints =
     C.chainl1(parseTypeConstraint)(C.token(Tokens.COMMA));
 
 
+function parseDataDeclaration(lexer) {
+    return C.andMap([
+        C.token(Tokens.DATA),
+        tokenValue(Tokens.upperID),
+        C.many(tokenValue(Tokens.lowerID)),
+        C.token(Tokens.EQUAL),
+        C.optionalMap(
+            C.andMap([
+                parseTypeConstraints,
+                C.token(Tokens.EQUAL_GREATER)
+            ])(a => a[0])
+        )(a => a.withDefault([])),
+        C.chainl1(parseConstructor)(C.token(Tokens.BAR)),
+        C.many(parseDeclaration)
+    ])(a => AST.DataDeclaration
+        (a[1])
+        (a[2])
+        (a[4])
+        (a[5])
+        (a[6])
+    )(lexer);
+}
+
+
+function parseConstructor(lexer) {
+    return C.andMap([
+        tokenValue(Tokens.upperID),
+        C.many(parseTypeReference)
+    ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
+}
+
+
 const tokenValue = token =>
     C.tokenMap(token)(t => t.token().value);
 
 
 module.exports = {
+    parseDataDeclaration,
     parseDeclaration,
     parseId,
     parseImport,
