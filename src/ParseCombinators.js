@@ -97,6 +97,10 @@ const optional = parser => lexer => {
 };
 
 
+const optionalMap = parser => f => lexer =>
+    mapResult(f)(optional(parser)(lexer));
+
+
 module.exports = {
     and,
     andMap,
@@ -106,6 +110,7 @@ module.exports = {
     many1,
     many1Map,
     optional,
+    optionalMap,
     or,
     token,
     tokenMap
