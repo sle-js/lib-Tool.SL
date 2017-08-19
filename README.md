@@ -86,8 +86,8 @@ TypeConstraint =
       lowerID "::" TypeReferences;
 
 DataDeclaration = 
-      DATA upperID {lowerID} "=" [TypeConstraints] "=>" TypeReferences 
-      upperID TypeReferences {"|" upperID TypeReferences}
+      DATA upperID {lowerID} "=" [TypeConstraints] "=>" 
+      upperID TypeReference {"|" upperID TypeReference}
       {Declaration};
 
 NameSignatureDeclaration = 
@@ -220,7 +220,7 @@ The following is an example of a piece of code showing off the usage of types an
 use core:Parity:1.0.0
 use core:Show:1.0.0
 
-data List a b = a :: Parity & Show => Parity & Show &
+data List a b = a :: Parity & Show, Self :: Parity & Show => 
           Nil
         | Cons a (List a) 
   (==) :: Parity a => Self -> Bool
