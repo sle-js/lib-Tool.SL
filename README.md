@@ -86,7 +86,7 @@ TypeConstraint =
       lowerID "::" TypeReferences;
 
 DataDeclaration = 
-      DATA upperID {lowerID} "=" [TypeConstraints "=>" ] 
+      DATA upperID {lowerID} "=" [TypeConstraints "=>"] 
       upperID {TypeReference} {"|" upperID {TypeReference}}
       {Declaration};
 
