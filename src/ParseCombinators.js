@@ -12,12 +12,12 @@ const mapResult = f => result =>
     result.map(r => ({lexer: r.lexer, result: f(r.result)}));
 
 
-const resultThen = currentResult => parser =>
+const andThen = currentResult => parser =>
     currentResult.andThen(s => mapResult(r => Array.append(r)(s.result))(parser(s.lexer)));
 
 
 const and = parsers => lexer =>
-    Array.foldl(okayResult(lexer)([]))(resultThen)(parsers);
+    Array.foldl(okayResult(lexer)([]))(andThen)(parsers);
 
 
 const andMap = parsers => f => lexer =>
@@ -26,7 +26,7 @@ const andMap = parsers => f => lexer =>
 
 const manyResult = currentResult => parser => {
     const nextResult =
-        resultThen(currentResult)(parser);
+        andThen(currentResult)(parser);
 
     return nextResult.isOkay()
         ? manyResult(nextResult)(parser)
