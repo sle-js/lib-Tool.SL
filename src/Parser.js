@@ -237,13 +237,7 @@ function parseDataDeclaration(lexer) {
         )(a => a.withDefault([])),
         C.chainl1(parseConstructor)(C.token(Tokens.BAR)),
         C.many(parseDeclaration)
-    ])(a => AST.DataDeclaration
-        (a[1])
-        (a[2])
-        (a[4])
-        (a[5])
-        (a[6])
-    )(lexer);
+    ])(a => AST.DataDeclaration(a[1])(a[2])(a[4])(a[5])(a[6]))(lexer);
 }
 
 
