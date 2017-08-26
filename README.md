@@ -33,7 +33,7 @@ The following describes the grammar of the language.
 ```text
 Module = 
       {Import}
-      Declaration {Declaration};
+      {Declaration};
 
 Import = 
       USE importReference [AS upperID | [IMPORT (Id [AS Id] | "(" Id [AS Id] {"," Id [AS Id]} ")")]];
