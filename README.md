@@ -55,7 +55,7 @@ Type =
       [TypeConstraints "=>"] TypeReferences;
 
 TypeReferences = 
-      TypeReference {"&" TypeReference};
+      TypeReference {"&" TypeReference} [WHERE Declaration {Declaration}];
 
 TypeReference = 
       TypeReference1 {"->" TypeReference1};
@@ -88,7 +88,7 @@ TypeConstraint =
 DataDeclaration = 
       DATA upperID {lowerID} "=" [TypeConstraints "=>"] 
       upperID {TypeReference} {"|" upperID {TypeReference}}
-      {Declaration};
+      [WHERE Declaration {Declaration}];
 
 NameSignatureDeclaration = 
       Name "::" Type;
@@ -165,6 +165,7 @@ SimpleExpression =
     | "(" Expression {"," Expression} )";
     | "(" OperatorName ")"
     | "{" [Expression "|"] (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
+    | NEW upperID {"&" upperID} ["{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"] 
     
 Case =
       Pattern "->" Expression;
