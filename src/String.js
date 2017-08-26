@@ -69,8 +69,8 @@ const substring = start => end => s =>
     s.substring(start, end);
 
 
-//= substringFrom :: Int -> String -> String
-const substringFrom = start => s =>
+//= drop :: Int -> String -> String
+const drop = start => s =>
     s.substring(start);
 
 
@@ -130,6 +130,7 @@ assumptionEqual(upperCase("Hello World"), "HELLO WORLD");
 
 module.exports = {
     at,
+    drop,
     foldl,
     indexOf,
     indexOfFrom,
@@ -141,7 +142,6 @@ module.exports = {
     split,
     startsWith,
     substring,
-    substringFrom,
     trim,
     upperCase
 };
