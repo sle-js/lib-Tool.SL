@@ -1,6 +1,9 @@
 const Assertion = require("./Libs").Assertion;
+const Array = require("./Libs").Array;
 const AST = require("../src/AST");
+const FileSystem = require("../src/FileSystem");
 const Maybe = require("./Libs").Maybe;
+const String = require("./Libs").String;
 const Unit = require("./Libs").Unit;
 
 const LexerConfiguration = require("../src/LexerConfiguration");
@@ -20,14 +23,65 @@ const assertParseInput = (input, parser, ast) => Promise
     );
 
 
+const parseFile = content => {
+    const newLine = acc => item => {
+        if (String.startsWith("--")(item)) {
+            const name =
+                String.trim(String.drop(2)(item));
+
+            const result =
+                Object.assign({}, acc, {current: name});
+
+            result[name] = [];
+
+            return result;
+        } else {
+            const result =
+                Object.assign({}, acc);
+
+            result[result["current"]] = Array.append(item)(result[result["current"]]);
+
+            return result;
+        }
+    };
+
+    return Array.foldl({
+        current: "src",
+        name: String.trim(String.drop(2)(content[0])),
+        src: []
+    })(newLine)(Array.drop(1)(content));
+};
+
+
+const processFile = content => assertion => {
+    const ast =
+        Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
+
+    if (content.ast) {
+        return assertion
+            .isTrue(ast.isOkay())
+            .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim());
+    } else {
+        return assertion
+            .isTrue(ast.isOkay());
+    }
+};
+
+
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("Parser")([
+        Unit.Suite("parseModule")([
+           Unit.Suite("import")([
+               Unit.Test("001: Simple import")(FileSystem
+                   .readFile("./test/parser/001.txt")
+                   .then(content => processFile(parseFile(content.split("\n")))(Assertion)))
+           ])
+        ]),
         Unit.Suite("parseDataDeclaration")([
             Unit.Test("data List a = Nil | Cons a List a")(assertParseInput(
                 "data List a = Nil | Cons a List a",
                 Parser.parseDataDeclaration,
-                AST.DataDeclaration("List")(["a"])([
-                ])
+                AST.DataDeclaration("List")(["a"])([])
                 ([
                     {name: "Nil", typeReferences: []},
                     {

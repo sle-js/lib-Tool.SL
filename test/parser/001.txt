@@ -1,0 +1,16 @@
+-- Simple import
+use core:Native.Data.Array:1.1.0
+-- ast
+{
+  "imports": [
+    {
+      "content": [
+        0,
+        {
+          "urn": "core:Native.Data.Array:1.1.0"
+        }
+      ]
+    }
+  ],
+  "declarations": []
+}

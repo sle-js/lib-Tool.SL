@@ -7,11 +7,12 @@ const Tokens = require("./Tokens");
 // type ParseError :: Errors
 // type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
 
-parseModule =
-    C.and([
+const parseModule = lexer =>
+    C.andMap([
         C.many(parseImport),
-        C.many1(parseDeclaration)
-    ]);
+        C.many(parseDeclaration),
+        C.token(Tokens.eof)
+    ])(a => AST.Module(a[0])(a[1]))(lexer);
 
 
 // parseId :: Parser AST.Import
