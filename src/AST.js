@@ -34,6 +34,17 @@ const QualifiedNameImport = qualifiedNameImport =>
     new ImportType([2, qualifiedNameImport]);
 
 
+ImportType.prototype.reduce = function(fUnqualifiedImport) {
+    return fQualifiedImport => fQualifiedNameImport => {
+        switch(this.content[0]) {
+            case 0: return fUnqualifiedImport(this.content[1]);
+            case 1: return fQualifiedImport(this.content[1]);
+            case 2: return fQualifiedNameImport(this.content[1]);
+        }
+    };
+};
+
+
 // data Declaration =
 //        TypeDeclaration { name :: String, parameters :: List String, type :: Type }
 //      | NameSignatureDeclaration { name :: String, type :: Type }

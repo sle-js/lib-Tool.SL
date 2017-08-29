@@ -14,3 +14,9 @@ use core:Native.Data.Array:1.1.0
   ],
   "declarations": []
 }
+-- js
+const Array = mrequire("core:Native.Data.Array:1.1.0");
+
+module.exports = {
+    Array
+};

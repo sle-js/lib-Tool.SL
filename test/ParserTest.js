@@ -4,6 +4,7 @@ const AST = require("../src/AST");
 const FileSystem = require("../src/FileSystem");
 const Maybe = require("./Libs").Maybe;
 const String = require("./Libs").String;
+const Translator = require("../src/Translator");
 const Unit = require("./Libs").Unit;
 
 const LexerConfiguration = require("../src/LexerConfiguration");
@@ -57,13 +58,23 @@ const processFile = content => assertion => {
     const ast =
         Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
 
-    if (content.ast) {
-        return assertion
-            .isTrue(ast.isOkay())
-            .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim());
+    const astAssertion =
+        content.ast
+            ? assertion
+                .isTrue(ast.isOkay())
+                .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim())
+            : assertion
+                .isTrue(ast.isOkay());
+
+    if (content.js) {
+        const output =
+            ast.map(x => x.result).andThen(ast => Translator.translate(ast));
+
+        return astAssertion
+            .isTrue(output.isOkay())
+            .equals(output.content[1].trim())(content.js.join("\n").trim());
     } else {
-        return assertion
-            .isTrue(ast.isOkay());
+        return astAssertion;
     }
 };
 
@@ -71,11 +82,11 @@ const processFile = content => assertion => {
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("Parser")([
         Unit.Suite("parseModule")([
-           Unit.Suite("import")([
-               Unit.Test("001: Simple import")(FileSystem
-                   .readFile("./test/parser/001.txt")
-                   .then(content => processFile(parseFile(content.split("\n")))(Assertion)))
-           ])
+            Unit.Suite("import")([
+                Unit.Test("001: Simple import")(FileSystem
+                    .readFile("./test/parser/001.txt")
+                    .then(content => processFile(parseFile(content.split("\n")))(Assertion)))
+            ])
         ]),
         Unit.Suite("parseDataDeclaration")([
             Unit.Test("data List a = Nil | Cons a List a")(assertParseInput(

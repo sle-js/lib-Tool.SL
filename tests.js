@@ -8,6 +8,6 @@ Unit.Suite("All")([
     require("./test/LexerConfigurationTest"),
     require("./test/ParserTest")
 ])
-    .then(Unit.showDetail)
+    .then(Unit.showErrors)
     .then(Unit.showSummary)
     .then(Unit.setExitCodeOnFailures);
