@@ -6,7 +6,8 @@ Unit.Suite("All")([
     require("./test/IntTest"),
     require("./test/LexerTest"),
     require("./test/LexerConfigurationTest"),
-    require("./test/ParserTest")
+    require("./test/ParserTest"),
+    require("./test/TranslatorTest")
 ])
     .then(Unit.showErrors)
     .then(Unit.showSummary)

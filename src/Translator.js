@@ -13,6 +13,10 @@ const compose = ffs => a => {
 };
 
 
+const markupName = name =>
+    name;
+
+
 // arrayToString :: Array String -> String
 const arrayToString =
     Array.join("\n");
@@ -83,5 +87,6 @@ const translate = ast => {
 
 
 module.exports = {
+    markupName,
     translate
 };
