@@ -1,5 +1,7 @@
 const Array = require("./Libs").Array;
+const Char = require("./Char");
 const Result = require("./Result");
+const String = require("./String");
 
 
 const compose = ffs => a => {
@@ -13,8 +15,14 @@ const compose = ffs => a => {
 };
 
 
-const markupName = name =>
-    name;
+const markupName = name => {
+    const markupChar = c =>
+        (c === 95) || Char.alphaDigit$63(c)
+            ? String.fromChar(c)
+            : "$" + c;
+
+    return String.foldl("")(acc => item => acc + markupChar(item))(name);
+};
 
 
 // arrayToString :: Array String -> String

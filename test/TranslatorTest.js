@@ -8,5 +8,7 @@ module.exports = Unit.Suite("Translator Suite")([
     Unit.Suite("markup name")([
         Unit.Test("hello")(Assertion
             .equals("hello")(Translator.markupName("hello"))),
+        Unit.Test("hello'")(Assertion
+            .equals("hello$39")(Translator.markupName("hello'"))),
     ])
 ]);
