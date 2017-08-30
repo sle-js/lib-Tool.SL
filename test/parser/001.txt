@@ -7,7 +7,11 @@ use core:Native.Data.Array:1.1.0
       "content": [
         0,
         {
-          "urn": "core:Native.Data.Array:1.1.0"
+          "urn": [
+            "core",
+            "Native.Data.Array",
+            "1.1.0"
+          ]
         }
       ]
     }

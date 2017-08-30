@@ -141,33 +141,33 @@ module.exports = Unit.Suite("Tool.SL")([
             Unit.Test("use core:Native.Data.Array:1.1.0")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0",
                 Parser.parseImport,
-                AST.UnqualifiedImport({urn: "core:Native.Data.Array:1.1.0"}))),
+                AST.UnqualifiedImport({urn: ["core", "Native.Data.Array", "1.1.0"]}))),
             Unit.Test("use core:Native.Data.Array:1.1.0 as Array")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 as Array",
                 Parser.parseImport,
                 AST.QualifiedImport({
-                    urn: "core:Native.Data.Array:1.1.0",
+                    urn: ["core", "Native.Data.Array", "1.1.0"],
                     name: "Array"
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import length")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import length",
                 Parser.parseImport,
                 AST.QualifiedNameImport({
-                    urn: "core:Native.Data.Array:1.1.0",
+                    urn: ["core", "Native.Data.Array", "1.1.0"],
                     names: [{name: "length", qualified: Maybe.Nothing}]
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import length as arrayLength")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import length as arrayLength",
                 Parser.parseImport,
                 AST.QualifiedNameImport({
-                    urn: "core:Native.Data.Array:1.1.0",
+                    urn: ["core", "Native.Data.Array", "1.1.0"],
                     names: [{name: "length", qualified: Maybe.Just("arrayLength")}]
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import (length, substring as subs)")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import (length, substring as subs)",
                 Parser.parseImport,
                 AST.QualifiedNameImport({
-                    urn: "core:Native.Data.Array:1.1.0",
+                    urn: ["core", "Native.Data.Array", "1.1.0"],
                     names: [
                         {name: "length", qualified: Maybe.Nothing},
                         {name: "substring", qualified: Maybe.Just("subs")}

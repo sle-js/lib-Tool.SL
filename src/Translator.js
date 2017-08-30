@@ -23,15 +23,11 @@ const flattenArray =
     Array.foldl([])(Array.concat);
 
 
-// TODO Make sure that the URN has the correct structure.  This is a lexical concern but does need consideration.
 // TODO Create a name to JavaScript name function to ensure that all names are properly marked up.
 // extractImportNameFromURN :: urn -> String
 const extractImportNameFromURN = urn => {
-    const names =
-        urn.split(":");
-
     const name =
-        names[1].split(".");
+        urn[1].split(".");
 
     return name[name.length - 1];
 };
@@ -43,7 +39,7 @@ const translate = ast => {
     const imports = compose([
         arrayToString,
         Array.map(i => i.reduce(
-            c => "const " + extractImportNameFromURN(c.urn) + " = mrequire(\"" + c.urn + "\");")(
+            c => "const " + extractImportNameFromURN(c.urn) + " = mrequire(\"" + c.urn.join(":") + "\");")(
             c => "")(
             c => ""))
     ]);

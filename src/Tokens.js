@@ -6,6 +6,7 @@ nextToken = () => {
 };
 
 const err = nextToken();
+const errIllegalImportReference = nextToken();
 const eof = nextToken();
 
 const constantChar = nextToken();
@@ -69,6 +70,7 @@ const WHERE = nextToken();
 const names = {};
 
 names[err] = "error";
+names[errIllegalImportReference] = "illegal import reference";
 names[eof] = "end-of-file";
 names[constantChar] = "constant character";
 names[constantFloat] = "constant float";
@@ -128,6 +130,7 @@ module.exports = {
     names,
 
     err,
+    errIllegalImportReference,
     eof,
     constantChar,
     constantFloat,

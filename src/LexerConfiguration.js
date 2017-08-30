@@ -46,7 +46,13 @@ module.exports = Lexer.setup({
         [Regex.from(/\d+/iy), text => ({id: Tokens.constantInteger, value: Int.fromString(text).withDefault(0)})],
         [Regex.from(/"(\\.|[^"\\])*"/iy), text => ({id: Tokens.constantString, value: text.substring(1, text.length - 1)})],
 
-        [Regex.from(/(file|core|github):(\\.|[^\s])+/iy), text => ({id: Tokens.importReference, value: text})],
+        [Regex.from(/(file|core|github):(\\.|[^\s])+/iy), text => {
+            const urnSlices = text.split(":");
+
+            return urnSlices.length === 3
+                ? {id: Tokens.importReference, value: urnSlices}
+                : {id: Tokens.errIllegalImportReference, text}
+        }],
 
         [Regex.from(/&&/iy), text => ({id: Tokens.AMPERSAND_AMPERSAND, value: text})],
         [Regex.from(/&/iy), text => ({id: Tokens.AMPERSAND, value: text})],
