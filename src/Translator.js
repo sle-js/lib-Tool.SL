@@ -24,7 +24,8 @@ const flattenArray =
 
 
 // TODO Create a name to JavaScript name function to ensure that all names are properly marked up.
-// extractImportNameFromURN :: urn -> String
+// type URN = Array String
+// extractImportNameFromURN :: URN -> String
 const extractImportNameFromURN = urn => {
     const name =
         urn[1].split(".");
