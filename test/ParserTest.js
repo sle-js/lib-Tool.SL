@@ -15,13 +15,10 @@ const asString = o =>
     JSON.stringify(o, null, 2);
 
 
-const assertParseInput = (input, parser, ast) => Promise
-    .resolve(LexerConfiguration.fromString(input))
-    .then(lexer => parser(lexer))
-    .then(result => Assertion
-        .isTrue(result.isOkay())
-        .equals(asString(result.content[1].result))(asString(ast))
-    );
+const assertParseInput = (input, parser, ast) =>
+    parser(LexerConfiguration.fromString(input))
+        .map(parseResult => Assertion.equals(asString(parseResult.result))(asString(ast)))
+        .withDefault(Assertion.isTrue(false));
 
 
 const parseFile = content => {
@@ -83,9 +80,9 @@ module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("Parser")([
         Unit.Suite("parseModule")([
             Unit.Suite("import")([
-                Unit.Test("001: Simple import")(FileSystem
-                    .readFile("./test/parser/001.txt")
-                    .then(content => processFile(parseFile(content.split("\n")))(Assertion)))
+                FileSystem.readFile("./test/parser/001.txt")
+                    .then(content => Unit.Test("001: Simple import")(processFile(parseFile(content.split("\n")))(Assertion)))
+                    .catch(_ => Unit.Test("001: Simple import")(Assertion.isTrue(false)))
             ])
         ]),
         Unit.Suite("parseDataDeclaration")([
@@ -128,14 +125,13 @@ module.exports = Unit.Suite("Tool.SL")([
                 "World",
                 Parser.parseId,
                 "World")),
-            Unit.Test("-error-")(Promise
-                .resolve(LexerConfiguration.fromString("-error-"))
-                .then(lexer => Parser.parseId(lexer))
-                .then(result => Assertion
-                    .isTrue(result.isError())
-                    .equals(result.content[1].content[1].position()[0])(1)
-                    .equals(result.content[1].content[1].position()[1])(1)
-                ))
+            Unit.Test("-error-")(
+                Parser.parseId(LexerConfiguration.fromString("-error-"))
+                    .mapError(parseResult => Assertion
+                        .equals(parseResult.content[1].position()[0])(1)
+                        .equals(parseResult.content[1].position()[1])(1))
+                    .errorWithDefault(Assertion.isTrue(false))
+            )
         ]),
         Unit.Suite("parseImport")([
             Unit.Test("use core:Native.Data.Array:1.1.0")(assertParseInput(
