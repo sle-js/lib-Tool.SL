@@ -35,14 +35,13 @@ const flattenArray =
     Array.foldl([])(Array.concat);
 
 
-// TODO Create a name to JavaScript name function to ensure that all names are properly marked up.
 // type URN = Array String
 // extractImportNameFromURN :: URN -> String
 const extractImportNameFromURN = urn => {
     const name =
         urn[1].split(".");
 
-    return name[name.length - 1];
+    return markupName(name[name.length - 1]);
 };
 
 
