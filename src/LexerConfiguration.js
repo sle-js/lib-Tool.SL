@@ -42,7 +42,7 @@ module.exports = Lexer.setup({
     whitespacePattern: Maybe.Just(Regex.from(/\s+/iy)),
     tokenPatterns: [
         [Regex.from(/'(\\.|.)'/iy), text => ({id: Tokens.constantChar, value: text.length === 3 ? text.charCodeAt(1) : text.charCodeAt(2)})],
-        [Regex.from(/\d+(\.\d+)?/iy), text => ({id: Tokens.constantFloat, value: Float.fromString(text).withDefault(0.0)})],
+        [Regex.from(/\d+\.\d/iy), text => ({id: Tokens.constantFloat, value: Float.fromString(text).withDefault(0.0)})],
         [Regex.from(/\d+/iy), text => ({id: Tokens.constantInteger, value: Int.fromString(text).withDefault(0)})],
         [Regex.from(/"(\\.|[^"\\])*"/iy), text => ({id: Tokens.constantString, value: text.substring(1, text.length - 1)})],
 
