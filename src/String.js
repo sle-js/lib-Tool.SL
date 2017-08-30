@@ -128,10 +128,17 @@ const upperCase = s =>
 assumptionEqual(upperCase("Hello World"), "HELLO WORLD");
 
 
+//- Converts a Character into a String
+//= fromChar :: Char -> String
+const fromChar =
+    String.fromCharCode;
+
+
 module.exports = {
     at,
     drop,
     foldl,
+    fromChar,
     indexOf,
     indexOfFrom,
     length,
