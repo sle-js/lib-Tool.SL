@@ -76,15 +76,20 @@ const processFile = content => assertion => {
 };
 
 
+const loadSuite = suiteName => directory =>
+    FileSystem
+        .readdir(directory)
+        .then(fileNames => Unit.Suite(suiteName)(fileNames.map(fileName =>
+            FileSystem
+                .readFile(directory + "/" + fileName)
+                .then(content => parseFile(content.split("\n")))
+                .then(content => Unit.Test(fileName + ": " + content.name)(processFile(content)(Assertion)))
+                .catch(error => Unit.Test(fileName + ": " + error)(Assertion.isTrue(false))))));
+
+
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("Parser")([
-        Unit.Suite("parseModule")([
-            Unit.Suite("import")([
-                FileSystem.readFile("./test/parser/001.txt")
-                    .then(content => Unit.Test("001: Simple import")(processFile(parseFile(content.split("\n")))(Assertion)))
-                    .catch(_ => Unit.Test("001: Simple import")(Assertion.isTrue(false)))
-            ])
-        ]),
+        loadSuite("parseModule")("./test/parser"),
         Unit.Suite("parseDataDeclaration")([
             Unit.Test("data List a = Nil | Cons a List a")(assertParseInput(
                 "data List a = Nil | Cons a List a",
