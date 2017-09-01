@@ -58,25 +58,29 @@ const translate = ast => {
 
     // exports :: AST.Import -> String
     const exports = importAST => {
-        // publicNames :: AST.Import -> Array String
-        const publicNames = compose([
-            flattenArray,
-            Array.map(
-                i => i.reduce(
-                    c => [extractImportNameFromURN(c.urn)])(
-                    c => [markupName(c.name)])(
-                    c => []))
-        ]);
-
-        return arrayToString([
-            "module.exports = {",
+        const names =
             compose([
-                Array.join(",\n"),
-                Array.map(i => "    " + i),
-                publicNames
-            ])(importAST),
-            "};"
-        ]);
+                flattenArray,
+                Array.map(
+                    i => i.reduce(
+                        c => [extractImportNameFromURN(c.urn)])(
+                        c => c.public ? [markupName(c.name)] : [])(
+                        c => []))
+            ])(importAST);
+
+        return (Array.length(names) === 0)
+            ? arrayToString([
+                "module.exports = {",
+                "};"
+            ])
+            : arrayToString([
+                "module.exports = {",
+                compose([
+                    Array.join(",\n"),
+                    Array.map(i => "    " + i)
+                ])(names),
+                "};"
+            ]);
     };
 
 
