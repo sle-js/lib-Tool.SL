@@ -1,10 +1,6 @@
 const Assertion = require("./Libs").Assertion;
-const Array = require("./Libs").Array;
 const AST = require("../src/AST");
-const FileSystem = require("../src/FileSystem");
 const Maybe = require("./Libs").Maybe;
-const String = require("./Libs").String;
-const Translator = require("../src/Translator");
 const Unit = require("./Libs").Unit;
 
 const LexerConfiguration = require("../src/LexerConfiguration");
@@ -21,75 +17,8 @@ const assertParseInput = (input, parser, ast) =>
         .withDefault(Assertion.isTrue(false));
 
 
-const parseFile = content => {
-    const newLine = acc => item => {
-        if (String.startsWith("--")(item)) {
-            const name =
-                String.trim(String.drop(2)(item));
-
-            const result =
-                Object.assign({}, acc, {current: name});
-
-            result[name] = [];
-
-            return result;
-        } else {
-            const result =
-                Object.assign({}, acc);
-
-            result[result["current"]] = Array.append(item)(result[result["current"]]);
-
-            return result;
-        }
-    };
-
-    return Array.foldl({
-        current: "src",
-        name: String.trim(String.drop(2)(content[0])),
-        src: []
-    })(newLine)(Array.drop(1)(content));
-};
-
-
-const processFile = content => assertion => {
-    const ast =
-        Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
-
-    const astAssertion =
-        content.ast
-            ? assertion
-                .isTrue(ast.isOkay())
-                .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim())
-            : assertion
-                .isTrue(ast.isOkay());
-
-    if (content.js) {
-        const output =
-            ast.map(x => x.result).andThen(ast => Translator.translate(ast));
-
-        return astAssertion
-            .isTrue(output.isOkay())
-            .equals(output.content[1].trim())(content.js.join("\n").trim());
-    } else {
-        return astAssertion;
-    }
-};
-
-
-const loadSuite = suiteName => directory =>
-    FileSystem
-        .readdir(directory)
-        .then(fileNames => Unit.Suite(suiteName)(fileNames.map(fileName =>
-            FileSystem
-                .readFile(directory + "/" + fileName)
-                .then(content => parseFile(content.split("\n")))
-                .then(content => Unit.Test(fileName + ": " + content.name)(processFile(content)(Assertion)))
-                .catch(error => Unit.Test(fileName + ": " + error)(Assertion.isTrue(false))))));
-
-
 module.exports = Unit.Suite("Tool.SL")([
     Unit.Suite("Parser")([
-        loadSuite("parseModule")("./test/parser"),
         Unit.Suite("parseDataDeclaration")([
             Unit.Test("data List a = Nil | Cons a List a")(assertParseInput(
                 "data List a = Nil | Cons a List a",
