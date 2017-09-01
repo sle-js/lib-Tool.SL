@@ -77,7 +77,8 @@ module.exports = Unit.Suite("Tool.SL")([
                 Parser.parseImport,
                 AST.QualifiedImport({
                     urn: ["core", "Native.Data.Array", "1.1.0"],
-                    name: "Array"
+                    name: "Array",
+                    public: true
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import length")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import length",

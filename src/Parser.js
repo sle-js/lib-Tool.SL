@@ -24,7 +24,9 @@ function parseImport(lexer) {
             C.or([
                 C.andMap([
                     C.token(Tokens.AS),
-                    parseId])(s => urn => AST.QualifiedImport({urn: urn, name: s[1]})),
+                    parseId,
+                    C.optional(C.token(Tokens.MINUS))
+                ])(s => urn => AST.QualifiedImport({urn: urn, name: s[1], public: s[2].isNothing()})),
                 C.andMap([
                     C.token(Tokens.IMPORT),
                     C.or([

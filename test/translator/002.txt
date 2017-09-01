@@ -12,7 +12,8 @@ use core:Native.Data.Array:1.1.0 as MyArray'
             "Native.Data.Array",
             "1.1.0"
           ],
-          "name": "MyArray'"
+          "name": "MyArray'",
+          "public": true
         }
       ]
     }
