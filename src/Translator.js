@@ -52,7 +52,7 @@ const translate = ast => {
         arrayToString,
         Array.map(i => i.reduce(
             c => "const " + extractImportNameFromURN(c.urn) + " = mrequire(\"" + c.urn.join(":") + "\");")(
-            c => "")(
+            c => "const " + markupName(c.name) + " = mrequire(\"" + c.urn.join(":") + "\");")(
             c => ""))
     ]);
 
@@ -64,7 +64,7 @@ const translate = ast => {
             Array.map(
                 i => i.reduce(
                     c => [extractImportNameFromURN(c.urn)])(
-                    c => [])(
+                    c => [markupName(c.name)])(
                     c => []))
         ]);
 
