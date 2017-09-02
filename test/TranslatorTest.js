@@ -68,15 +68,20 @@ const processFile = content => assertion => {
 };
 
 
-const loadSuite = suiteName => directory =>
+const loadSuite = suiteName => fileSystemName =>
     FileSystem
-        .readdir(directory)
-        .then(fileNames => Unit.Suite(suiteName)(fileNames.map(fileName =>
-            FileSystem
-                .readFile(directory + "/" + fileName)
-                .then(content => parseFile(content.split("\n")))
-                .then(content => Unit.Test(fileName + ": " + content.name)(processFile(content)(Assertion)))
-                .catch(error => Unit.Test(fileName)(Assertion.fail(error))))));
+        .lstat(fileSystemName)
+        .then(lstat =>
+            lstat.isFile()
+                ? FileSystem
+                    .readFile(fileSystemName)
+                    .then(content => parseFile(content.split("\n")))
+                    .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(content)(Assertion)))
+                    .catch(error => Unit.Test(suiteName)(Assertion.fail(error)))
+
+                : FileSystem
+                    .readdir(fileSystemName)
+                    .then(directoryContents => Unit.Suite(suiteName)(directoryContents.map(file => loadSuite(file)(fileSystemName + "/" + file)))));
 
 
 module.exports = Unit.Suite("Translator Suite")([
