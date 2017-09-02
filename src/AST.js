@@ -12,8 +12,8 @@ const Module = imports => declarations =>
 
 // data Import =
 //          UnqualifiedImport { urn :: String }
-//        | QualifiedImport { urn :: String, name :: String }
-//        | QualifiedNameImport { urn :: String, names :: Sequence { name ::  String, qualified :: Maybe String }}
+//        | QualifiedImport { urn :: String, name :: String, public :: Bool }
+//        | QualifiedNameImport { urn :: String, names :: Sequence { name ::  String, qualified :: Maybe String, public :: Bool }}
 function ImportType(content) {
     this.content = content;
 }
@@ -24,12 +24,12 @@ const UnqualifiedImport = unqualifiedImport =>
     new ImportType([0, unqualifiedImport]);
 
 
-// QualifiedImport :: { urn :: String, name :: String } -> Import
+// QualifiedImport :: { urn :: String, name :: String, public :: Bool } -> Import
 const QualifiedImport = qualifiedImport =>
     new ImportType([1, qualifiedImport]);
 
 
-// QualifiedNameImport :: { urn :: String, names :: Sequence { name ::  String, qualified :: Maybe String }} -> Import
+// QualifiedNameImport :: { urn :: String, names :: Sequence { name ::  String, qualified :: Maybe String, public :: Bool }} -> Import
 const QualifiedNameImport = qualifiedNameImport =>
     new ImportType([2, qualifiedNameImport]);
 
