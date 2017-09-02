@@ -39,7 +39,9 @@ const flattenArray =
 // extractImportNameFromURN :: URN -> String
 const extractImportNameFromURN = urn => {
     const name =
-        urn[1].split(".");
+        urn[0] === "file"
+            ? urn[1].split("/")
+            : urn[1].split(".");
 
     return markupName(name[name.length - 1]);
 };

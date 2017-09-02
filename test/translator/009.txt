@@ -1,0 +1,25 @@
+-- Simple import
+use file:../Native/Data/Array
+-- ast
+{
+  "imports": [
+    {
+      "content": [
+        0,
+        {
+          "urn": [
+            "file",
+            "../Native/Data/Array"
+          ]
+        }
+      ]
+    }
+  ],
+  "declarations": []
+}
+-- js
+const Array = mrequire("file:../Native/Data/Array");
+
+module.exports = {
+    Array
+};
