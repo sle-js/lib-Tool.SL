@@ -1,0 +1,53 @@
+-- Multiple qualified name import with a mixture of names public and private with renames
+use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend, prepend as arrayPrepend-)
+-- ast
+{
+  "imports": [
+    {
+      "content": [
+        2,
+        {
+          "urn": [
+            "core",
+            "Native.Data.Array",
+            "1.1.0"
+          ],
+          "names": [
+            {
+              "name": "length",
+              "qualified": "length",
+              "public": true
+            },
+            {
+              "name": "findMap",
+              "qualified": "findMap",
+              "public": false
+            },
+            {
+              "name": "append",
+              "qualified": "arrayAppend",
+              "public": true
+            },
+            {
+              "name": "prepend",
+              "qualified": "arrayPrepend",
+              "public": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "declarations": []
+}
+-- js
+const $$0 = mrequire("core:Native.Data.Array:1.1.0");
+const length = $$0.length;
+const findMap = $$0.findMap;
+const arrayAppend = $$0.append;
+const arrayPrepend = $$0.prepend;
+
+module.exports = {
+    length,
+    arrayAppend
+};
