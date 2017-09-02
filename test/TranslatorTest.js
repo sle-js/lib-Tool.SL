@@ -76,7 +76,7 @@ const loadSuite = suiteName => directory =>
                 .readFile(directory + "/" + fileName)
                 .then(content => parseFile(content.split("\n")))
                 .then(content => Unit.Test(fileName + ": " + content.name)(processFile(content)(Assertion)))
-                .catch(error => Unit.Test(fileName + ": " + error)(Assertion.isTrue(false))))));
+                .catch(error => Unit.Test(fileName)(Assertion.fail(error))))));
 
 
 module.exports = Unit.Suite("Translator Suite")([
