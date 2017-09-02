@@ -15,11 +15,7 @@ use core:Native.Data.Array:1.1.0 import length
           "names": [
             {
               "name": "length",
-              "qualified": {
-                "content": [
-                  0
-                ]
-              },
+              "qualified": "length",
               "public": true
             }
           ]

@@ -85,14 +85,14 @@ module.exports = Unit.Suite("Tool.SL")([
                 Parser.parseImport,
                 AST.QualifiedNameImport({
                     urn: ["core", "Native.Data.Array", "1.1.0"],
-                    names: [{name: "length", qualified: Maybe.Nothing, public: true}]
+                    names: [{name: "length", qualified: "length", public: true}]
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import length as arrayLength")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import length as arrayLength",
                 Parser.parseImport,
                 AST.QualifiedNameImport({
                     urn: ["core", "Native.Data.Array", "1.1.0"],
-                    names: [{name: "length", qualified: Maybe.Just("arrayLength"), public: true}]
+                    names: [{name: "length", qualified: "arrayLength", public: true}]
                 }))),
             Unit.Test("use core:Native.Data.Array:1.1.0 import (length, substring as subs)")(assertParseInput(
                 "use core:Native.Data.Array:1.1.0 import (length, substring as subs)",
@@ -100,8 +100,8 @@ module.exports = Unit.Suite("Tool.SL")([
                 AST.QualifiedNameImport({
                     urn: ["core", "Native.Data.Array", "1.1.0"],
                     names: [
-                        {name: "length", qualified: Maybe.Nothing, public: true},
-                        {name: "substring", qualified: Maybe.Just("subs"), public: true}
+                        {name: "length", qualified: "length", public: true},
+                        {name: "substring", qualified: "subs", public: true}
                     ]
                 })))
         ]),

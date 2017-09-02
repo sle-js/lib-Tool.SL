@@ -54,7 +54,7 @@ const translate = ast => {
             c => "const " + extractImportNameFromURN(c.urn) + " = mrequire(\"" + c.urn.join(":") + "\");")(
             c => "const " + markupName(c.name) + " = mrequire(\"" + c.urn.join(":") + "\");")(
             c => Array.length(c.names) === 1
-                ? "const " + markupName(c.names[0].qualified.withDefault(c.names[0].name)) + " = mrequire(\"" + c.urn.join(":") + "\")." + c.names[0].name + ";"
+                ? "const " + markupName(c.names[0].qualified) + " = mrequire(\"" + c.urn.join(":") + "\")." + c.names[0].name + ";"
                 : ""))
     ]);
 
@@ -67,7 +67,7 @@ const translate = ast => {
                     i => i.reduce(
                         c => [extractImportNameFromURN(c.urn)])(
                         c => c.public ? [markupName(c.name)] : [])(
-                        c => Array.map(n => markupName(n.qualified.withDefault(n.name)))(Array.filter(n => n.public)(c.names))))
+                        c => Array.map(n => markupName(n.qualified))(Array.filter(n => n.public)(c.names))))
             ])(importAST);
 
         return (Array.length(names) === 0)
