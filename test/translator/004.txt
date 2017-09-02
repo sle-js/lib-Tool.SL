@@ -1,0 +1,37 @@
+-- Single qualified name import with that name exported
+use core:Native.Data.Array:1.1.0 import length
+-- ast
+{
+  "imports": [
+    {
+      "content": [
+        2,
+        {
+          "urn": [
+            "core",
+            "Native.Data.Array",
+            "1.1.0"
+          ],
+          "names": [
+            {
+              "name": "length",
+              "qualified": {
+                "content": [
+                  0
+                ]
+              },
+              "public": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "declarations": []
+}
+-- js
+const length = mrequire("core:Native.Data.Array:1.1.0").length;
+
+module.exports = {
+    length
+};
