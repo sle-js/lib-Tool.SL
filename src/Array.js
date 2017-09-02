@@ -12,4 +12,14 @@ Array.foldr = z => f => a => {
 };
 
 
+// Same as map but the function is also applied to the index of each element (starting at zero).
+//= indexedMap :: (Int -> a -> b) -> Array a -> Array b
+Array.indexedMap = f => a => {
+    const adaptor = (value, index) =>
+        f(index)(value);
+
+    return a.map(adaptor);
+};
+
+
 module.exports = Array;
