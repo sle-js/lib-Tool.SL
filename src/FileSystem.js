@@ -27,6 +27,10 @@ const stat = fileName =>
     denodeify(cb => FS.stat(fileName, cb));
 
 
+const lstat = fileName =>
+    denodeify(cb => FS.lstat(fileName, cb));
+
+
 const readFile = fileName =>
     denodeify(cb => FS.readFile(fileName, {encoding: "utf8"}, cb));
 
@@ -54,6 +58,7 @@ const writeFile = fileName => content =>
 module.exports = {
     close,
     futimes,
+    lstat,
     open,
     readdir,
     readFile,
