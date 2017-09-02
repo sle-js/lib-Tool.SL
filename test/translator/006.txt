@@ -1,0 +1,32 @@
+-- Single qualified name import with that name renamed and private
+use core:Native.Data.Array:1.1.0 import length as arrayLength-
+-- ast
+{
+  "imports": [
+    {
+      "content": [
+        2,
+        {
+          "urn": [
+            "core",
+            "Native.Data.Array",
+            "1.1.0"
+          ],
+          "names": [
+            {
+              "name": "length",
+              "qualified": "arrayLength",
+              "public": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "declarations": []
+}
+-- js
+const arrayLength = mrequire("core:Native.Data.Array:1.1.0").length;
+
+module.exports = {
+};

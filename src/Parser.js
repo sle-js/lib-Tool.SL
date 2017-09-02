@@ -36,8 +36,9 @@ function parseImport(lexer) {
                                 C.andMap([
                                     C.token(Tokens.AS),
                                     parseId
-                                ])(a => a[1]))
-                        ])(a => urn => AST.QualifiedNameImport({urn: urn, names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: true}]})),
+                                ])(a => a[1])),
+                            C.optional(C.token(Tokens.MINUS))
+                        ])(a => urn => AST.QualifiedNameImport({urn: urn, names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]})),
                         C.andMap([
                             C.token(Tokens.LPAREN),
                             C.chainl1(
