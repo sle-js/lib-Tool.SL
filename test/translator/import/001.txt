@@ -1,0 +1,10 @@
+-- Empty import
+pi =
+    3
+-- js
+const pi =
+    3;
+
+module.exports = {
+    pi
+};

@@ -61,7 +61,7 @@ const processFile = content => assertion => {
 
         return astAssertion
             .isTrue(output.isOkay())
-            .equals(output.content[1].trim())(content.js.join("\n").trim());
+            .equals(output.content[1])(content.js.join("\n").trim());
     } else {
         return astAssertion;
     }

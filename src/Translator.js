@@ -117,17 +117,21 @@ const translate = ast => {
     };
 
 
+    const jsI =
+        flattenArray(imports(ast.imports));
+
     const jsD =
         flattenArray(jsDeclarations());
 
 
-    // TODO If there are no imports then the file opens with 2 blank lines.  Fix this without needing to trim the entire translated source code.
     // TODO Return an error in the event that there are duplicates within the exports list.
     return compose([
         Result.Okay,
         arrayToString
     ])(Array.concat(
-        [imports(ast.imports), ""])(
+        Array.length(jsI) === 0
+            ? []
+            : [imports(ast.imports), ""])(
         Array.concat(
             Array.length(jsD) === 0
                 ? []
