@@ -49,6 +49,7 @@ ImportType.prototype.reduce = function(fUnqualifiedImport) {
 //        TypeDeclaration { name :: String, parameters :: List String, type :: Type }
 //      | NameSignatureDeclaration { name :: String, type :: Type }
 //      | DataDeclaration { name :: String, parameters :: List String, constraints :: Sequence TypeConstraint, constructors ::  Sequence { name :: String, typeReferences :: Sequence TypeReference }, Sequence Declaration }
+//      | NameDeclaration { name :: String, parameters :: List Maybe String, expression :: Expression }
 function DeclarationType(content) {
     this.content = content;
 }
@@ -64,6 +65,10 @@ const NameSignatureDeclaration = name => type =>
 
 const DataDeclaration = name => parameters => constraints => constructors => declarations =>
     new DeclarationType([2, {name, parameters, constraints, constructors, declarations}]);
+
+
+const NameDeclaration = name => parameters => expression =>
+    new DeclarationType([3, {name, parameters, expression}]);
 
 
 // data TypeReferences =
@@ -153,6 +158,24 @@ const TypeConstraint = name => typeReferences => ({name, typeReferences});
 const Type = constraints => typeReferences => ({constraints, typeReferences});
 
 
+// data Expression =
+//        ConstantInt Int
+function ExpressionType(content) {
+    this.content = content;
+}
+
+
+const ConstantInt = v =>
+    new ExpressionType([0, v]);
+
+
+ExpressionType.prototype.reduce = function (fConstantInt) {
+    switch(this.content[0]) {
+        case 0: return fConstantInt(this.content[1]);
+    }
+};
+
+
 module.exports = {
     Module,
     UnqualifiedImport,
@@ -162,6 +185,7 @@ module.exports = {
     TypeDeclaration,
     NameSignatureDeclaration,
     DataDeclaration,
+    NameDeclaration,
 
     ComposedType,
     ReferencedType,
@@ -179,5 +203,7 @@ module.exports = {
 
     TypeConstraint,
 
-    Type
+    Type,
+
+    ConstantInt
 };

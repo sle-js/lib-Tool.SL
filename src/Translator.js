@@ -47,6 +47,20 @@ const extractImportNameFromURN = urn => {
 };
 
 
+const publicNames = moduleAST =>
+    Array.concat(
+        compose([
+            flattenArray,
+            Array.map(
+                i => i.reduce(
+                    c => [extractImportNameFromURN(c.urn)])(
+                    c => c.public ? [markupName(c.name)] : [])(
+                    c => Array.map(n => markupName(n.qualified))(Array.filter(n => n.public)(c.names))))
+        ])(moduleAST.imports))(
+        moduleAST.declarations.filter(x => x.content[0] === 3).map(x => x.content[1].name)
+    );
+
+
 // translate :: AST.Module -> Result ParseError String
 const translate = ast => {
     // imports :: AST.Import -> String
@@ -65,16 +79,9 @@ const translate = ast => {
     ]);
 
     // exports :: AST.Import -> String
-    const exports = importAST => {
+    const exports = ast => {
         const names =
-            compose([
-                flattenArray,
-                Array.map(
-                    i => i.reduce(
-                        c => [extractImportNameFromURN(c.urn)])(
-                        c => c.public ? [markupName(c.name)] : [])(
-                        c => Array.map(n => markupName(n.qualified))(Array.filter(n => n.public)(c.names))))
-            ])(importAST);
+            publicNames(ast);
 
         return (Array.length(names) === 0)
             ? arrayToString([
@@ -91,17 +98,42 @@ const translate = ast => {
             ]);
     };
 
+    const jsExpression = (expression) =>
+        expression.reduce(
+            i => i.toString()
+        );
+
+    const jsDeclarations = () => {
+        const declarations =
+            Array.filter(x => x.content[0] === 3)(ast.declarations);
+
+        return declarations.map(declaration => {
+            if (Array.length(declaration.content[1].parameters) === 0) {
+                return Array.concat(["const " + declaration.content[1].name + " ="])("    " + jsExpression(declaration.content[1].expression) + ";");
+            } else {
+                return [];
+            }
+        });
+    };
+
+
+    const jsD =
+        flattenArray(jsDeclarations());
+
 
     // TODO If there are no imports then the file opens with 2 blank lines.  Fix this without needing to trim the entire translated source code.
     // TODO Return an error in the event that there are duplicates within the exports list.
     return compose([
         Result.Okay,
         arrayToString
-    ])([
-        imports(ast.imports),
-        "",
-        exports(ast.imports)
-    ]);
+    ])(Array.concat(
+        [imports(ast.imports), ""])(
+        Array.concat(
+            Array.length(jsD) === 0
+                ? []
+                : Array.append("")(jsD))(
+            exports(ast)
+        )));
 };
 
 

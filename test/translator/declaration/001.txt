@@ -1,0 +1,31 @@
+-- Constant integer
+pi =
+    3
+-- ast
+{
+  "imports": [],
+  "declarations": [
+    {
+      "content": [
+        3,
+        {
+          "name": "pi",
+          "parameters": [],
+          "expression": {
+            "content": [
+              0,
+              3
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+-- js
+const pi =
+    3;
+
+module.exports = {
+    pi
+};

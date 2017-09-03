@@ -1,5 +1,6 @@
 const Array = require("./Libs").Array;
 const AST = require("./AST");
+const Maybe = require("./Libs").Maybe;
 const C = require("./ParseCombinators");
 const Tokens = require("./Tokens");
 
@@ -38,7 +39,10 @@ function parseImport(lexer) {
                                     parseId
                                 ])(a => a[1])),
                             C.optional(C.token(Tokens.MINUS))
-                        ])(a => urn => AST.QualifiedNameImport({urn: urn, names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]})),
+                        ])(a => urn => AST.QualifiedNameImport({
+                            urn: urn,
+                            names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]
+                        })),
                         C.andMap([
                             C.token(Tokens.LPAREN),
                             C.chainl1(
@@ -50,7 +54,11 @@ function parseImport(lexer) {
                                             parseId
                                         ])(a => a[1])),
                                     C.optional(C.token(Tokens.MINUS))
-                                ])(a => ({name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()})))(C.token(Tokens.COMMA)),
+                                ])(a => ({
+                                    name: a[0],
+                                    qualified: a[1].withDefault(a[0]),
+                                    public: a[2].isNothing()
+                                })))(C.token(Tokens.COMMA)),
                             C.token(Tokens.RPAREN)
                         ])(a => urn => AST.QualifiedNameImport({urn: urn, names: a[1]}))
                     ])
@@ -75,7 +83,8 @@ function parseDeclaration(lexer) {
     return C.or([
         parseTypeDeclaration,
         parseDataDeclaration,
-        parseNameSignatureDeclaration
+        parseNameSignatureDeclaration,
+        parseNameDeclaration
     ])(lexer);
 }
 
@@ -89,11 +98,24 @@ function parseNameSignatureDeclaration(lexer) {
 }
 
 
+function parseNameDeclaration(lexer) {
+    return C.andMap([
+        parseName,
+        C.many(C.or([
+            C.tokenMap(Tokens.lowerID)(t => Maybe.Just(t.token().value)),
+            C.tokenMap(Tokens.LPAREN_RPAREN)(_ => Maybe.Nothing)
+        ])),
+        C.token(Tokens.EQUAL),
+        parseExpression
+    ])(a => AST.NameDeclaration(a[0])(a[1])(a[3]))(lexer);
+}
+
+
 function parseName(lexer) {
     return C.or([
         tokenValue(Tokens.lowerID),
         C.andMap([
-            C.token(Tokens.LPAREN),
+            C.tokenMap(Tokens.LPAREN)(t => Maybe.Just),
             parseOperatorName,
             C.token(Tokens.RPAREN)
         ])(a => "(" + a[1] + ")")
@@ -116,6 +138,86 @@ function parseOperatorName(lexer) {
         tokenValue(Tokens.BAR_BAR),
         tokenValue(Tokens.AMPERSAND_AMPERSAND)
     ])(lexer);
+}
+
+
+function parseExpression(lexer) {
+    return parseLetExpression(lexer);
+}
+
+
+function parseLetExpression(lexer) {
+    return parseWhereExpression(lexer);
+}
+
+
+function parseWhereExpression(lexer) {
+    return parseCaseExpression(lexer);
+}
+
+
+function parseCaseExpression(lexer) {
+    return parsePipeExpression(lexer);
+}
+
+
+function parsePipeExpression(lexer) {
+    return parseCompositionExpression(lexer);
+}
+
+
+function parseCompositionExpression(lexer) {
+    return parseLambdaExpression(lexer);
+}
+
+
+function parseLambdaExpression(lexer) {
+    return parseObjectCompositionExpression(lexer);
+}
+
+
+function parseObjectCompositionExpression(lexer) {
+    return parseOrExpression(lexer);
+}
+
+
+function parseOrExpression(lexer) {
+    return parseAndExpression(lexer);
+}
+
+
+function parseAndExpression(lexer) {
+    return parseRelationalExpression(lexer);
+}
+
+
+function parseRelationalExpression(lexer) {
+    return parseAdditiveExpression(lexer);
+}
+
+
+function parseAdditiveExpression(lexer) {
+    return parseMultiplicativeExpression(lexer);
+}
+
+
+function parseMultiplicativeExpression(lexer) {
+    return parseApplicationExpression(lexer);
+}
+
+
+function parseApplicationExpression(lexer) {
+    return parseReferenceExpression(lexer);
+}
+
+
+function parseReferenceExpression(lexer) {
+    return parseSimpleExpression(lexer);
+}
+
+
+function parseSimpleExpression(lexer) {
+    return C.tokenMap(Tokens.constantInteger)(t => AST.ConstantInt(t.token().value))(lexer);
 }
 
 
