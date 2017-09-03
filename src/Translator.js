@@ -68,13 +68,13 @@ const translate = ast => {
         arrayToString,
         flattenArray,
         Array.indexedMap(index => i => i.reduce(
-            c => ["const " + extractImportNameFromURN(c.urn) + " = mrequire(\"" + c.urn.join(":") + "\");"])(
-            c => ["const " + markupName(c.name) + " = mrequire(\"" + c.urn.join(":") + "\");"])(
+            c => [`const ${extractImportNameFromURN(c.urn)} = mrequire("${c.urn.join(":")}");`])(
+            c => [`const ${markupName(c.name)} = mrequire("${c.urn.join(":")}");`])(
             c => Array.length(c.names) === 1
-                ? ["const " + markupName(c.names[0].qualified) + " = mrequire(\"" + c.urn.join(":") + "\")." + c.names[0].name + ";"]
+                ? [`const ${markupName(c.names[0].qualified)} = mrequire("${c.urn.join(":")}").${c.names[0].name};`]
                 : Array.concat(
-                    ["const $$" + index + " = mrequire(\"" + c.urn.join(":") + "\");"])(
-                    c.names.map(n => "const " + n.qualified + " = $$" + index + "." + n.name + ";")
+                    [`const $$${index} = mrequire("${c.urn.join(":")}");`])(
+                    c.names.map(n => `const ${n.qualified} = $$${index}.${n.name};`)
                 )))
     ]);
 
@@ -109,7 +109,7 @@ const translate = ast => {
 
         return declarations.map(declaration => {
             if (Array.length(declaration.content[1].parameters) === 0) {
-                return Array.concat(["const " + declaration.content[1].name + " ="])("    " + jsExpression(declaration.content[1].expression) + ";");
+                return Array.concat([`const ${declaration.content[1].name} =`])(`    ${jsExpression(declaration.content[1].expression)};`);
             } else {
                 return [];
             }
