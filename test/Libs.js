@@ -7,6 +7,7 @@ module.exports = Object.assign({}, Libs, {
     Lexer: require("../src/Lexer"),
     LexerConfiguration: require("../src/LexerConfiguration"),
     Parser: require("../src/Parser"),
+    Path: require("path"),
     Regex: require("../src/Regex"),
     Tokens: require("../src/Tokens"),
     Translator: require("../src/Translator"),

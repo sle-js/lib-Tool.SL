@@ -4,6 +4,7 @@ module.exports = $import(
     const Array = $imports.Array;
     const Assertion = $imports.Assertion;
     const FileSystem = $imports.FileSystem;
+    const Path = $imports.Path;
     const String = $imports.String;
     const Unit = $imports.Unit;
 
@@ -87,6 +88,10 @@ module.exports = $import(
                         .then(directoryContents => Unit.Suite(suiteName)(directoryContents.map(file => loadSuite(file)(fileSystemName + "/" + file)))));
 
 
+    const dirname = name =>
+        Path.resolve(__dirname, name);
+
+
     return Unit.Suite("Translator Suite")([
         Unit.Suite("markup name")([
             Unit.Test("hello")(Assertion
@@ -98,6 +103,6 @@ module.exports = $import(
             Unit.Test("==")(Assertion
                 .equals("$61$61")(Translator.markupName("==")))
         ]),
-        loadSuite("parseModule")("./test/translator")
+        loadSuite("parseModule")(dirname("./translator"))
     ]);
 });
