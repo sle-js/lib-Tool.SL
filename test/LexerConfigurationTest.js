@@ -2,8 +2,8 @@ const Array = require("./Libs").Array;
 const Assertion = require("./Libs").Assertion;
 const Unit = require("./Libs").Unit;
 
-const Tokens = require("../src/Tokens");
-const LexerConfiguration = require("../src/LexerConfiguration");
+const Tokens = require("./Libs").Tokens;
+const LexerConfiguration = require("./Libs").LexerConfiguration;
 
 
 const listEquals = l1 => l2 =>
