@@ -3,10 +3,10 @@ const Maybe = require("./Libs").Maybe;
 const Unit = require("./Libs").Unit;
 
 const Int = require("./Libs").Int;
-const Regex = require("../src/Regex");
+const Regex = require("./Libs").Regex;
 
 
-const Lexer = require("../src/Lexer");
+const Lexer = require("./Libs").Lexer;
 
 
 const lexerDefinition = Lexer.setup({
