@@ -1,7 +1,7 @@
 const Array = require("./Libs").Array;
 const Errors = require("./Errors");
 const Maybe = require("./Libs").Maybe;
-const Result = require("./Result");
+const Result = require("./Libs").Result;
 
 
 const okayResult = lexer => result =>

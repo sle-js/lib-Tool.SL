@@ -1,6 +1,6 @@
 const Array = require("./Libs").Array;
 const Char = require("./Char");
-const Result = require("./Result");
+const Result = require("./Libs").Result;
 const String = require("./Libs").String;
 
 
