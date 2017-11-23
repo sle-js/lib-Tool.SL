@@ -1,7 +1,7 @@
 const Unit = require("./test/Libs").Unit;
 
 
-Unit.Suite("All")([
+Unit.Suite("Tool.SL")([
     require("./test/FloatTest"),
     require("./test/IntTest"),
     require("./test/LexerTest"),
@@ -9,6 +9,6 @@ Unit.Suite("All")([
     require("./test/ParserTest"),
     require("./test/TranslatorTest")
 ])
-    .then(Unit.showErrors)
+    .then(Unit.showDetail)
     .then(Unit.showSummary)
     .then(Unit.setExitCodeOnFailures);
