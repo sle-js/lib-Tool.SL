@@ -1,10 +1,9 @@
 const Assertion = require("./Libs").Assertion;
-const AST = require("../src/AST");
-const Maybe = require("./Libs").Maybe;
+const AST = require("./Libs").AST;
 const Unit = require("./Libs").Unit;
 
-const LexerConfiguration = require("../src/LexerConfiguration");
-const Parser = require("../src/Parser");
+const LexerConfiguration = require("./Libs").LexerConfiguration;
+const Parser = require("./Libs").Parser;
 
 
 const asString = o =>
