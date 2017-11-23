@@ -9,10 +9,9 @@ module.exports = $import(
     const LexerConfiguration = $imports.LexerConfiguration;
 
 
-    const listEquals = l1 => l2 =>
-        (l1.length === 0 && l2.length === 0)
-            ? true
-            : (l1.length === 0 || l2.length === 0)
+    const listEquals = l1 => l2 => (l1.length === 0 && l2.length === 0)
+        ? true
+        : (l1.length === 0 || l2.length === 0)
             ? false
             : (l1[0] === l2[0] && listEquals(Array.drop(1)(l1))(Array.drop(1)(l2)));
 
