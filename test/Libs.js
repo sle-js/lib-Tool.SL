@@ -9,5 +9,6 @@ module.exports = Object.assign({}, Libs, {
     Parser: require("../src/Parser"),
     Regex: require("../src/Regex"),
     Tokens: require("../src/Tokens"),
+    Translator: require("../src/Translator"),
     Unit: mrequire("core:Test.Unit:1.0.0")
 });
