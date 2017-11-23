@@ -1,6 +1,6 @@
 const Float = require("./Libs").Float;
 const Int = require("./Libs").Int;
-const Lexer = require("./Lexer");
+const Lexer = require("./Libs").Lexer;
 const Maybe = require("./Libs").Maybe;
 const Regex = require("./Regex");
 const Tokens = require("./Tokens");

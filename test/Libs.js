@@ -2,7 +2,6 @@ module.exports = $importAll([
     "../src/Libs",
     "core:Test.Unit.Assertion:2.0.1",
     "../src/AST",
-    "../src/Lexer",
     "../src/LexerConfiguration",
     "../src/Parser",
     "path",
@@ -13,12 +12,11 @@ module.exports = $importAll([
 ]).then($imports => Object.assign({}, $imports[0], {
     Assertion: $imports[1],
     AST: $imports[2],
-    Lexer: $imports[3],
-    LexerConfiguration: $imports[4],
-    Parser: $imports[5],
-    Path: $imports[6],
-    Regex: $imports[7],
-    Tokens: $imports[8],
-    Translator: $imports[9],
-    Unit: $imports[10]
+    LexerConfiguration: $imports[3],
+    Parser: $imports[4],
+    Path: $imports[5],
+    Regex: $imports[6],
+    Tokens: $imports[7],
+    Translator: $imports[8],
+    Unit: $imports[9]
 }));
