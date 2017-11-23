@@ -1,4 +1,4 @@
-const Float = require("./Float");
+const Float = require("./Libs").Float;
 const Int = require("./Int");
 const Lexer = require("./Lexer");
 const Maybe = require("./Libs").Maybe;

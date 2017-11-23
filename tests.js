@@ -11,7 +11,7 @@ module.exports = $import(
         $import("./test/ParserTest"),
         $import("./test/TranslatorTest")
     ])
-        .then(Unit.showDetail)
+        .then(Unit.showErrors)
         .then(Unit.showSummary)
         .then(Unit.setExitCodeOnFailures);
 }).catch(err => {

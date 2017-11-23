@@ -1,7 +1,7 @@
 const Assertion = require("./Libs").Assertion;
 const Unit = require("./Libs").Unit;
 
-const Float = require("../src/Float");
+const Float = require("./Libs").Float;
 
 
 module.exports = Unit.Suite("Native.Data.Float")([
