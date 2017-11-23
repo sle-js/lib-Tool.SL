@@ -1,5 +1,5 @@
 module.exports = {
-    Array: require("./Array"),
+    Array: mrequire("core:Native.Data.Array:1.2.0"),
     FileSystem: mrequire("core:Native.System.IO.FileSystem:1.1.0"),
     Float: require("./Float"),
     Int: mrequire("core:Native.Data.Int:1.0.0"),
