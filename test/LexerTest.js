@@ -2,7 +2,7 @@ const Assertion = require("./Libs").Assertion;
 const Maybe = require("./Libs").Maybe;
 const Unit = require("./Libs").Unit;
 
-const Int = require("../src/Int");
+const Int = require("./Libs").Int;
 const Regex = require("../src/Regex");
 
 
