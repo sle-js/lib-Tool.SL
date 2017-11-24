@@ -176,7 +176,7 @@ ExpressionType.prototype.reduce = function (fConstantInt) {
 };
 
 
-module.exports = {
+module.exports = Promise.resolve({
     Module,
     UnqualifiedImport,
     QualifiedImport,
@@ -206,4 +206,4 @@ module.exports = {
     Type,
 
     ConstantInt
-};
+});
