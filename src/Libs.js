@@ -8,7 +8,6 @@ module.exports = $importAll([
     "core:Native.Data.Result:1.0.0",
     "core:Data.Collection.InfiniteStream:1.0.0",
     "core:Native.Data.String:1.0.0"
-
 ]).then($imports => ({
     Array: $imports[0],
     FileSystem: $imports[1],
