@@ -124,7 +124,7 @@ names[USE] = "use";
 names[WHERE] = "where";
 
 
-module.exports = {
+module.exports = Promise.resolve({
     names,
 
     err,
@@ -181,4 +181,4 @@ module.exports = {
     TYPE,
     USE,
     WHERE
-};
+});
