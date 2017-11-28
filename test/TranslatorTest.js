@@ -74,7 +74,15 @@ module.exports = $import(
                 return astAssertion;
             }
         } else if (astKey.isJust()) {
-            return assertion;
+            const parseName =
+                astKey.withDefault("ast parseModule").split(" ")[1];
+
+            const ast =
+                Parser[parseName](LexerConfiguration.fromString(content.src.join("\n")));
+
+            return assertion
+                        .isTrue(ast.isOkay())
+                        .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
         } else {
             return assertion;
         }
@@ -112,6 +120,7 @@ module.exports = $import(
             Unit.Test("==")(Assertion
                 .equals("$61$61")(Translator.markupName("==")))
         ]),
-        loadSuite("parseModule")(dirname("./translator"))
+        loadSuite("parseModule")(dirname("./translator")),
+        loadSuite("parse")(dirname("./parser"))
     ]);
 });
