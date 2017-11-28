@@ -7,7 +7,7 @@ module.exports = $importAll([
     const Array = $imports[0].Array;
     const AST = $imports[1];
     const Maybe = $imports[0].Maybe;
-    const C = $imports[2];
+    const OC = $imports[2];
     const Tokens = $imports[3];
 
 
@@ -15,57 +15,57 @@ module.exports = $importAll([
     // type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
 
     const parseModule = lexer =>
-        C.andMap([
-            C.many(parseImport),
-            C.many(parseDeclaration),
-            C.token(Tokens.eof)
+        OC.andMap([
+            OC.many(parseImport),
+            OC.many(parseDeclaration),
+            OC.token(Tokens.eof)
         ])(a => AST.Module(a[0])(a[1]))(lexer);
 
 
     // parseId :: Parser AST.Import
     function parseImport(lexer) {
-        return C.andMap([
-            C.token(Tokens.USE),
+        return OC.andMap([
+            OC.token(Tokens.USE),
             tokenValue(Tokens.importReference),
-            C.optional(
-                C.or([
-                    C.andMap([
-                        C.token(Tokens.AS),
+            OC.optional(
+                OC.or([
+                    OC.andMap([
+                        OC.token(Tokens.AS),
                         parseId,
-                        C.optional(C.token(Tokens.MINUS))
+                        OC.optional(OC.token(Tokens.MINUS))
                     ])(s => urn => AST.QualifiedImport({urn: urn, name: s[1], public: s[2].isNothing()})),
-                    C.andMap([
-                        C.token(Tokens.IMPORT),
-                        C.or([
-                            C.andMap([
+                    OC.andMap([
+                        OC.token(Tokens.IMPORT),
+                        OC.or([
+                            OC.andMap([
                                 parseId,
-                                C.optional(
-                                    C.andMap([
-                                        C.token(Tokens.AS),
+                                OC.optional(
+                                    OC.andMap([
+                                        OC.token(Tokens.AS),
                                         parseId
                                     ])(a => a[1])),
-                                C.optional(C.token(Tokens.MINUS))
+                                OC.optional(OC.token(Tokens.MINUS))
                             ])(a => urn => AST.QualifiedNameImport({
                                 urn: urn,
                                 names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]
                             })),
-                            C.andMap([
-                                C.token(Tokens.LPAREN),
-                                C.chainl1(
-                                    C.andMap([
+                            OC.andMap([
+                                OC.token(Tokens.LPAREN),
+                                OC.chainl1(
+                                    OC.andMap([
                                         parseId,
-                                        C.optional(
-                                            C.andMap([
-                                                C.token(Tokens.AS),
+                                        OC.optional(
+                                            OC.andMap([
+                                                OC.token(Tokens.AS),
                                                 parseId
                                             ])(a => a[1])),
-                                        C.optional(C.token(Tokens.MINUS))
+                                        OC.optional(OC.token(Tokens.MINUS))
                                     ])(a => ({
                                         name: a[0],
                                         qualified: a[1].withDefault(a[0]),
                                         public: a[2].isNothing()
-                                    })))(C.token(Tokens.COMMA)),
-                                C.token(Tokens.RPAREN)
+                                    })))(OC.token(Tokens.COMMA)),
+                                OC.token(Tokens.RPAREN)
                             ])(a => urn => AST.QualifiedNameImport({urn: urn, names: a[1]}))
                         ])
                     ])(a => a[1])
@@ -78,7 +78,7 @@ module.exports = $importAll([
 
     // parseId :: Parser String
     function parseId(lexer) {
-        return C.or([
+        return OC.or([
             tokenValue(Tokens.upperID),
             tokenValue(Tokens.lowerID)
         ])(lexer);
@@ -86,7 +86,7 @@ module.exports = $importAll([
 
 
     function parseDeclaration(lexer) {
-        return C.or([
+        return OC.or([
             parseTypeDeclaration,
             parseDataDeclaration,
             parseNameSignatureDeclaration,
@@ -96,41 +96,41 @@ module.exports = $importAll([
 
 
     function parseNameSignatureDeclaration(lexer) {
-        return C.andMap([
+        return OC.andMap([
             parseName,
-            C.token(Tokens.COLON_COLON),
+            OC.token(Tokens.COLON_COLON),
             parseType
         ])(a => AST.NameSignatureDeclaration(a[0])(a[2]))(lexer);
     }
 
 
     function parseNameDeclaration(lexer) {
-        return C.andMap([
+        return OC.andMap([
             parseName,
-            C.many(C.or([
-                C.tokenMap(Tokens.lowerID)(t => Maybe.Just(t.token().value)),
-                C.tokenMap(Tokens.LPAREN_RPAREN)(_ => Maybe.Nothing)
+            OC.many(OC.or([
+                OC.tokenMap(Tokens.lowerID)(t => Maybe.Just(t.token().value)),
+                OC.tokenMap(Tokens.LPAREN_RPAREN)(_ => Maybe.Nothing)
             ])),
-            C.token(Tokens.EQUAL),
+            OC.token(Tokens.EQUAL),
             parseExpression
         ])(a => AST.NameDeclaration(a[0])(a[1])(a[3]))(lexer);
     }
 
 
     function parseName(lexer) {
-        return C.or([
+        return OC.or([
             tokenValue(Tokens.lowerID),
-            C.andMap([
-                C.tokenMap(Tokens.LPAREN)(t => Maybe.Just),
+            OC.andMap([
+                OC.tokenMap(Tokens.LPAREN)(t => Maybe.Just),
                 parseOperatorName,
-                C.token(Tokens.RPAREN)
+                OC.token(Tokens.RPAREN)
             ])(a => "(" + a[1] + ")")
         ])(lexer);
     }
 
 
     function parseOperatorName(lexer) {
-        return C.or([
+        return OC.or([
             tokenValue(Tokens.PLUS),
             tokenValue(Tokens.MINUS),
             tokenValue(Tokens.STAR),
@@ -223,26 +223,26 @@ module.exports = $importAll([
 
 
     function parseSimpleExpression(lexer) {
-        return C.tokenMap(Tokens.constantInteger)(t => AST.ConstantInt(t.token().value))(lexer);
+        return OC.tokenMap(Tokens.constantInteger)(t => AST.ConstantInt(t.token().value))(lexer);
     }
 
 
     function parseTypeDeclaration(lexer) {
-        return C.andMap([
-            C.token(Tokens.TYPE),
+        return OC.andMap([
+            OC.token(Tokens.TYPE),
             tokenValue(Tokens.upperID),
-            C.many(tokenValue(Tokens.lowerID)),
-            C.token(Tokens.EQUAL),
+            OC.many(tokenValue(Tokens.lowerID)),
+            OC.token(Tokens.EQUAL),
             parseType
         ])(a => AST.TypeDeclaration(a[1])(a[2])(a[4]))(lexer);
     }
 
 
     function parseType(lexer) {
-        return C.andMap([
-            C.optional(C.andMap([
+        return OC.andMap([
+            OC.optional(OC.andMap([
                 parseTypeConstraints,
-                C.token(Tokens.EQUAL_GREATER)
+                OC.token(Tokens.EQUAL_GREATER)
             ])(a => a[0])),
             parseTypeReferences
         ])(a => AST.Type(a[0].withDefault([]))(a[1]))(lexer);
@@ -250,7 +250,7 @@ module.exports = $importAll([
 
 
     function parseTypeReferences(lexer) {
-        return C.chainl1Map(parseTypeReference)(C.token(Tokens.AMPERSAND))(a =>
+        return OC.chainl1Map(parseTypeReference)(OC.token(Tokens.AMPERSAND))(a =>
             Array.length(a) === 1
                 ? AST.ReferencedType(a[0])
                 : AST.ComposedType(a))(lexer);
@@ -271,19 +271,19 @@ module.exports = $importAll([
             return Array.foldr(lastTypeReference)(AST.Function)(butLastTypeReferences);
         };
 
-        return C.chainl1Map(parseTypeReference1)(C.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
+        return OC.chainl1Map(parseTypeReference1)(OC.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
     }
 
 
     const parseTypeReference1 =
-        C.chainl1Map(parseTypeReference2)(C.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : AST.NTuple(a));
+        OC.chainl1Map(parseTypeReference2)(OC.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : AST.NTuple(a));
 
 
     function parseTypeReference2(lexer) {
-        return C.or([
-            C.andMap([
+        return OC.or([
+            OC.andMap([
                 tokenValue(Tokens.upperID),
-                C.many1(parseTypeReference3)
+                OC.many1(parseTypeReference3)
             ])(a => AST.DataReference(a[0])(a[1])),
             parseTypeReference3
         ])(lexer);
@@ -291,8 +291,8 @@ module.exports = $importAll([
 
 
     function parseTypeReference3(lexer) {
-        return C.or([
-            C.andMap([
+        return OC.or([
+            OC.andMap([
                 tokenValue(Tokens.upperID)
             ])(a => {
                 if (a[0] === "Int") {
@@ -309,61 +309,61 @@ module.exports = $importAll([
                     return AST.DataReference(a[0])([]);
                 }
             }),
-            C.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
-            C.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit),
-            C.andMap([
-                C.token(Tokens.LPAREN),
+            OC.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
+            OC.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit),
+            OC.andMap([
+                OC.token(Tokens.LPAREN),
                 parseTypeReference,
-                C.token(Tokens.RPAREN)
+                OC.token(Tokens.RPAREN)
             ])(a => a[1])
         ])(lexer);
     }
 
 
     function parseTypeConstraint(lexer) {
-        return C.andMap([
-            C.or([
+        return OC.andMap([
+            OC.or([
                 tokenValue(Tokens.lowerID),
-                C.conditionMap(t => t.token().id === Tokens.upperID && t.token().value === "Self")(_ => "Self")
+                OC.conditionMap(t => t.token().id === Tokens.upperID && t.token().value === "Self")(_ => "Self")
             ]),
-            C.token(Tokens.COLON_COLON),
+            OC.token(Tokens.COLON_COLON),
             parseTypeReferences
         ])(a => AST.TypeConstraint(a[0])(a[2]))(lexer);
     }
 
 
     const parseTypeConstraints =
-        C.chainl1(parseTypeConstraint)(C.token(Tokens.COMMA));
+        OC.chainl1(parseTypeConstraint)(OC.token(Tokens.COMMA));
 
 
     function parseDataDeclaration(lexer) {
-        return C.andMap([
-            C.token(Tokens.DATA),
+        return OC.andMap([
+            OC.token(Tokens.DATA),
             tokenValue(Tokens.upperID),
-            C.many(tokenValue(Tokens.lowerID)),
-            C.token(Tokens.EQUAL),
-            C.optionalMap(
-                C.andMap([
+            OC.many(tokenValue(Tokens.lowerID)),
+            OC.token(Tokens.EQUAL),
+            OC.optionalMap(
+                OC.andMap([
                     parseTypeConstraints,
-                    C.token(Tokens.EQUAL_GREATER)
+                    OC.token(Tokens.EQUAL_GREATER)
                 ])(a => a[0])
             )(a => a.withDefault([])),
-            C.chainl1(parseConstructor)(C.token(Tokens.BAR)),
-            C.many(parseDeclaration)
+            OC.chainl1(parseConstructor)(OC.token(Tokens.BAR)),
+            OC.many(parseDeclaration)
         ])(a => AST.DataDeclaration(a[1])(a[2])(a[4])(a[5])(a[6]))(lexer);
     }
 
 
     function parseConstructor(lexer) {
-        return C.andMap([
+        return OC.andMap([
             tokenValue(Tokens.upperID),
-            C.many(parseTypeReference)
+            OC.many(parseTypeReference)
         ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
     }
 
 
     const tokenValue = token =>
-        C.tokenMap(token)(t => t.token().value);
+        OC.tokenMap(token)(t => t.token().value);
 
 
     return {
