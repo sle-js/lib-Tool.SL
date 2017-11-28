@@ -48,26 +48,35 @@ module.exports = $import(
 
 
     const processFile = content => assertion => {
-        const ast =
-            Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
+        const astKey =
+            Array.find(String.startsWith("ast"))(Object.keys(content));
 
-        const astAssertion =
-            content.ast
-                ? assertion
-                    .isTrue(ast.isOkay())
-                    .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim())
-                : assertion
-                    .isTrue(ast.isOkay());
+        if (astKey.map(v => v === "ast").withDefault(false)) {
+            const ast =
+                Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
 
-        if (content.js) {
-            const output =
-                ast.map(x => x.result).andThen(ast => Translator.translate(ast));
+            const astAssertion =
+                content.ast
+                    ? assertion
+                        .isTrue(ast.isOkay())
+                        .equals(asString(ast.content[1].result).trim())(content.ast.join("\n").trim())
+                    : assertion
+                        .isTrue(ast.isOkay());
 
-            return astAssertion
-                .isTrue(output.isOkay())
-                .equals(output.content[1])(content.js.join("\n").trim());
+            if (content.js) {
+                const output =
+                    ast.map(x => x.result).andThen(ast => Translator.translate(ast));
+
+                return astAssertion
+                    .isTrue(output.isOkay())
+                    .equals(output.content[1])(content.js.join("\n").trim());
+            } else {
+                return astAssertion;
+            }
+        } else if (astKey.isJust()) {
+            return assertion;
         } else {
-            return astAssertion;
+            return assertion;
         }
     };
 
@@ -80,7 +89,7 @@ module.exports = $import(
                     ? FileSystem
                         .readFile(fileSystemName)
                         .then(content => parseFile(content.split("\n")))
-                        .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(content)(Assertion)))
+                        .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(content)(Assertion.AllGood)))
                         .catch(error => Unit.Test(suiteName)(Assertion.fail(error)))
 
                     : FileSystem
