@@ -6,6 +6,7 @@ module.exports = $importAll([
 ]).then($imports => {
     const Array = $imports[0].Array;
     const AST = $imports[1];
+    const C = $imports[0].ParserCombinator;
     const Maybe = $imports[0].Maybe;
     const OC = $imports[2];
     const Tokens = $imports[3];
