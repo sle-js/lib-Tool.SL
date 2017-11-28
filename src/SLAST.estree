@@ -1,0 +1,17 @@
+interface Node {
+    kind: string;
+    loc: SourceLocation | null;
+}
+
+
+interface SourceLocation {
+    source: string | null;
+    start: Position;
+    end: Position;
+}
+
+
+interface Name <: Node {
+    kind: "Name";
+    value: string;
+}
