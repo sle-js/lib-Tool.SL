@@ -7,9 +7,47 @@ module.exports = $importAll([
     const Array = $imports[0].Array;
     const AST = $imports[1];
     const C = $imports[0].ParserCombinator;
+    const Errors = $imports[0].Errors;
     const Maybe = $imports[0].Maybe;
     const OC = $imports[2];
+    const SLAST = $imports[0].SLAST;
     const Tokens = $imports[3];
+
+
+    const errorLocation = token =>
+        Errors.LocationPosition(token.state.source.withDefault(""), Errors.Position(transformColumn(token.position()[1]), transformRow(token.position()[0])));
+
+
+    const expectedTokensError = tokenIDs => token => {
+        const foundToken = token => ({
+            id: token.id,
+            symbol: Tokens.names[token.id],
+            value: token.value
+        });
+
+        const expectedTokens = Array.map(tokenID => ({
+            id: tokenID,
+            symbol: Tokens.names[tokenID]
+        }))(tokenIDs);
+
+        return Errors.ExpectedTokens(errorLocation(token), foundToken(token.state.token), expectedTokens);
+    };
+
+
+    const expectedTokenError = tokenID =>
+        expectedTokensError([tokenID]);
+
+
+    const token = t =>
+        C.token(expectedTokenError(t))(t);
+
+
+    const tokenMap = t =>
+        C.tokenMap(expectedTokenError(t))(t);
+
+
+    const or = expectedTokens =>
+        C.or(expectedTokensError(expectedTokens));
 
 
     // type ParseError :: Errors
@@ -120,7 +158,7 @@ module.exports = $importAll([
 
     function parseName(lexer) {
         return OC.or([
-            tokenValue(Tokens.lowerID),
+            tokenName,
             OC.andMap([
                 OC.tokenMap(Tokens.LPAREN)(t => Maybe.Just),
                 parseOperatorName,
@@ -128,6 +166,9 @@ module.exports = $importAll([
             ])(a => "(" + a[1] + ")")
         ])(lexer);
     }
+
+    const tokenName = lexer =>
+        tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value))(lexer);
 
 
     function parseOperatorName(lexer) {
@@ -365,6 +406,26 @@ module.exports = $importAll([
 
     const tokenValue = token =>
         OC.tokenMap(token)(t => t.token().value);
+
+
+    const transformColumn = column =>
+        column;
+
+
+    const transformRow = row =>
+        row - 1;
+
+
+    const locationAt = t =>
+        SLAST.SourceLocation(t.source().withDefault(null), positionStart(t), positionEnd(t));
+
+
+    const positionStart = t =>
+        SLAST.Position(transformColumn(t.position()[1]), transformRow(t.position()[0]));
+
+
+    const positionEnd = t =>
+        SLAST.Position(transformColumn(t.position()[3]), transformRow(t.position()[2]));
 
 
     return {

@@ -19,7 +19,7 @@ module.exports = $importAll([
     Int: $imports[4],
     Lexer: $imports[5],
     Maybe: $imports[6],
-    ParsingCombinators: $imports[7],
+    ParserCombinator: $imports[7],
     Result: $imports[8],
     SLAST: $imports[9],
     Stream: $imports[10],

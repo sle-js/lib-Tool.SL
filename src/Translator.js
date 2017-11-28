@@ -96,7 +96,7 @@ module.exports = $importAll([
                     "module.exports = {",
                     compose([
                         Array.join(",\n"),
-                        Array.map(i => "    " + i)
+                        Array.map(i => "    " + (i.kind === "Name" ? i.value : i))
                     ])(names),
                     "};"
                 ]);
@@ -113,7 +113,7 @@ module.exports = $importAll([
 
             return declarations.map(declaration => {
                 if (Array.length(declaration.content[1].parameters) === 0) {
-                    return Array.concat([`const ${declaration.content[1].name} =`])(`    ${jsExpression(declaration.content[1].expression)};`);
+                    return Array.concat([`const ${declaration.content[1].name.value} =`])(`    ${jsExpression(declaration.content[1].expression)};`);
                 } else {
                     return [];
                 }

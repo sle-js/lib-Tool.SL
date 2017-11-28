@@ -6,7 +6,6 @@ module.exports = $import(
     return Unit.Suite("Tool.SL")([
         $import("./test/FloatTest"),
         $import("./test/LexerConfigurationTest"),
-        $import("./test/ParserTest"),
         $import("./test/TranslatorTest")
     ])
         .then(Unit.showErrors)

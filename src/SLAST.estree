@@ -11,6 +11,12 @@ interface SourceLocation {
 }
 
 
+interface Position {
+    line: int;
+    column: int;
+}
+
+
 interface Name <: Node {
     kind: "Name";
     value: string;
