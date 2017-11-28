@@ -1,0 +1,38 @@
+interface Position {
+    line: int;
+    column: int;
+}
+
+
+interface LocationPosition {
+    source: string;
+    position: Position;
+}
+
+
+interface LocationRange {
+    source: string;
+    start: Position;
+    end: Position;
+}
+
+
+interface Errors {
+    package: "Tool.SL";
+    kind: string;
+}
+
+
+interface ExpectedTokens <: Errors {
+    kind: "ExpectedTokens";
+    loc: LocationRange;
+    found: {
+        id: int;
+        symbol: string;
+        value: string;
+    };
+    expected: [ {
+        id: int;
+        symbol: string;
+    } ];
+}

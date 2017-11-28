@@ -1,11 +1,18 @@
 module.exports = $importAll([
-    "./Libs",
-    "./Errors"
+    "./Libs"
 ]).then($imports => {
     const Array = $imports[0].Array;
-    const Errors = $imports[1];
+    const Errors = $imports[0].Errors;
     const Maybe = $imports[0].Maybe;
     const Result = $imports[0].Result;
+
+
+    const conditionFailed = lexer =>
+        Errors.Errors("ConditionFailed");
+
+
+    const orFailed = lexer =>
+        Errors.Errors("OrFailed");
 
 
     const okayResult = lexer => result =>
@@ -59,7 +66,7 @@ module.exports = $importAll([
                 : Maybe.Nothing;
         };
 
-        return Array.findMap(parseOption)(parsers).withDefault(Result.Error(Errors.orFailed(lexer.head())));
+        return Array.findMap(parseOption)(parsers).withDefault(Result.Error(orFailed(lexer.head())));
     };
 
 
@@ -85,7 +92,7 @@ module.exports = $importAll([
     const condition = f => lexer =>
         f(lexer.head())
             ? okayResult(lexer.tail())(lexer.head())
-            : Result.Error(Errors.conditionFailed(lexer.head()));
+            : Result.Error(conditionFailed(lexer.head()));
 
 
     const conditionMap = f => map => lexer =>

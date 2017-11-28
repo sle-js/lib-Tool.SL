@@ -59,14 +59,7 @@ module.exports = $import(
             Unit.Test("World")(assertParseInput(
                 "World",
                 Parser.parseId,
-                "World")),
-            Unit.Test("-error-")(
-                Parser.parseId(LexerConfiguration.fromString("-error-"))
-                    .mapError(parseResult => Assertion
-                        .equals(parseResult.content[1].position()[0])(1)
-                        .equals(parseResult.content[1].position()[1])(1))
-                    .errorWithDefault(Assertion.isTrue(false))
-            )
+                "World"))
         ]),
         Unit.Suite("parseImport")([
             Unit.Test("use core:Native.Data.Array:1.1.0")(assertParseInput(

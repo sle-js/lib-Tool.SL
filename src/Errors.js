@@ -1,22 +1,29 @@
-function ErrorsType(content) {
-    this.content = content;
-}
+const Position = (line, column) =>
+    ({line, column});
 
 
-const conditionFailed = lexer =>
-    new ErrorsType([0, lexer]);
+const LocationPosition = (source, position) =>
+    ({source, position});
 
 
-const tokenExpected = lexer => token =>
-    new ErrorsType([1, lexer, token]);
+const LocationRange = (source, start, end) =>
+    ({source, start, end});
 
 
-const orFailed = lexer =>
-    new ErrorsType([2, lexer]);
+const Errors = (kind) =>
+    ({package: "Tool.SL", kind});
+
+
+const ExpectedTokens = (loc, found, expected) =>
+    Object.assign({},
+        Errors("ExpectedTokens"),
+        {kind: "ExpectedTokens", loc, found, expected});
 
 
 module.exports = {
-    conditionFailed,
-    orFailed,
-    tokenExpected
+    Position,
+    LocationPosition,
+    LocationRange,
+    Errors,
+    ExpectedTokens
 };
