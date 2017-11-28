@@ -51,7 +51,7 @@ module.exports = $import(
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
 
-        if (astKey.map(v => v === "ast").withDefault(false)) {
+        if (astKey.map(v => v === "ast").withDefault(false) || content.js) {
             const ast =
                 Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
 
