@@ -14,7 +14,9 @@ module.exports = $import(
 
 
     const asString = o =>
-        JSON.stringify(o, null, 2);
+        typeof o === "string"
+            ? o
+            : JSON.stringify(o, null, 2);
 
 
     const parseFile = content => {
@@ -81,8 +83,8 @@ module.exports = $import(
                 Parser[parseName](LexerConfiguration.fromString(content.src.join("\n")));
 
             return assertion
-                        .isTrue(ast.isOkay())
-                        .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
+                .isTrue(ast.isOkay())
+                .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
         } else {
             return assertion;
         }
