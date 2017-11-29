@@ -438,6 +438,7 @@ module.exports = $importAll([
         parseId,
         parseImport,
         parseModule,
+        parseOperatorName,
         parseName,
         parseNameSignatureDeclaration,
         parseType,
