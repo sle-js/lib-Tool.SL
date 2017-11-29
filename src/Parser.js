@@ -168,8 +168,8 @@ module.exports = $importAll([
     }
 
 
-    function parseOperatorName(lexer) {
-        return or([Tokens.PLUS, Tokens.MINUS, Tokens.STAR, Tokens.SLASH, Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS, Tokens.LESS_EQUAL, Tokens.GREATER, Tokens.GREATER_EQUAL, Tokens.BAR_BAR, Tokens.AMPERSAND_AMPERSAND])([
+     const parseOperatorName = lexer =>
+        or([Tokens.PLUS, Tokens.MINUS, Tokens.STAR, Tokens.SLASH, Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS, Tokens.LESS_EQUAL, Tokens.GREATER, Tokens.GREATER_EQUAL, Tokens.BAR_BAR, Tokens.AMPERSAND_AMPERSAND])([
             C.backtrack(tokenValue(Tokens.PLUS)),
             C.backtrack(tokenValue(Tokens.MINUS)),
             C.backtrack(tokenValue(Tokens.STAR)),
@@ -183,7 +183,6 @@ module.exports = $importAll([
             C.backtrack(tokenValue(Tokens.BAR_BAR)),
             C.backtrack(tokenValue(Tokens.AMPERSAND_AMPERSAND))
         ])(lexer);
-    }
 
 
     function parseExpression(lexer) {
