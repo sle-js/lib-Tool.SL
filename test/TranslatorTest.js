@@ -49,13 +49,13 @@ module.exports = $import(
     };
 
 
-    const processFile = content => assertion => {
+    const processFile = suiteName => content => assertion => {
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
 
         if (astKey.map(v => v === "ast").withDefault(false) || content.js) {
             const ast =
-                Parser.parseModule(LexerConfiguration.fromString(content.src.join("\n")));
+                Parser.parseModule(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
             const astAssertion =
                 content.ast
@@ -80,7 +80,7 @@ module.exports = $import(
                 astKey.withDefault("ast parseModule").split(" ")[1];
 
             const ast =
-                Parser[parseName](LexerConfiguration.fromString(content.src.join("\n")));
+                Parser[parseName](LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
             return assertion
                 .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
@@ -98,7 +98,7 @@ module.exports = $import(
                     ? FileSystem
                         .readFile(fileSystemName)
                         .then(content => parseFile(content.split("\n")))
-                        .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(content)(Assertion.AllGood)))
+                        .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(suiteName)(content)(Assertion.AllGood)))
                         .catch(error => Unit.Test(suiteName)(Assertion.fail(error)))
 
                     : FileSystem

@@ -4,7 +4,7 @@ hello
 {
   "kind": "Name",
   "loc": {
-    "source": null,
+    "source": "001.txt",
     "start": {
       "line": 1,
       "column": 0
