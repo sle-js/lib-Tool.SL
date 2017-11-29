@@ -159,11 +159,11 @@ module.exports = $importAll([
     function parseName(lexer) {
         return OC.or([
             tokenName,
-            OC.andMap([
-                OC.tokenMap(Tokens.LPAREN)(t => Maybe.Just),
+            C.andMap([
+                OC.token(Tokens.LPAREN),
                 parseOperatorName,
                 OC.token(Tokens.RPAREN)
-            ])(a => "(" + a[1] + ")")
+            ])(a => SLAST.Name(stretchSourceLocation(locationAt(a[0]))(locationAt(a[2])), "(" + a[1] + ")"))
         ])(lexer);
     }
 
@@ -414,6 +414,10 @@ module.exports = $importAll([
 
     const transformRow = row =>
         row - 1;
+
+
+    const stretchSourceLocation = startLocation => endLocation =>
+        SLAST.SourceLocation(startLocation.source, startLocation.start, endLocation.end);
 
 
     const locationAt = t =>
