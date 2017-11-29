@@ -158,7 +158,7 @@ module.exports = $importAll([
 
     function parseName(lexer) {
         return OC.or([
-            tokenName,
+            tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value)),
             C.andMap([
                 OC.token(Tokens.LPAREN),
                 parseOperatorName,
@@ -167,24 +167,21 @@ module.exports = $importAll([
         ])(lexer);
     }
 
-    const tokenName = lexer =>
-        tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value))(lexer);
-
 
     function parseOperatorName(lexer) {
-        return OC.or([
-            tokenValue(Tokens.PLUS),
-            tokenValue(Tokens.MINUS),
-            tokenValue(Tokens.STAR),
-            tokenValue(Tokens.SLASH),
-            tokenValue(Tokens.EQUAL_EQUAL),
-            tokenValue(Tokens.BANG_EQUAL),
-            tokenValue(Tokens.LESS),
-            tokenValue(Tokens.LESS_EQUAL),
-            tokenValue(Tokens.GREATER),
-            tokenValue(Tokens.GREATER_EQUAL),
-            tokenValue(Tokens.BAR_BAR),
-            tokenValue(Tokens.AMPERSAND_AMPERSAND)
+        return or([Tokens.PLUS, Tokens.MINUS, Tokens.STAR, Tokens.SLASH, Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS, Tokens.LESS_EQUAL, Tokens.GREATER, Tokens.GREATER_EQUAL, Tokens.BAR_BAR, Tokens.AMPERSAND_AMPERSAND])([
+            C.backtrack(tokenValue(Tokens.PLUS)),
+            C.backtrack(tokenValue(Tokens.MINUS)),
+            C.backtrack(tokenValue(Tokens.STAR)),
+            C.backtrack(tokenValue(Tokens.SLASH)),
+            C.backtrack(tokenValue(Tokens.EQUAL_EQUAL)),
+            C.backtrack(tokenValue(Tokens.BANG_EQUAL)),
+            C.backtrack(tokenValue(Tokens.LESS)),
+            C.backtrack(tokenValue(Tokens.LESS_EQUAL)),
+            C.backtrack(tokenValue(Tokens.GREATER)),
+            C.backtrack(tokenValue(Tokens.GREATER_EQUAL)),
+            C.backtrack(tokenValue(Tokens.BAR_BAR)),
+            C.backtrack(tokenValue(Tokens.AMPERSAND_AMPERSAND))
         ])(lexer);
     }
 

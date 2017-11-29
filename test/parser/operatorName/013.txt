@@ -1,0 +1,69 @@
+-- = operator
+=
+-- ast parseOperatorName
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "",
+    "position": {
+      "line": 1,
+      "column": 0
+    }
+  },
+  "found": {
+    "id": 15,
+    "symbol": "=",
+    "value": "="
+  },
+  "expected": [
+    {
+      "id": 29,
+      "symbol": "+"
+    },
+    {
+      "id": 26,
+      "symbol": "-"
+    },
+    {
+      "id": 33,
+      "symbol": "*"
+    },
+    {
+      "id": 32,
+      "symbol": "/"
+    },
+    {
+      "id": 16,
+      "symbol": "=="
+    },
+    {
+      "id": 9,
+      "symbol": "!="
+    },
+    {
+      "id": 21,
+      "symbol": "<"
+    },
+    {
+      "id": 22,
+      "symbol": "<="
+    },
+    {
+      "id": 18,
+      "symbol": ">"
+    },
+    {
+      "id": 19,
+      "symbol": ">="
+    },
+    {
+      "id": 11,
+      "symbol": "||"
+    },
+    {
+      "id": 7,
+      "symbol": "&&"
+    }
+  ]
+}

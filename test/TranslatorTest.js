@@ -83,7 +83,6 @@ module.exports = $import(
                 Parser[parseName](LexerConfiguration.fromString(content.src.join("\n")));
 
             return assertion
-                .isTrue(ast.isOkay())
                 .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
         } else {
             return assertion;
