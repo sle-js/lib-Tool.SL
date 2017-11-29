@@ -65,7 +65,7 @@ module.exports = $importAll([
     function parseImport(lexer) {
         return OC.andMap([
             OC.token(Tokens.USE),
-            tokenValue(Tokens.importReference),
+            ocTokenValue(Tokens.importReference),
             OC.optional(
                 OC.or([
                     OC.andMap([
@@ -118,8 +118,8 @@ module.exports = $importAll([
     // parseId :: Parser String
     function parseId(lexer) {
         return OC.or([
-            tokenValue(Tokens.upperID),
-            tokenValue(Tokens.lowerID)
+            ocTokenValue(Tokens.upperID),
+            ocTokenValue(Tokens.lowerID)
         ])(lexer);
     }
 
@@ -173,18 +173,18 @@ module.exports = $importAll([
 
     function parseOperatorName(lexer) {
         return OC.or([
-            tokenValue(Tokens.PLUS),
-            tokenValue(Tokens.MINUS),
-            tokenValue(Tokens.STAR),
-            tokenValue(Tokens.SLASH),
-            tokenValue(Tokens.EQUAL_EQUAL),
-            tokenValue(Tokens.BANG_EQUAL),
-            tokenValue(Tokens.LESS),
-            tokenValue(Tokens.LESS_EQUAL),
-            tokenValue(Tokens.GREATER),
-            tokenValue(Tokens.GREATER_EQUAL),
-            tokenValue(Tokens.BAR_BAR),
-            tokenValue(Tokens.AMPERSAND_AMPERSAND)
+            ocTokenValue(Tokens.PLUS),
+            ocTokenValue(Tokens.MINUS),
+            ocTokenValue(Tokens.STAR),
+            ocTokenValue(Tokens.SLASH),
+            ocTokenValue(Tokens.EQUAL_EQUAL),
+            ocTokenValue(Tokens.BANG_EQUAL),
+            ocTokenValue(Tokens.LESS),
+            ocTokenValue(Tokens.LESS_EQUAL),
+            ocTokenValue(Tokens.GREATER),
+            ocTokenValue(Tokens.GREATER_EQUAL),
+            ocTokenValue(Tokens.BAR_BAR),
+            ocTokenValue(Tokens.AMPERSAND_AMPERSAND)
         ])(lexer);
     }
 
@@ -272,8 +272,8 @@ module.exports = $importAll([
     function parseTypeDeclaration(lexer) {
         return OC.andMap([
             OC.token(Tokens.TYPE),
-            tokenValue(Tokens.upperID),
-            OC.many(tokenValue(Tokens.lowerID)),
+            ocTokenValue(Tokens.upperID),
+            OC.many(ocTokenValue(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             parseType
         ])(a => AST.TypeDeclaration(a[1])(a[2])(a[4]))(lexer);
@@ -324,7 +324,7 @@ module.exports = $importAll([
     function parseTypeReference2(lexer) {
         return OC.or([
             OC.andMap([
-                tokenValue(Tokens.upperID),
+                ocTokenValue(Tokens.upperID),
                 OC.many1(parseTypeReference3)
             ])(a => AST.DataReference(a[0])(a[1])),
             parseTypeReference3
@@ -335,7 +335,7 @@ module.exports = $importAll([
     function parseTypeReference3(lexer) {
         return OC.or([
             OC.andMap([
-                tokenValue(Tokens.upperID)
+                ocTokenValue(Tokens.upperID)
             ])(a => {
                 if (a[0] === "Int") {
                     return AST.Int;
@@ -365,7 +365,7 @@ module.exports = $importAll([
     function parseTypeConstraint(lexer) {
         return OC.andMap([
             OC.or([
-                tokenValue(Tokens.lowerID),
+                ocTokenValue(Tokens.lowerID),
                 OC.conditionMap(t => t.token().id === Tokens.upperID && t.token().value === "Self")(_ => "Self")
             ]),
             OC.token(Tokens.COLON_COLON),
@@ -381,8 +381,8 @@ module.exports = $importAll([
     function parseDataDeclaration(lexer) {
         return OC.andMap([
             OC.token(Tokens.DATA),
-            tokenValue(Tokens.upperID),
-            OC.many(tokenValue(Tokens.lowerID)),
+            ocTokenValue(Tokens.upperID),
+            OC.many(ocTokenValue(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             OC.optionalMap(
                 OC.andMap([
@@ -398,13 +398,13 @@ module.exports = $importAll([
 
     function parseConstructor(lexer) {
         return OC.andMap([
-            tokenValue(Tokens.upperID),
+            ocTokenValue(Tokens.upperID),
             OC.many(parseTypeReference)
         ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
     }
 
 
-    const tokenValue = token =>
+    const ocTokenValue = token =>
         OC.tokenMap(token)(t => t.token().value);
 
 
