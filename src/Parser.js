@@ -8,7 +8,6 @@ module.exports = $importAll([
     const AST = $imports[1];
     const C = $imports[0].ParserCombinator;
     const Errors = $imports[0].Errors;
-    const Maybe = $imports[0].Maybe;
     const OC = $imports[2];
     const SLAST = $imports[0].SLAST;
     const Tokens = $imports[3];
