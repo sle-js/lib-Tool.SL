@@ -184,79 +184,64 @@ module.exports = $importAll([
         ])(lexer);
 
 
-    function parseExpression(lexer) {
-        return parseLetExpression(lexer);
-    }
+    const parseExpression = lexer =>
+        parseLetExpression(lexer);
 
 
-    function parseLetExpression(lexer) {
-        return parseWhereExpression(lexer);
-    }
+    const parseLetExpression = lexer =>
+        parseWhereExpression(lexer);
 
 
-    function parseWhereExpression(lexer) {
-        return parseCaseExpression(lexer);
-    }
+    const parseWhereExpression = lexer =>
+        parseCaseExpression(lexer);
 
 
-    function parseCaseExpression(lexer) {
-        return parsePipeExpression(lexer);
-    }
+    const parseCaseExpression = lexer =>
+        parsePipeExpression(lexer);
 
 
-    function parsePipeExpression(lexer) {
-        return parseCompositionExpression(lexer);
-    }
+    const parsePipeExpression = lexer =>
+        parseCompositionExpression(lexer);
 
 
-    function parseCompositionExpression(lexer) {
-        return parseLambdaExpression(lexer);
-    }
+    const parseCompositionExpression = lexer =>
+        parseLambdaExpression(lexer);
 
 
-    function parseLambdaExpression(lexer) {
-        return parseObjectCompositionExpression(lexer);
-    }
+    const parseLambdaExpression = lexer =>
+        parseObjectCompositionExpression(lexer);
 
 
-    function parseObjectCompositionExpression(lexer) {
-        return parseOrExpression(lexer);
-    }
+    const parseObjectCompositionExpression = lexer =>
+        parseOrExpression(lexer);
 
 
-    function parseOrExpression(lexer) {
-        return parseAndExpression(lexer);
-    }
+    const parseOrExpression = lexer =>
+        parseAndExpression(lexer);
 
 
-    function parseAndExpression(lexer) {
-        return parseRelationalExpression(lexer);
-    }
+    const parseAndExpression = lexer =>
+        parseRelationalExpression(lexer);
 
 
-    function parseRelationalExpression(lexer) {
-        return parseAdditiveExpression(lexer);
-    }
+    const parseRelationalExpression = lexer =>
+        parseAdditiveExpression(lexer);
 
 
-    function parseAdditiveExpression(lexer) {
-        return parseMultiplicativeExpression(lexer);
-    }
+    const parseAdditiveExpression = lexer =>
+        parseMultiplicativeExpression(lexer);
 
 
-    function parseMultiplicativeExpression(lexer) {
-        return parseApplicationExpression(lexer);
-    }
+    const parseMultiplicativeExpression = lexer =>
+        parseApplicationExpression(lexer);
 
 
-    function parseApplicationExpression(lexer) {
-        return parseReferenceExpression(lexer);
-    }
+    const parseApplicationExpression = lexer =>
+        parseReferenceExpression(lexer);
 
 
-    function parseReferenceExpression(lexer) {
-        return parseSimpleExpression(lexer);
-    }
+    const parseReferenceExpression = lexer =>
+        parseSimpleExpression(lexer);
 
 
     const parseSimpleExpression =
