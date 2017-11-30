@@ -259,8 +259,8 @@ module.exports = $importAll([
     }
 
 
-    const parseSimpleExpression = lexer =>
-        OC.tokenMap(Tokens.constantInteger)(t => SLAST.ConstantNumber(locationAt(t), t.token().value))(lexer);
+    const parseSimpleExpression =
+        tokenMap(Tokens.constantInteger)(t => SLAST.ConstantNumber(locationAt(t), t.token().value));
 
 
     function parseTypeDeclaration(lexer) {
