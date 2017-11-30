@@ -49,3 +49,75 @@ interface ConstantNumber <: Expression {
     kind: "ConstantNumber";
     value: number;
 }
+
+
+interface TypeReference <: Node { }
+
+
+interface IntTypeReference <: TypeReference {
+    kind: "IntTypeReference";
+}
+
+
+interface StringTypeReference <: TypeReference {
+    kind: "StringTypeReference";
+}
+
+
+interface BoolTypeReference <: TypeReference {
+    kind: "BoolTypeReference";
+}
+
+
+interface CharTypeReference <: TypeReference {
+    kind: "CharTypeReference";
+}
+
+
+interface SelfTypeReference <: TypeReference {
+    kind: "SelfTypeReference";
+}
+
+
+interface UnitTypeReference <: TypeReference {
+    kind: "UnitTypeReference";
+}
+
+
+interface DataTypeReference <: TypeReference {
+    kind: "DataTypeReference";
+    name: Name;
+    arguments: [ Type ];
+}
+
+
+interface ReferenceTypeReference <: TypeReference {
+    kind: "ReferenceTypeReference";
+    name: Name;
+}
+
+
+interface UnionTypeReference <: TypeReference {
+    kind: "UnionTypeReference";
+    typeReferences: [ TypeReference ];
+}
+
+
+interface FunctionTypeReference <: TypeReference {
+    kind: "FunctionTypeReference";
+    domain: TypeReference;
+    range: TypeReference;
+}
+
+
+interface NTupleTypeReference <: TypeReference {
+    kind: "NTupleTypeReference";
+    typeReferences: [ TypeReference ];
+}
+
+
+interface ComposedTypeReference <: TypeReference {
+    kind: "ComposedTypeReference";
+    typeReferences: [ TypeReference ];
+}
+
