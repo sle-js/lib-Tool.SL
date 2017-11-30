@@ -21,3 +21,13 @@ interface Name <: Node {
     kind: "Name";
     value: string;
 }
+
+
+interface Expression <: Node {
+}
+
+
+interface ConstantNumber <: Expression {
+    kind: "ConstantNumber";
+    value: number;
+}

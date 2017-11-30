@@ -103,9 +103,7 @@ module.exports = $importAll([
         };
 
         const jsExpression = (expression) =>
-            expression.reduce(
-                i => i.toString()
-            );
+            expression.value;
 
         const jsDeclarations = () => {
             const declarations =

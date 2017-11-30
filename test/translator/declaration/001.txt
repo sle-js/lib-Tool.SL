@@ -26,10 +26,19 @@ pi =
           },
           "parameters": [],
           "expression": {
-            "content": [
-              0,
-              3
-            ]
+            "kind": "ConstantNumber",
+            "loc": {
+              "source": "001.txt",
+              "start": {
+                "line": 2,
+                "column": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 4
+              }
+            },
+            "value": 3
           }
         }
       ]

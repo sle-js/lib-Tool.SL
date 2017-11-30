@@ -157,7 +157,7 @@ module.exports = $importAll([
 
 
     const parseName = lexer =>
-         or([Tokens.lowerID, Tokens.LPAREN])([
+        or([Tokens.lowerID, Tokens.LPAREN])([
             C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
             C.andMap([
                 C.backtrack(token(Tokens.LPAREN)),
@@ -167,7 +167,7 @@ module.exports = $importAll([
         ])(lexer);
 
 
-     const parseOperatorName = lexer =>
+    const parseOperatorName = lexer =>
         or([Tokens.PLUS, Tokens.MINUS, Tokens.STAR, Tokens.SLASH, Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS, Tokens.LESS_EQUAL, Tokens.GREATER, Tokens.GREATER_EQUAL, Tokens.BAR_BAR, Tokens.AMPERSAND_AMPERSAND])([
             C.backtrack(tokenValue(Tokens.PLUS)),
             C.backtrack(tokenValue(Tokens.MINUS)),
@@ -259,9 +259,8 @@ module.exports = $importAll([
     }
 
 
-    function parseSimpleExpression(lexer) {
-        return OC.tokenMap(Tokens.constantInteger)(t => AST.ConstantInt(t.token().value))(lexer);
-    }
+    const parseSimpleExpression = lexer =>
+        OC.tokenMap(Tokens.constantInteger)(t => SLAST.ConstantNumber(locationAt(t), t.token().value))(lexer);
 
 
     function parseTypeDeclaration(lexer) {
