@@ -158,7 +158,7 @@ module.exports = $importAll([
 
     const parseName = lexer =>
          or([Tokens.lowerID, Tokens.LPAREN])([
-            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value))),
+            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
             C.andMap([
                 C.backtrack(token(Tokens.LPAREN)),
                 parseOperatorName,
