@@ -31,7 +31,21 @@ constant () =
     "value": "constant"
   },
   "arguments": [
-    "()"
+    {
+      "kind": "Argument",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 9
+        },
+        "end": {
+          "line": 1,
+          "column": 10
+        }
+      },
+      "value": "()"
+    }
   ],
   "expression": {
     "kind": "ConstantNumber",

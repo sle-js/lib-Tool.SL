@@ -146,8 +146,8 @@ module.exports = $importAll([
         C.andMap([
             C.backtrack(parseName),
             C.many(C.backtrack(or([Tokens.lowerID, Tokens.LPAREN_RPAREN])([
-                C.backtrack(tokenMap(Tokens.lowerID)(t => t.token().value)),
-                C.backtrack(tokenMap(Tokens.LPAREN_RPAREN)(_ => "()"))
+                C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Argument(locationAt(t), t.token().value))),
+                C.backtrack(tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.Argument(locationAt(t), "()")))
             ]))),
             C.token(expectedTokensError([Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.EQUAL]))(Tokens.EQUAL),
             parseExpression
