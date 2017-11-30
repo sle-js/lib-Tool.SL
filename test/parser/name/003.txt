@@ -1,0 +1,29 @@
+-- error when parsing name
+Hello
+-- ast parseName
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "003.txt",
+    "position": {
+      "line": 1,
+      "column": 0
+    }
+  },
+  "found": {
+    "id": 34,
+    "symbol": "identifier starting with upper case",
+    "value": "Hello"
+  },
+  "expected": [
+    {
+      "id": 35,
+      "symbol": "identifier starting with lower case"
+    },
+    {
+      "id": 24,
+      "symbol": "("
+    }
+  ]
+}
