@@ -156,16 +156,15 @@ module.exports = $importAll([
     }
 
 
-    function parseName(lexer) {
-        return OC.or([
-            tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value)),
+    const parseName = lexer =>
+         or([Tokens.lowerID, Tokens.LPAREN])([
+            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.state.token.value))),
             C.andMap([
-                OC.token(Tokens.LPAREN),
+                C.backtrack(token(Tokens.LPAREN)),
                 parseOperatorName,
-                OC.token(Tokens.RPAREN)
+                token(Tokens.RPAREN)
             ])(a => SLAST.Name(stretchSourceLocation(locationAt(a[0]))(locationAt(a[2])), "(" + a[1] + ")"))
         ])(lexer);
-    }
 
 
      const parseOperatorName = lexer =>
