@@ -1,0 +1,34 @@
+-- simple name declaration
+constant x - =
+    10
+-- ast parseNameDeclaration
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "x001.txt",
+    "position": {
+      "line": 1,
+      "column": 11
+    }
+  },
+  "found": {
+    "id": 26,
+    "symbol": "-",
+    "value": "-"
+  },
+  "expected": [
+    {
+      "id": 35,
+      "symbol": "identifier starting with lower case"
+    },
+    {
+      "id": 25,
+      "symbol": "()"
+    },
+    {
+      "id": 15,
+      "symbol": "="
+    }
+  ]
+}
