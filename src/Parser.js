@@ -147,12 +147,12 @@ module.exports = $importAll([
         return OC.andMap([
             parseName,
             OC.many(OC.or([
-                OC.tokenMap(Tokens.lowerID)(t => Maybe.Just(t.token().value)),
-                OC.tokenMap(Tokens.LPAREN_RPAREN)(_ => Maybe.Nothing)
+                OC.tokenMap(Tokens.lowerID)(t => t.token().value),
+                OC.tokenMap(Tokens.LPAREN_RPAREN)(_ => "()")
             ])),
             OC.token(Tokens.EQUAL),
             parseExpression
-        ])(a => AST.NameDeclaration(a[0])(a[1])(a[3]))(lexer);
+        ])(a => SLAST.NameDeclaration(stretchSourceLocation(a[0].loc)(a[3].loc), a[0], a[1], a[3]))(lexer);
     }
 
 

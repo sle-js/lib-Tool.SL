@@ -61,7 +61,7 @@ module.exports = $importAll([
                         c => c.public ? [markupName(c.name)] : [])(
                         c => Array.map(n => markupName(n.qualified))(Array.filter(n => n.public)(c.names))))
             ])(moduleAST.imports))(
-            moduleAST.declarations.filter(x => x.content[0] === 3).map(x => x.content[1].name)
+            moduleAST.declarations.filter(x => x.kind === "NameDeclaration").map(x => x.name.value)
         );
 
 
@@ -96,7 +96,7 @@ module.exports = $importAll([
                     "module.exports = {",
                     compose([
                         Array.join(",\n"),
-                        Array.map(i => "    " + (i.kind === "Name" ? i.value : i))
+                        Array.map(i => "    " + i)
                     ])(names),
                     "};"
                 ]);
@@ -107,11 +107,11 @@ module.exports = $importAll([
 
         const jsDeclarations = () => {
             const declarations =
-                Array.filter(x => x.content[0] === 3)(ast.declarations);
+                Array.filter(x => x.kind === "NameDeclaration")(ast.declarations);
 
             return declarations.map(declaration => {
-                if (Array.length(declaration.content[1].parameters) === 0) {
-                    return Array.concat([`const ${declaration.content[1].name.value} =`])(`    ${jsExpression(declaration.content[1].expression)};`);
+                if (Array.length(declaration.arguments) === 0) {
+                    return Array.concat([`const ${declaration.name.value} =`])(`    ${jsExpression(declaration.expression)};`);
                 } else {
                     return [];
                 }

@@ -3,46 +3,49 @@ constant () =
     10
 -- ast parseNameDeclaration
 {
-  "content": [
-    3,
-    {
-      "name": {
-        "kind": "Name",
-        "loc": {
-          "source": "001.txt",
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 7
-          }
-        },
-        "value": "constant"
-      },
-      "parameters": [
-        {
-          "content": [
-            0
-          ]
-        }
-      ],
-      "expression": {
-        "kind": "ConstantNumber",
-        "loc": {
-          "source": "001.txt",
-          "start": {
-            "line": 2,
-            "column": 4
-          },
-          "end": {
-            "line": 2,
-            "column": 5
-          }
-        },
-        "value": 10
-      }
+  "kind": "NameDeclaration",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 2,
+      "column": 5
     }
-  ]
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 7
+      }
+    },
+    "value": "constant"
+  },
+  "arguments": [
+    "()"
+  ],
+  "expression": {
+    "kind": "ConstantNumber",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 2,
+        "column": 4
+      },
+      "end": {
+        "line": 2,
+        "column": 5
+      }
+    },
+    "value": 10
+  }
 }

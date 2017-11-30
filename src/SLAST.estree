@@ -23,6 +23,18 @@ interface Name <: Node {
 }
 
 
+interface Declaration <: Node {
+    name: string;
+}
+
+
+interface NameDeclaration <: Declaration {
+    kind: "NameDeclaration";
+    arguments: [ string ];
+    expression: Expression;
+}
+
+
 interface Expression <: Node {
 }
 
