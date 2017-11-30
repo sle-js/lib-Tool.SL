@@ -1,0 +1,9 @@
+-- simple expression 123
+123
+-- ast parseSimpleExpression
+{
+  "content": [
+    0,
+    123
+  ]
+}
