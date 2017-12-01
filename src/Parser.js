@@ -310,8 +310,8 @@ module.exports = $importAll([
 
 
     function parseTypeReference3(lexer) {
-        return OC.or([
-            tokenMap(Tokens.upperID)(t => {
+        return or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
+            C.backtrack(tokenMap(Tokens.upperID)(t => {
                 const tokenValue = t.token().value;
                 const loc = locationAt(t);
 
@@ -328,13 +328,13 @@ module.exports = $importAll([
                 } else {
                     return SLAST.DataTypeReference(loc, tokenValue, []);
                 }
-            }),
-            OC.tokenMap(Tokens.lowerID)(t => SLAST.ReferenceTypeReference(locationAt(t), t.token().value)),
-            tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.UnitTypeReference(locationAt(t))),
-            OC.andMap([
-                OC.token(Tokens.LPAREN),
+            })),
+            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.ReferenceTypeReference(locationAt(t), t.token().value))),
+            C.backtrack(tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.UnitTypeReference(locationAt(t)))),
+            C.andMap([
+                C.backtrack(token(Tokens.LPAREN)),
                 parseTypeReference,
-                OC.token(Tokens.RPAREN)
+                token(Tokens.RPAREN)
             ])(a => a[1])
         ])(lexer);
     }
