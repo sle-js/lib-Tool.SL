@@ -8,6 +8,7 @@ module.exports = $importAll([
     const AST = $imports[1];
     const C = $imports[0].ParserCombinator;
     const Errors = $imports[0].Errors;
+    const Maybe = $imports[0].Maybe;
     const OC = $imports[2];
     const SLAST = $imports[0].SLAST;
     const Tokens = $imports[3];
@@ -301,12 +302,18 @@ module.exports = $importAll([
     function parseTypeReference2(lexer) {
         return OC.or([
             OC.andMap([
-                tokenValue(Tokens.upperID),
+                token(Tokens.upperID),
                 OC.many1(parseTypeReference3)
-            ])(a => AST.DataReference(a[0])(a[1])),
+            ])(a => SLAST.DataTypeReference(stretchSourceLocation(locationAt(a[0]))(last(a[1]).map(t => t.loc).withDefault(locationAt(a[0]))), a[0].token().value, a[1])),
             parseTypeReference3
         ])(lexer);
     }
+
+
+    const last = a =>
+        (a.length === 0)
+            ? Maybe.Nothing
+            : Maybe.Just(a[a.length - 1]);
 
 
     const parseTypeReference3 = lexer =>

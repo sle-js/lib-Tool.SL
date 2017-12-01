@@ -1,0 +1,49 @@
+-- parse Type Reference 2 Map Int a
+Map Int a
+-- ast parseTypeReference2
+{
+  "kind": "DataTypeReference",
+  "loc": {
+    "source": "002.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 8
+    }
+  },
+  "name": "Map",
+  "arguments": [
+    {
+      "kind": "IntTypeReference",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 1,
+          "column": 4
+        },
+        "end": {
+          "line": 1,
+          "column": 6
+        }
+      }
+    },
+    {
+      "kind": "ReferenceTypeReference",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 1,
+          "column": 8
+        },
+        "end": {
+          "line": 1,
+          "column": 8
+        }
+      },
+      "name": "a"
+    }
+  ]
+}
