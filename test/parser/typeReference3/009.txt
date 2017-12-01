@@ -1,0 +1,18 @@
+-- parse Type Reference 3 (a)
+(a)
+-- ast parseTypeReference3
+{
+  "kind": "ReferenceTypeReference",
+  "loc": {
+    "source": "009.txt",
+    "start": {
+      "line": 1,
+      "column": 1
+    },
+    "end": {
+      "line": 1,
+      "column": 1
+    }
+  },
+  "name": "a"
+}
