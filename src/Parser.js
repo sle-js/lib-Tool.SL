@@ -317,19 +317,19 @@ module.exports = $importAll([
                 if (tokenValue === "Int") {
                     return SLAST.IntTypeReference(locationAt(t));
                 } else if (tokenValue === "String") {
-                    return AST.String;
+                    return SLAST.StringTypeReference(locationAt(t));
                 } else if (tokenValue === "Bool") {
-                    return AST.Bool;
+                    return SLAST.BoolTypeReference(locationAt(t));
                 } else if (tokenValue === "Char") {
-                    return AST.Char;
+                    return SLAST.CharTypeReference(locationAt(t));
                 } else if (tokenValue === "Self") {
-                    return AST.Self;
+                    return SLAST.SelfTypeReference(locationAt(t));
                 } else {
                     return AST.DataReference(tokenValue)([]);
                 }
             }),
             OC.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
-            OC.tokenMap(Tokens.LPAREN_RPAREN)(_ => AST.Unit),
+            tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.UnitTypeReference(locationAt(t))),
             OC.andMap([
                 OC.token(Tokens.LPAREN),
                 parseTypeReference,
