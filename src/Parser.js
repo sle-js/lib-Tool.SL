@@ -313,19 +313,20 @@ module.exports = $importAll([
         return OC.or([
             tokenMap(Tokens.upperID)(t => {
                 const tokenValue = t.token().value;
+                const loc = locationAt(t);
 
                 if (tokenValue === "Int") {
-                    return SLAST.IntTypeReference(locationAt(t));
+                    return SLAST.IntTypeReference(loc);
                 } else if (tokenValue === "String") {
-                    return SLAST.StringTypeReference(locationAt(t));
+                    return SLAST.StringTypeReference(loc);
                 } else if (tokenValue === "Bool") {
-                    return SLAST.BoolTypeReference(locationAt(t));
+                    return SLAST.BoolTypeReference(loc);
                 } else if (tokenValue === "Char") {
-                    return SLAST.CharTypeReference(locationAt(t));
+                    return SLAST.CharTypeReference(loc);
                 } else if (tokenValue === "Self") {
-                    return SLAST.SelfTypeReference(locationAt(t));
+                    return SLAST.SelfTypeReference(loc);
                 } else {
-                    return AST.DataReference(tokenValue)([]);
+                    return SLAST.DataTypeReference(loc, tokenValue, []);
                 }
             }),
             OC.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
