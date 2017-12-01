@@ -309,8 +309,8 @@ module.exports = $importAll([
     }
 
 
-    function parseTypeReference3(lexer) {
-        return or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
+    const parseTypeReference3 = lexer =>
+        or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
             C.backtrack(tokenMap(Tokens.upperID)(t => {
                 const tokenValue = t.token().value;
                 const loc = locationAt(t);
@@ -337,7 +337,6 @@ module.exports = $importAll([
                 token(Tokens.RPAREN)
             ])(a => a[1])
         ])(lexer);
-    }
 
 
     function parseTypeConstraint(lexer) {
