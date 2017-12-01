@@ -311,21 +311,21 @@ module.exports = $importAll([
 
     function parseTypeReference3(lexer) {
         return OC.or([
-            OC.andMap([
-                tokenValue(Tokens.upperID)
-            ])(a => {
-                if (a[0] === "Int") {
-                    return AST.Int;
-                } else if (a[0] === "String") {
+            tokenMap(Tokens.upperID)(t => {
+                const tokenValue = t.token().value;
+
+                if (tokenValue === "Int") {
+                    return SLAST.IntTypeReference(locationAt(t));
+                } else if (tokenValue === "String") {
                     return AST.String;
-                } else if (a[0] === "Bool") {
+                } else if (tokenValue === "Bool") {
                     return AST.Bool;
-                } else if (a[0] === "Char") {
+                } else if (tokenValue === "Char") {
                     return AST.Char;
-                } else if (a[0] === "Self") {
+                } else if (tokenValue === "Self") {
                     return AST.Self;
                 } else {
-                    return AST.DataReference(a[0])([]);
+                    return AST.DataReference(tokenValue)([]);
                 }
             }),
             OC.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
