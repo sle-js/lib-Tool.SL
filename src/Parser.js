@@ -329,7 +329,7 @@ module.exports = $importAll([
                     return SLAST.DataTypeReference(loc, tokenValue, []);
                 }
             }),
-            OC.tokenMap(Tokens.lowerID)(t => AST.Reference(t.token().value)),
+            OC.tokenMap(Tokens.lowerID)(t => SLAST.ReferenceTypeReference(locationAt(t), t.token().value)),
             tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.UnitTypeReference(locationAt(t))),
             OC.andMap([
                 OC.token(Tokens.LPAREN),
