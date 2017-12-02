@@ -295,8 +295,8 @@ module.exports = $importAll([
     }
 
 
-    const parseTypeReference1 =
-        OC.chainl1Map(parseTypeReference2)(OC.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : SLAST.NTupleTypeReference(locationFromNodes(a).withDefault(a[0].loc), a));
+    const parseTypeReference1 = lexer =>
+        C.chainl1Map(parseTypeReference2)(C.backtrack(token(Tokens.STAR)))(a => Array.length(a) === 1 ? a[0] : SLAST.NTupleTypeReference(locationFromNodes(a).withDefault(a[0].loc), a))(lexer);
 
 
     const last = a =>
@@ -305,15 +305,14 @@ module.exports = $importAll([
             : Maybe.Just(a[a.length - 1]);
 
 
-    function parseTypeReference2(lexer) {
-        return or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
+    const parseTypeReference2 = lexer =>
+        or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
             C.andMap([
                 C.backtrack(token(Tokens.upperID)),
                 C.many(C.backtrack(parseTypeReference3))
             ])(a => SLAST.DataTypeReference(stretchSourceLocation(locationAt(a[0]))(last(a[1]).map(t => t.loc).withDefault(locationAt(a[0]))), a[0].token().value, a[1])),
             C.backtrack(parseTypeReference3)
         ])(lexer);
-    }
 
 
     const parseTypeReference3 = lexer =>
