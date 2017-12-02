@@ -17,7 +17,7 @@ Map Int a
   "name": "Map",
   "arguments": [
     {
-      "kind": "IntTypeReference",
+      "kind": "DataTypeReference",
       "loc": {
         "source": "002.txt",
         "start": {
@@ -28,7 +28,9 @@ Map Int a
           "line": 1,
           "column": 6
         }
-      }
+      },
+      "name": "Int",
+      "arguments": []
     },
     {
       "kind": "ReferenceTypeReference",

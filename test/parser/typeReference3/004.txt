@@ -2,7 +2,7 @@
 Char
 -- ast parseTypeReference3
 {
-  "kind": "CharTypeReference",
+  "kind": "DataTypeReference",
   "loc": {
     "source": "004.txt",
     "start": {
@@ -13,5 +13,7 @@ Char
       "line": 1,
       "column": 3
     }
-  }
+  },
+  "name": "Char",
+  "arguments": []
 }

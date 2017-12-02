@@ -54,36 +54,6 @@ interface ConstantNumber <: Expression {
 interface TypeReference <: Node { }
 
 
-interface IntTypeReference <: TypeReference {
-    kind: "IntTypeReference";
-}
-
-
-interface StringTypeReference <: TypeReference {
-    kind: "StringTypeReference";
-}
-
-
-interface BoolTypeReference <: TypeReference {
-    kind: "BoolTypeReference";
-}
-
-
-interface CharTypeReference <: TypeReference {
-    kind: "CharTypeReference";
-}
-
-
-interface SelfTypeReference <: TypeReference {
-    kind: "SelfTypeReference";
-}
-
-
-interface UnitTypeReference <: TypeReference {
-    kind: "UnitTypeReference";
-}
-
-
 interface DataTypeReference <: TypeReference {
     kind: "DataTypeReference";
     name: Name;

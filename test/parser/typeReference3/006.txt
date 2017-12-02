@@ -2,7 +2,7 @@
 ()
 -- ast parseTypeReference3
 {
-  "kind": "UnitTypeReference",
+  "kind": "DataTypeReference",
   "loc": {
     "source": "006.txt",
     "start": {
@@ -13,5 +13,7 @@
       "line": 1,
       "column": 1
     }
-  }
+  },
+  "name": "()",
+  "arguments": []
 }

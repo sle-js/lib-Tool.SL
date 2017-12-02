@@ -299,6 +299,12 @@ module.exports = $importAll([
         OC.chainl1Map(parseTypeReference2)(OC.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : AST.NTuple(a));
 
 
+    const last = a =>
+        (a.length === 0)
+            ? Maybe.Nothing
+            : Maybe.Just(a[a.length - 1]);
+
+
     function parseTypeReference2(lexer) {
         return OC.or([
             OC.andMap([
@@ -310,34 +316,11 @@ module.exports = $importAll([
     }
 
 
-    const last = a =>
-        (a.length === 0)
-            ? Maybe.Nothing
-            : Maybe.Just(a[a.length - 1]);
-
-
     const parseTypeReference3 = lexer =>
         or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
-            C.backtrack(tokenMap(Tokens.upperID)(t => {
-                const tokenValue = t.token().value;
-                const loc = locationAt(t);
-
-                if (tokenValue === "Int") {
-                    return SLAST.IntTypeReference(loc);
-                } else if (tokenValue === "String") {
-                    return SLAST.StringTypeReference(loc);
-                } else if (tokenValue === "Bool") {
-                    return SLAST.BoolTypeReference(loc);
-                } else if (tokenValue === "Char") {
-                    return SLAST.CharTypeReference(loc);
-                } else if (tokenValue === "Self") {
-                    return SLAST.SelfTypeReference(loc);
-                } else {
-                    return SLAST.DataTypeReference(loc, tokenValue, []);
-                }
-            })),
+            C.backtrack(tokenMap(Tokens.upperID)(t => SLAST.DataTypeReference(locationAt(t), t.token().value, []))),
             C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.ReferenceTypeReference(locationAt(t), t.token().value))),
-            C.backtrack(tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.UnitTypeReference(locationAt(t)))),
+            C.backtrack(tokenMap(Tokens.LPAREN_RPAREN)(t => SLAST.DataTypeReference(locationAt(t), "()", []))),
             C.andMap([
                 C.backtrack(token(Tokens.LPAREN)),
                 parseTypeReference,

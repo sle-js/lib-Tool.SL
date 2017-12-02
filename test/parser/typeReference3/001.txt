@@ -2,7 +2,7 @@
 Int
 -- ast parseTypeReference3
 {
-  "kind": "IntTypeReference",
+  "kind": "DataTypeReference",
   "loc": {
     "source": "001.txt",
     "start": {
@@ -13,5 +13,7 @@ Int
       "line": 1,
       "column": 2
     }
-  }
+  },
+  "name": "Int",
+  "arguments": []
 }

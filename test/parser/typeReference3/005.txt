@@ -2,7 +2,7 @@
 Self
 -- ast parseTypeReference3
 {
-  "kind": "SelfTypeReference",
+  "kind": "DataTypeReference",
   "loc": {
     "source": "005.txt",
     "start": {
@@ -13,5 +13,7 @@ Self
       "line": 1,
       "column": 3
     }
-  }
+  },
+  "name": "Self",
+  "arguments": []
 }

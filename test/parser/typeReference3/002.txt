@@ -2,7 +2,7 @@
 String
 -- ast parseTypeReference3
 {
-  "kind": "StringTypeReference",
+  "kind": "DataTypeReference",
   "loc": {
     "source": "002.txt",
     "start": {
@@ -13,5 +13,7 @@ String
       "line": 1,
       "column": 5
     }
-  }
+  },
+  "name": "String",
+  "arguments": []
 }
