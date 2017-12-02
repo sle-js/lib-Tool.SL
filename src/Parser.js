@@ -291,7 +291,7 @@ module.exports = $importAll([
             return Array.foldr(lastTypeReference)(domain => range => SLAST.FunctionTypeReference(stretchSourceLocation(domain.loc)(range.loc), domain, range))(butLastTypeReferences);
         };
 
-        return OC.chainl1Map(parseTypeReference1)(OC.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);
+        return C.chainl1Map(parseTypeReference1)(C.backtrack(token(Tokens.MINUS_GREATER)))(createASTFunction)(lexer);
     }
 
 
