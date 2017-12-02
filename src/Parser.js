@@ -270,7 +270,7 @@ module.exports = $importAll([
 
 
     function parseTypeReferences(lexer) {
-        return OC.chainl1Map(parseTypeReference)(OC.token(Tokens.AMPERSAND))(a =>
+        return C.chainl1Map(parseTypeReference)(C.backtrack(token(Tokens.AMPERSAND)))(a =>
             Array.length(a) === 1
                 ? a[0]
                 : SLAST.ComposedTypeReference(locationFromNodes(a).withDefault(a[0].loc), a))(lexer);
