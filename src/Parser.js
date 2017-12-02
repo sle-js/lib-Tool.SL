@@ -296,7 +296,7 @@ module.exports = $importAll([
 
 
     const parseTypeReference1 =
-        OC.chainl1Map(parseTypeReference2)(OC.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : AST.NTuple(a));
+        OC.chainl1Map(parseTypeReference2)(OC.token(Tokens.STAR))(a => Array.length(a) === 1 ? a[0] : SLAST.NTupleTypeReference(locationFromNodes(a).withDefault(a[0].loc), a));
 
 
     const last = a =>
@@ -397,6 +397,12 @@ module.exports = $importAll([
 
     const positionEnd = t =>
         SLAST.Position(transformColumn(t.position()[3]), transformRow(t.position()[2]));
+
+
+    const locationFromNodes = nodes =>
+        Array.length(nodes) === 0
+            ? Maybe.Nothing
+            : Maybe.Just(SLAST.SourceLocation(nodes[0].loc.source, nodes[0].loc.start, nodes[nodes.length - 1].loc.end));
 
 
     return {
