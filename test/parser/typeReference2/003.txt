@@ -1,4 +1,4 @@
--- parse Type Reference 2 Map Int a
+-- parse Type Reference 2 Map (Map Int String) a
 Map (Map Int String) a
 -- ast parseTypeReference2
 {

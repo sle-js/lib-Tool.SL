@@ -305,20 +305,13 @@ module.exports = $importAll([
             : Maybe.Just(a[a.length - 1]);
 
 
-    const many1 = parser => lexer =>
-        OC.andMap([
-            parser,
-            OC.many(parser)
-        ])(a => Array.prepend(a[0])(a[1]))(lexer);
-
-
     function parseTypeReference2(lexer) {
-        return OC.or([
-            OC.andMap([
-                token(Tokens.upperID),
-                many1(parseTypeReference3)
+        return or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN_RPAREN, Tokens.LPAREN])([
+            C.andMap([
+                C.backtrack(token(Tokens.upperID)),
+                C.many(C.backtrack(parseTypeReference3))
             ])(a => SLAST.DataTypeReference(stretchSourceLocation(locationAt(a[0]))(last(a[1]).map(t => t.loc).withDefault(locationAt(a[0]))), a[0].token().value, a[1])),
-            parseTypeReference3
+            C.backtrack(parseTypeReference3)
         ])(lexer);
     }
 
