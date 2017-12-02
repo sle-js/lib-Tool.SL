@@ -272,8 +272,8 @@ module.exports = $importAll([
     function parseTypeReferences(lexer) {
         return OC.chainl1Map(parseTypeReference)(OC.token(Tokens.AMPERSAND))(a =>
             Array.length(a) === 1
-                ? AST.ReferencedType(a[0])
-                : AST.ComposedType(a))(lexer);
+                ? a[0]
+                : SLAST.ComposedTypeReference(locationFromNodes(a).withDefault(a[0].loc), a))(lexer);
     }
 
 
@@ -422,6 +422,7 @@ module.exports = $importAll([
         parseTypeReference,
         parseTypeReference1,
         parseTypeReference2,
-        parseTypeReference3
+        parseTypeReference3,
+        parseTypeReferences
     };
 });
