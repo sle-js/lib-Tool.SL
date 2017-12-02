@@ -277,7 +277,7 @@ module.exports = $importAll([
     }
 
 
-    function parseTypeReference(lexer) {
+    const parseTypeReference = lexer => {
         const createASTFunction = typeReferences => {
             const typeReferencesLength =
                 Array.length(typeReferences);
@@ -292,7 +292,7 @@ module.exports = $importAll([
         };
 
         return C.chainl1Map(parseTypeReference1)(C.backtrack(token(Tokens.MINUS_GREATER)))(createASTFunction)(lexer);
-    }
+    };
 
 
     const parseTypeReference1 = lexer =>
