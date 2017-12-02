@@ -288,7 +288,7 @@ module.exports = $importAll([
             const butLastTypeReferences =
                 Array.slice(0)(typeReferencesLength - 1)(typeReferences);
 
-            return Array.foldr(lastTypeReference)(AST.Function)(butLastTypeReferences);
+            return Array.foldr(lastTypeReference)(domain => range => SLAST.FunctionTypeReference(stretchSourceLocation(domain.loc)(range.loc), domain, range))(butLastTypeReferences);
         };
 
         return OC.chainl1Map(parseTypeReference1)(OC.token(Tokens.MINUS_GREATER))(createASTFunction)(lexer);

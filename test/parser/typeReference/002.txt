@@ -2,81 +2,108 @@
 String -> Int -> (() -> String)
 -- ast parseTypeReference
 {
-  "content": [
-    9,
-    {
+  "kind": "FunctionTypeReference",
+  "loc": {
+    "source": "002.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 29
+    }
+  },
+  "domain": {
+    "kind": "DataTypeReference",
+    "loc": {
+      "source": "002.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 5
+      }
+    },
+    "name": "String",
+    "arguments": []
+  },
+  "range": {
+    "kind": "FunctionTypeReference",
+    "loc": {
+      "source": "002.txt",
+      "start": {
+        "line": 1,
+        "column": 10
+      },
+      "end": {
+        "line": 1,
+        "column": 29
+      }
+    },
+    "domain": {
       "kind": "DataTypeReference",
       "loc": {
         "source": "002.txt",
         "start": {
           "line": 1,
-          "column": 0
+          "column": 10
         },
         "end": {
           "line": 1,
-          "column": 5
+          "column": 12
         }
       },
-      "name": "String",
+      "name": "Int",
       "arguments": []
     },
-    {
-      "content": [
-        9,
-        {
-          "kind": "DataTypeReference",
-          "loc": {
-            "source": "002.txt",
-            "start": {
-              "line": 1,
-              "column": 10
-            },
-            "end": {
-              "line": 1,
-              "column": 12
-            }
-          },
-          "name": "Int",
-          "arguments": []
+    "range": {
+      "kind": "FunctionTypeReference",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 1,
+          "column": 18
         },
-        {
-          "content": [
-            9,
-            {
-              "kind": "DataTypeReference",
-              "loc": {
-                "source": "002.txt",
-                "start": {
-                  "line": 1,
-                  "column": 18
-                },
-                "end": {
-                  "line": 1,
-                  "column": 19
-                }
-              },
-              "name": "()",
-              "arguments": []
-            },
-            {
-              "kind": "DataTypeReference",
-              "loc": {
-                "source": "002.txt",
-                "start": {
-                  "line": 1,
-                  "column": 24
-                },
-                "end": {
-                  "line": 1,
-                  "column": 29
-                }
-              },
-              "name": "String",
-              "arguments": []
-            }
-          ]
+        "end": {
+          "line": 1,
+          "column": 29
         }
-      ]
+      },
+      "domain": {
+        "kind": "DataTypeReference",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 1,
+            "column": 18
+          },
+          "end": {
+            "line": 1,
+            "column": 19
+          }
+        },
+        "name": "()",
+        "arguments": []
+      },
+      "range": {
+        "kind": "DataTypeReference",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 1,
+            "column": 24
+          },
+          "end": {
+            "line": 1,
+            "column": 29
+          }
+        },
+        "name": "String",
+        "arguments": []
+      }
     }
-  ]
+  }
 }
