@@ -51,6 +51,13 @@ interface ConstantNumber <: Expression {
 }
 
 
+interface TypeConstraint <: Node {
+    kind: "TypeConstraint";
+    name: Name;
+    typeReference: TypeReference;
+}
+
+
 interface TypeReference <: Node { }
 
 
