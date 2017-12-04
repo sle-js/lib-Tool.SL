@@ -342,8 +342,12 @@ module.exports = $importAll([
         ])(a => SLAST.TypeConstraint(stretchSourceLocation(a[0].loc)(a[2].loc), a[0], a[2]))(lexer);
 
 
+    const chainl1 = parser => lexer =>
+        C.chainl1Map(parser)(lexer)(_ => _);
+
+
     const parseTypeConstraints =
-        OC.chainl1(parseTypeConstraint)(OC.token(Tokens.COMMA));
+        chainl1(parseTypeConstraint)(token(Tokens.COMMA));
 
 
     function parseDataDeclaration(lexer) {
