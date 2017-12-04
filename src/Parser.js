@@ -332,12 +332,12 @@ module.exports = $importAll([
 
 
     function parseTypeConstraint(lexer) {
-        return OC.andMap([
-            OC.or([
-                tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value)),
-                conditionMap([Tokens.upperID])(t => t.token().id === Tokens.upperID && t.token().value === "Self")(t => SLAST.Name(locationAt(t), t.token().value))
+        return C.andMap([
+            or([Tokens.upperID, Tokens.lowerID])([
+                C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
+                C.backtrack(conditionMap([Tokens.upperID])(t => t.token().id === Tokens.upperID && t.token().value === "Self")(t => SLAST.Name(locationAt(t), t.token().value)))
             ]),
-            OC.token(Tokens.COLON_COLON),
+            token(Tokens.COLON_COLON),
             parseTypeReferences
         ])(a => SLAST.TypeConstraint(stretchSourceLocation(a[0].loc)(a[2].loc), a[0], a[2]))(lexer);
     }
