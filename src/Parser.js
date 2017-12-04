@@ -50,6 +50,10 @@ module.exports = $importAll([
         C.or(expectedTokensError(expectedTokens));
 
 
+    const conditionMap = tokens => condition =>
+        C.map(C.condition(expectedTokensError(tokens))(condition));
+
+
     // type ParseError :: Errors
     // type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
 
@@ -331,7 +335,7 @@ module.exports = $importAll([
         return OC.andMap([
             OC.or([
                 tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value)),
-                OC.conditionMap(t => t.token().id === Tokens.upperID && t.token().value === "Self")(t => SLAST.Name(locationAt(t), t.token().value))
+                conditionMap([Tokens.upperID])(t => t.token().id === Tokens.upperID && t.token().value === "Self")(t => SLAST.Name(locationAt(t), t.token().value))
             ]),
             OC.token(Tokens.COLON_COLON),
             parseTypeReferences
