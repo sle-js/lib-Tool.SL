@@ -256,11 +256,11 @@ module.exports = $importAll([
 
 
     function parseTypeDeclaration(lexer) {
-        return OC.andMap([
+        return C.andMap([
             token(Tokens.TYPE),
             tokenName(Tokens.upperID),
-            OC.many(tokenName(Tokens.lowerID)),
-            OC.token(Tokens.EQUAL),
+            C.many(C.backtrack(tokenName(Tokens.lowerID))),
+            token(Tokens.EQUAL),
             parseType
         ])(a => SLAST.TypeDeclaration(stretchSourceLocation(locationAt(a[0]))(a[4].loc), a[1], a[2], a[4]))(lexer);
     }
