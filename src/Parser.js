@@ -147,7 +147,7 @@ module.exports = $importAll([
             parseName,
             OC.token(Tokens.COLON_COLON),
             parseType
-        ])(a => AST.NameSignatureDeclaration(a[0])(a[2]))(lexer);
+        ])(a => SLAST.NameSignatureDeclaration(stretchSourceLocation(a[0].loc)(a[2].loc), a[0], a[2]))(lexer);
     }
 
 

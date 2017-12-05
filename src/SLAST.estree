@@ -48,6 +48,12 @@ interface TypeDeclaration <: Declaration {
 }
 
 
+interface NameSignatureDeclaration <: Declaration {
+    kind: "NameSignatureDeclaration";
+    type: Type;
+}
+
+
 interface Expression <: Node {
 }
 
