@@ -46,6 +46,10 @@ module.exports = $importAll([
         C.tokenMap(expectedTokenError(t))(t);
 
 
+    const tokenName = token =>
+        tokenMap(token)(t => SLAST.Name(locationAt(t), t.token().value));
+
+
     const or = expectedTokens =>
         C.or(expectedTokensError(expectedTokens));
 
@@ -254,8 +258,8 @@ module.exports = $importAll([
     function parseTypeDeclaration(lexer) {
         return OC.andMap([
             token(Tokens.TYPE),
-            tokenMap(Tokens.upperID)(t => SLAST.Name(locationAt(t), t.token().value)),
-            OC.many(tokenValue(Tokens.lowerID)),
+            tokenName(Tokens.upperID),
+            OC.many(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
             OC.token(Tokens.EQUAL),
             parseType
         ])(a => SLAST.TypeDeclaration(stretchSourceLocation(locationAt(a[0]))(a[4].loc), a[1], a[2], a[4]))(lexer);
