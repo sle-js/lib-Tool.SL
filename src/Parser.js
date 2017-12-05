@@ -255,15 +255,14 @@ module.exports = $importAll([
         tokenMap(Tokens.constantInteger)(t => SLAST.ConstantNumber(locationAt(t), t.token().value));
 
 
-    function parseTypeDeclaration(lexer) {
-        return C.andMap([
+    const parseTypeDeclaration = lexer =>
+        C.andMap([
             token(Tokens.TYPE),
             tokenName(Tokens.upperID),
             C.many(C.backtrack(tokenName(Tokens.lowerID))),
             token(Tokens.EQUAL),
             parseType
         ])(a => SLAST.TypeDeclaration(stretchSourceLocation(locationAt(a[0]))(a[4].loc), a[1], a[2], a[4]))(lexer);
-    }
 
 
     const parseType = lexer =>
