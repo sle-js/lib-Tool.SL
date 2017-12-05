@@ -58,6 +58,13 @@ interface TypeConstraint <: Node {
 }
 
 
+interface Type <: Node {
+    kind: "Type";
+    constraints: [ TypeConstraint ];
+    typeReference: TypeReference;
+}
+
+
 interface TypeReference <: Node { }
 
 

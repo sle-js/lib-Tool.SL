@@ -2,6 +2,18 @@
 a :: Show => String
 -- ast parseType
 {
+  "kind": "Type",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 18
+    }
+  },
   "constraints": [
     {
       "kind": "TypeConstraint",
@@ -49,7 +61,7 @@ a :: Show => String
       }
     }
   ],
-  "typeReferences": {
+  "typeReference": {
     "kind": "DataTypeReference",
     "loc": {
       "source": "001.txt",

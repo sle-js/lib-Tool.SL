@@ -269,7 +269,7 @@ module.exports = $importAll([
                 OC.token(Tokens.EQUAL_GREATER)
             ])(a => a[0])),
             parseTypeReferences
-        ])(a => AST.Type(a[0].withDefault([]))(a[1]))(lexer);
+        ])(a => SLAST.Type(stretchSourceLocation(locationFromNodes(a[0].withDefault([])).withDefault(a[1].loc))(a[1].loc), a[0].withDefault([]), a[1]))(lexer);
     }
 
 
