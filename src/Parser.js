@@ -263,10 +263,10 @@ module.exports = $importAll([
 
 
     function parseType(lexer) {
-        return OC.andMap([
-            OC.optional(OC.andMap([
-                parseTypeConstraints,
-                OC.token(Tokens.EQUAL_GREATER)
+        return C.andMap([
+            C.optional(C.andMap([
+                C.backtrack(parseTypeConstraints),
+                token(Tokens.EQUAL_GREATER)
             ])(a => a[0])),
             parseTypeReferences
         ])(a => SLAST.Type(stretchSourceLocation(locationFromNodes(a[0].withDefault([])).withDefault(a[1].loc))(a[1].loc), a[0].withDefault([]), a[1]))(lexer);
