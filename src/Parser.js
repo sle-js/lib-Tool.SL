@@ -253,12 +253,12 @@ module.exports = $importAll([
 
     function parseTypeDeclaration(lexer) {
         return OC.andMap([
-            OC.token(Tokens.TYPE),
-            tokenValue(Tokens.upperID),
+            token(Tokens.TYPE),
+            tokenMap(Tokens.upperID)(t => SLAST.Name(locationAt(t), t.token().value)),
             OC.many(tokenValue(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             parseType
-        ])(a => AST.TypeDeclaration(a[1])(a[2])(a[4]))(lexer);
+        ])(a => SLAST.TypeDeclaration(stretchSourceLocation(locationAt(a[0]))(a[4].loc), a[1], a[2], a[4]))(lexer);
     }
 
 

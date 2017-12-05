@@ -2,42 +2,63 @@
 type Name = String
 -- ast parseTypeDeclaration
 {
-  "content": [
-    0,
-    {
-      "name": "Name",
-      "parameters": [],
-      "type": {
-        "kind": "Type",
-        "loc": {
-          "source": "002.txt",
-          "start": {
-            "line": 1,
-            "column": 12
-          },
-          "end": {
-            "line": 1,
-            "column": 17
-          }
-        },
-        "constraints": [],
-        "typeReference": {
-          "kind": "DataTypeReference",
-          "loc": {
-            "source": "002.txt",
-            "start": {
-              "line": 1,
-              "column": 12
-            },
-            "end": {
-              "line": 1,
-              "column": 17
-            }
-          },
-          "name": "String",
-          "arguments": []
-        }
-      }
+  "kind": "TypeDeclaration",
+  "loc": {
+    "source": "002.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 17
     }
-  ]
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "002.txt",
+      "start": {
+        "line": 1,
+        "column": 5
+      },
+      "end": {
+        "line": 1,
+        "column": 8
+      }
+    },
+    "value": "Name"
+  },
+  "parameters": [],
+  "type": {
+    "kind": "Type",
+    "loc": {
+      "source": "002.txt",
+      "start": {
+        "line": 1,
+        "column": 12
+      },
+      "end": {
+        "line": 1,
+        "column": 17
+      }
+    },
+    "constraints": [],
+    "typeReference": {
+      "kind": "DataTypeReference",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 1,
+          "column": 12
+        },
+        "end": {
+          "line": 1,
+          "column": 17
+        }
+      },
+      "name": "String",
+      "arguments": []
+    }
+  }
 }

@@ -2,15 +2,52 @@
 type Name a = a :: Show => List a
 -- ast parseTypeDeclaration
 {
-  "content": [
-    0,
-    {
-      "name": "Name",
-      "parameters": [
-        "a"
-      ],
-      "type": {
-        "kind": "Type",
+  "kind": "TypeDeclaration",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 32
+    }
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 5
+      },
+      "end": {
+        "line": 1,
+        "column": 8
+      }
+    },
+    "value": "Name"
+  },
+  "parameters": [
+    "a"
+  ],
+  "type": {
+    "kind": "Type",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 14
+      },
+      "end": {
+        "line": 1,
+        "column": 32
+      }
+    },
+    "constraints": [
+      {
+        "kind": "TypeConstraint",
         "loc": {
           "source": "001.txt",
           "start": {
@@ -19,89 +56,73 @@ type Name a = a :: Show => List a
           },
           "end": {
             "line": 1,
-            "column": 32
+            "column": 22
           }
         },
-        "constraints": [
-          {
-            "kind": "TypeConstraint",
-            "loc": {
-              "source": "001.txt",
-              "start": {
-                "line": 1,
-                "column": 14
-              },
-              "end": {
-                "line": 1,
-                "column": 22
-              }
+        "name": {
+          "kind": "Name",
+          "loc": {
+            "source": "001.txt",
+            "start": {
+              "line": 1,
+              "column": 14
             },
-            "name": {
-              "kind": "Name",
-              "loc": {
-                "source": "001.txt",
-                "start": {
-                  "line": 1,
-                  "column": 14
-                },
-                "end": {
-                  "line": 1,
-                  "column": 14
-                }
-              },
-              "value": "a"
-            },
-            "typeReference": {
-              "kind": "DataTypeReference",
-              "loc": {
-                "source": "001.txt",
-                "start": {
-                  "line": 1,
-                  "column": 19
-                },
-                "end": {
-                  "line": 1,
-                  "column": 22
-                }
-              },
-              "name": "Show",
-              "arguments": []
+            "end": {
+              "line": 1,
+              "column": 14
             }
-          }
-        ],
+          },
+          "value": "a"
+        },
         "typeReference": {
           "kind": "DataTypeReference",
           "loc": {
             "source": "001.txt",
             "start": {
               "line": 1,
-              "column": 27
+              "column": 19
+            },
+            "end": {
+              "line": 1,
+              "column": 22
+            }
+          },
+          "name": "Show",
+          "arguments": []
+        }
+      }
+    ],
+    "typeReference": {
+      "kind": "DataTypeReference",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 27
+        },
+        "end": {
+          "line": 1,
+          "column": 32
+        }
+      },
+      "name": "List",
+      "arguments": [
+        {
+          "kind": "ReferenceTypeReference",
+          "loc": {
+            "source": "001.txt",
+            "start": {
+              "line": 1,
+              "column": 32
             },
             "end": {
               "line": 1,
               "column": 32
             }
           },
-          "name": "List",
-          "arguments": [
-            {
-              "kind": "ReferenceTypeReference",
-              "loc": {
-                "source": "001.txt",
-                "start": {
-                  "line": 1,
-                  "column": 32
-                },
-                "end": {
-                  "line": 1,
-                  "column": 32
-                }
-              },
-              "name": "a"
-            }
-          ]
+          "name": "a"
         }
-      }
+      ]
     }
-  ]
+  }
 }

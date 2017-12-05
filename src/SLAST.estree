@@ -41,6 +41,13 @@ interface NameDeclaration <: Declaration {
 }
 
 
+interface TypeDeclaration <: Declaration {
+    kind: "TypeDeclaration";
+    parameters: [ Name ];
+    type: Type;
+}
+
+
 interface Expression <: Node {
 }
 
