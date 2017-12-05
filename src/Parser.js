@@ -143,9 +143,9 @@ module.exports = $importAll([
 
 
     function parseNameSignatureDeclaration(lexer) {
-        return OC.andMap([
+        return C.andMap([
             parseName,
-            OC.token(Tokens.COLON_COLON),
+            token(Tokens.COLON_COLON),
             parseType
         ])(a => SLAST.NameSignatureDeclaration(stretchSourceLocation(a[0].loc)(a[2].loc), a[0], a[2]))(lexer);
     }
