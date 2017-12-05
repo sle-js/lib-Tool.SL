@@ -259,7 +259,7 @@ module.exports = $importAll([
         return OC.andMap([
             token(Tokens.TYPE),
             tokenName(Tokens.upperID),
-            OC.many(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
+            OC.many(tokenName(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             parseType
         ])(a => SLAST.TypeDeclaration(stretchSourceLocation(locationAt(a[0]))(a[4].loc), a[1], a[2], a[4]))(lexer);
@@ -337,7 +337,7 @@ module.exports = $importAll([
     const parseTypeConstraint = lexer =>
         C.andMap([
             or([Tokens.upperID, Tokens.lowerID])([
-                C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.Name(locationAt(t), t.token().value))),
+                C.backtrack(tokenName(Tokens.lowerID)),
                 C.backtrack(conditionMap([Tokens.upperID])(t => t.token().id === Tokens.upperID && t.token().value === "Self")(t => SLAST.Name(locationAt(t), t.token().value)))
             ]),
             token(Tokens.COLON_COLON),
