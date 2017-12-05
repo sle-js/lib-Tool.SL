@@ -1,0 +1,25 @@
+-- parse type name a = a :: Show => List a
+type name a = a :: Show => List a
+-- ast parseTypeDeclaration
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "x002.txt",
+    "position": {
+      "line": 1,
+      "column": 5
+    }
+  },
+  "found": {
+    "id": 35,
+    "symbol": "identifier starting with lower case",
+    "value": "name"
+  },
+  "expected": [
+    {
+      "id": 34,
+      "symbol": "identifier starting with upper case"
+    }
+  ]
+}
