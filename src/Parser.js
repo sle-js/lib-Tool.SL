@@ -347,7 +347,7 @@ module.exports = $importAll([
 
 
     const parseTypeConstraints =
-        chainl1(parseTypeConstraint)(token(Tokens.COMMA));
+        chainl1(parseTypeConstraint)(C.backtrack(token(Tokens.COMMA)));
 
 
     function parseDataDeclaration(lexer) {

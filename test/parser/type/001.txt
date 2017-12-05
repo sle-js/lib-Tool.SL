@@ -1,0 +1,68 @@
+-- parse a :: Show => String
+a :: Show => String
+-- ast parseType
+{
+  "constraints": [
+    {
+      "kind": "TypeConstraint",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 8
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "001.txt",
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 0
+          }
+        },
+        "value": "a"
+      },
+      "typeReference": {
+        "kind": "DataTypeReference",
+        "loc": {
+          "source": "001.txt",
+          "start": {
+            "line": 1,
+            "column": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 8
+          }
+        },
+        "name": "Show",
+        "arguments": []
+      }
+    }
+  ],
+  "typeReferences": {
+    "kind": "DataTypeReference",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 13
+      },
+      "end": {
+        "line": 1,
+        "column": 18
+      }
+    },
+    "name": "String",
+    "arguments": []
+  }
+}
