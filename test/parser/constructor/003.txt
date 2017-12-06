@@ -1,0 +1,7 @@
+-- Nil
+Nil
+-- ast parseConstructor
+{
+  "name": "Nil",
+  "typeReferences": []
+}
