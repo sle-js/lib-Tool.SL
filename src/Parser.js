@@ -412,6 +412,7 @@ module.exports = $importAll([
 
 
     return {
+        parseConstructor,
         parseDataDeclaration,
         parseDeclaration,
         parseId,
