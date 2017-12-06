@@ -369,12 +369,11 @@ module.exports = $importAll([
     }
 
 
-    function parseConstructor(lexer) {
-        return C.andMap([
+    const parseConstructor = lexer =>
+        C.andMap([
             tokenValue(Tokens.upperID),
             C.many(parseTypeReference)
         ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
-    }
 
 
     const tokenValue = token =>
