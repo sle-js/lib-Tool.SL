@@ -370,9 +370,9 @@ module.exports = $importAll([
 
 
     function parseConstructor(lexer) {
-        return OC.andMap([
+        return C.andMap([
             tokenValue(Tokens.upperID),
-            OC.many(parseTypeReference)
+            C.many(parseTypeReference)
         ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
     }
 
