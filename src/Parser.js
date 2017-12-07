@@ -372,7 +372,7 @@ module.exports = $importAll([
     const parseConstructor = lexer =>
         C.andMap([
             tokenValue(Tokens.upperID),
-            C.many(parseTypeReference)
+            C.many(C.backtrack(parseTypeReference))
         ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
 
 
