@@ -132,14 +132,13 @@ module.exports = $importAll([
     }
 
 
-    function parseDeclaration(lexer) {
-        return or([Tokens.TYPE, Tokens.DATA, Tokens.lowerID, Tokens.LPAREN])([
+    const parseDeclaration = lexer =>
+        or([Tokens.TYPE, Tokens.DATA, Tokens.lowerID, Tokens.LPAREN])([
             parseTypeDeclaration,
             parseDataDeclaration,
             parseNameSignatureDeclaration,
             parseNameDeclaration
         ])(lexer);
-    }
 
 
     const parseNameSignatureDeclaration = lexer =>
