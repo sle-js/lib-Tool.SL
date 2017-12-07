@@ -71,11 +71,6 @@ TypeReference3 =
       upperID
     | lowerID
     | "{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
-    | INT
-    | STRING
-    | BOOL
-    | CHAR
-    | SELF
     | "()"
     | "(" TypeReference ")";
 
