@@ -1,0 +1,65 @@
+-- simple name declaration
+constant () =
+    10
+-- ast parseNameDeclaration
+{
+  "kind": "NameDeclaration",
+  "loc": {
+    "source": "004.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 2,
+      "column": 5
+    }
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "004.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 7
+      }
+    },
+    "value": "constant"
+  },
+  "arguments": [
+    {
+      "kind": "Argument",
+      "loc": {
+        "source": "004.txt",
+        "start": {
+          "line": 1,
+          "column": 9
+        },
+        "end": {
+          "line": 1,
+          "column": 10
+        }
+      },
+      "value": "()"
+    }
+  ],
+  "expression": {
+    "kind": "ConstantNumber",
+    "loc": {
+      "source": "004.txt",
+      "start": {
+        "line": 2,
+        "column": 4
+      },
+      "end": {
+        "line": 2,
+        "column": 5
+      }
+    },
+    "value": 10
+  }
+}
