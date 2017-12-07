@@ -352,22 +352,22 @@ module.exports = $importAll([
 
 
     function parseDataDeclaration(lexer) {
-        return OC.andMap([
-            OC.token(Tokens.DATA),
+        return C.andMap([
+            token(Tokens.DATA),
             tokenName(Tokens.upperID),
-            OC.many(tokenName(Tokens.lowerID)),
-            OC.token(Tokens.EQUAL),
-            OC.optionalMap(
-                OC.andMap([
+            C.many(C.backtrack(tokenName(Tokens.lowerID))),
+            token(Tokens.EQUAL),
+            C.optionalMap(
+                C.andMap([
                     parseTypeConstraints,
-                    OC.token(Tokens.EQUAL_GREATER)
+                    token(Tokens.EQUAL_GREATER)
                 ])(a => a[0])
             )(a => a.withDefault([])),
-            OC.chainl1(parseConstructor)(OC.token(Tokens.BAR)),
+            chainl1(parseConstructor)(token(Tokens.BAR)),
             OC.many(parseDeclaration)
-        ])(a => SLAST.DataDeclaration(stretchSourceLocation(locationAt(a[0]))(
-            locationFromNodes(a[6]).withDefault(locationFromNodes(a[5]).withDefault(a[1].loc))
-        ), a[1], a[2], a[4], a[5], a[6]))(lexer);
+        ])(a => SLAST.DataDeclaration(
+            stretchSourceLocation(locationAt(a[0]))(locationFromNodes(a[6]).withDefault(locationFromNodes(a[5]).withDefault(a[1].loc))),
+            a[1], a[2], a[4], a[5], a[6]))(lexer);
     }
 
 
