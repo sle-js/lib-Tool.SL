@@ -351,8 +351,8 @@ module.exports = $importAll([
         chainl1(parseTypeConstraint)(C.backtrack(token(Tokens.COMMA)));
 
 
-    function parseDataDeclaration(lexer) {
-        return C.andMap([
+    const parseDataDeclaration = lexer =>
+        C.andMap([
             token(Tokens.DATA),
             tokenName(Tokens.upperID),
             C.many(C.backtrack(tokenName(Tokens.lowerID))),
@@ -368,7 +368,6 @@ module.exports = $importAll([
         ])(a => SLAST.DataDeclaration(
             stretchSourceLocation(locationAt(a[0]))(locationFromNodes(a[6]).withDefault(locationFromNodes(a[5]).withDefault(a[1].loc))),
             a[1], a[2], a[4], a[5], a[6]))(lexer);
-    }
 
 
     const parseConstructor = lexer =>
