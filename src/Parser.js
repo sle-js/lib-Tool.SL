@@ -133,7 +133,7 @@ module.exports = $importAll([
 
 
     function parseDeclaration(lexer) {
-        return OC.or([
+        return or([Tokens.TYPE, Tokens.DATA, Tokens.lowerID, Tokens.LPAREN])([
             parseTypeDeclaration,
             parseDataDeclaration,
             parseNameSignatureDeclaration,
@@ -144,10 +144,12 @@ module.exports = $importAll([
 
     const parseNameSignatureDeclaration = lexer =>
         C.andMap([
-            parseName,
-            token(Tokens.COLON_COLON),
+            C.backtrack(C.and([
+                parseName,
+                token(Tokens.COLON_COLON),
+            ])),
             parseType
-        ])(a => SLAST.NameSignatureDeclaration(stretchSourceLocation(a[0].loc)(a[2].loc), a[0], a[2]))(lexer);
+        ])(a => SLAST.NameSignatureDeclaration(stretchSourceLocation(a[0][0].loc)(a[1].loc), a[0][0], a[1]))(lexer);
 
 
     const parseNameDeclaration = lexer =>
@@ -256,7 +258,7 @@ module.exports = $importAll([
 
     const parseTypeDeclaration = lexer =>
         C.andMap([
-            token(Tokens.TYPE),
+            C.backtrack(token(Tokens.TYPE)),
             tokenName(Tokens.upperID),
             C.many(C.backtrack(tokenName(Tokens.lowerID))),
             token(Tokens.EQUAL),
@@ -353,7 +355,7 @@ module.exports = $importAll([
 
     const parseDataDeclaration = lexer =>
         C.andMap([
-            token(Tokens.DATA),
+            C.backtrack(token(Tokens.DATA)),
             tokenName(Tokens.upperID),
             C.many(C.backtrack(tokenName(Tokens.lowerID))),
             token(Tokens.EQUAL),
