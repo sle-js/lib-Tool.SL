@@ -359,7 +359,7 @@ module.exports = $importAll([
             token(Tokens.EQUAL),
             C.optionalMap(
                 C.andMap([
-                    parseTypeConstraints,
+                    C.backtrack(parseTypeConstraints),
                     token(Tokens.EQUAL_GREATER)
                 ])(a => a[0])
             )(a => a.withDefault([])),
@@ -374,7 +374,7 @@ module.exports = $importAll([
     const parseConstructor = lexer =>
         C.andMap([
             tokenName(Tokens.upperID),
-            C.many(C.backtrack(parseTypeReference))
+            C.many(C.backtrack(parseTypeReference3))
         ])(a => SLAST.Constructor(stretchSourceLocation(a[0].loc)(locationFromNodes(a[1]).withDefault(a[0].loc)), a[0], a[1]))(lexer);
 
 
