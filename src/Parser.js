@@ -365,7 +365,7 @@ module.exports = $importAll([
                 ])(a => a[0])
             )(a => a.withDefault([])),
             chainl1(parseConstructor)(token(Tokens.BAR)),
-            OC.many(parseDeclaration)
+            C.many(parseDeclaration)
         ])(a => SLAST.DataDeclaration(
             stretchSourceLocation(locationAt(a[0]))(locationFromNodes(a[6]).withDefault(locationFromNodes(a[5]).withDefault(a[1].loc))),
             a[1], a[2], a[4], a[5], a[6]))(lexer);
