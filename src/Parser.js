@@ -355,7 +355,7 @@ module.exports = $importAll([
         return OC.andMap([
             OC.token(Tokens.DATA),
             tokenName(Tokens.upperID),
-            OC.many(tokenValue(Tokens.lowerID)),
+            OC.many(tokenName(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             OC.optionalMap(
                 OC.andMap([
