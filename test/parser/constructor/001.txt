@@ -2,7 +2,33 @@
 Cons a
 -- ast parseConstructor
 {
-  "name": "Cons",
+  "kind": "Constructor",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 5
+    }
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 3
+      }
+    },
+    "value": "Cons"
+  },
   "typeReferences": [
     {
       "kind": "ReferenceTypeReference",

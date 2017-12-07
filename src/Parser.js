@@ -354,7 +354,7 @@ module.exports = $importAll([
     function parseDataDeclaration(lexer) {
         return OC.andMap([
             OC.token(Tokens.DATA),
-            tokenValue(Tokens.upperID),
+            tokenName(Tokens.upperID),
             OC.many(tokenValue(Tokens.lowerID)),
             OC.token(Tokens.EQUAL),
             OC.optionalMap(
@@ -365,15 +365,17 @@ module.exports = $importAll([
             )(a => a.withDefault([])),
             OC.chainl1(parseConstructor)(OC.token(Tokens.BAR)),
             OC.many(parseDeclaration)
-        ])(a => AST.DataDeclaration(a[1])(a[2])(a[4])(a[5])(a[6]))(lexer);
+        ])(a => SLAST.DataDeclaration(stretchSourceLocation(locationAt(a[0]))(
+            locationFromNodes(a[6]).withDefault(locationFromNodes(a[5]).withDefault(a[1].loc))
+        ), a[1], a[2], a[4], a[5], a[6]))(lexer);
     }
 
 
     const parseConstructor = lexer =>
         C.andMap([
-            tokenValue(Tokens.upperID),
+            tokenName(Tokens.upperID),
             C.many(C.backtrack(parseTypeReference))
-        ])(a => ({name: a[0], typeReferences: a[1]}))(lexer);
+        ])(a => SLAST.Constructor(stretchSourceLocation(a[0].loc)(locationFromNodes(a[1]).withDefault(a[0].loc)), a[0], a[1]))(lexer);
 
 
     const tokenValue = token =>
