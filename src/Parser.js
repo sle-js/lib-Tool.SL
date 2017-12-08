@@ -124,12 +124,11 @@ module.exports = $importAll([
 
 
     // parseId :: Parser String
-    function parseId(lexer) {
-        return or([Tokens.upperID, Tokens.lowerID])([
+    const parseId = lexer =>
+        or([Tokens.upperID, Tokens.lowerID])([
             C.backtrack(tokenName(Tokens.upperID)),
             C.backtrack(tokenName(Tokens.lowerID))
         ])(lexer);
-    }
 
 
     const parseDeclaration = lexer =>
