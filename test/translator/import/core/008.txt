@@ -14,23 +14,135 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
           ],
           "names": [
             {
-              "name": "length",
-              "qualified": "length",
+              "name": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 41
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 46
+                  }
+                },
+                "value": "length"
+              },
+              "qualified": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 41
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 46
+                  }
+                },
+                "value": "length"
+              },
               "public": true
             },
             {
-              "name": "findMap",
-              "qualified": "findMap",
+              "name": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 49
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 55
+                  }
+                },
+                "value": "findMap"
+              },
+              "qualified": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 49
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 55
+                  }
+                },
+                "value": "findMap"
+              },
               "public": false
             },
             {
-              "name": "append",
-              "qualified": "arrayAppend",
+              "name": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 59
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 64
+                  }
+                },
+                "value": "append"
+              },
+              "qualified": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 69
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 79
+                  }
+                },
+                "value": "arrayAppend"
+              },
               "public": true
             },
             {
-              "name": "prepend",
-              "qualified": "arrayPrepend",
+              "name": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 82
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 88
+                  }
+                },
+                "value": "prepend"
+              },
+              "qualified": {
+                "kind": "Name",
+                "loc": {
+                  "source": "008.txt",
+                  "start": {
+                    "line": 1,
+                    "column": 93
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 104
+                  }
+                },
+                "value": "arrayPrepend"
+              },
               "public": false
             }
           ]

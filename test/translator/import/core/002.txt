@@ -12,7 +12,21 @@ use core:Native.Data.Array:1.1.0 as MyArray'
             "Native.Data.Array",
             "1.1.0"
           ],
-          "name": "MyArray'",
+          "name": {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 36
+              },
+              "end": {
+                "line": 1,
+                "column": 43
+              }
+            },
+            "value": "MyArray'"
+          },
           "public": true
         }
       ]

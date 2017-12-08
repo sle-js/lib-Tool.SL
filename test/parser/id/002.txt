@@ -1,0 +1,18 @@
+-- lower ID
+hello
+-- ast parseId
+{
+  "kind": "Name",
+  "loc": {
+    "source": "002.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 4
+    }
+  },
+  "value": "hello"
+}
