@@ -125,9 +125,9 @@ module.exports = $importAll([
 
     // parseId :: Parser String
     function parseId(lexer) {
-        return OC.or([
-            tokenName(Tokens.upperID),
-            tokenName(Tokens.lowerID)
+        return or([Tokens.upperID, Tokens.lowerID])([
+            C.backtrack(tokenName(Tokens.upperID)),
+            C.backtrack(tokenName(Tokens.lowerID))
         ])(lexer);
     }
 

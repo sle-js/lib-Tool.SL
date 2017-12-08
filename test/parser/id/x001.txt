@@ -1,0 +1,29 @@
+-- syntax error
+123
+-- ast parseId
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "x001.txt",
+    "position": {
+      "line": 1,
+      "column": 0
+    }
+  },
+  "found": {
+    "id": 3,
+    "symbol": "constant integer",
+    "value": 123
+  },
+  "expected": [
+    {
+      "id": 34,
+      "symbol": "identifier starting with upper case"
+    },
+    {
+      "id": 35,
+      "symbol": "identifier starting with lower case"
+    }
+  ]
+}
