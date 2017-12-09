@@ -65,30 +65,30 @@ module.exports = $importAll([
         OC.andMap([
             OC.many(parseImport),
             OC.many(parseDeclaration),
-            OC.token(Tokens.eof)
+            token(Tokens.eof)
         ])(a => AST.Module(a[0])(a[1]))(lexer);
 
 
     // parseId :: Parser AST.Import
     function parseImport(lexer) {
         return OC.andMap([
-            OC.token(Tokens.USE),
+            token(Tokens.USE),
             token(Tokens.importReference),
             OC.optional(
                 OC.or([
                     OC.andMap([
-                        OC.token(Tokens.AS),
+                        token(Tokens.AS),
                         parseId,
                         OC.optional(token(Tokens.MINUS))
                     ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), SLAST.URN(locationAt(urn), urn.token().value), s[1], s[2].isNothing())),
                     OC.andMap([
-                        OC.token(Tokens.IMPORT),
+                        token(Tokens.IMPORT),
                         OC.or([
                             OC.andMap([
                                 parseId,
                                 OC.optional(
                                     OC.andMap([
-                                        OC.token(Tokens.AS),
+                                        token(Tokens.AS),
                                         parseId
                                     ])(a => a[1])),
                                 OC.optional(token(Tokens.MINUS))
@@ -102,13 +102,13 @@ module.exports = $importAll([
                                 }]
                             })),
                             OC.andMap([
-                                OC.token(Tokens.LPAREN),
+                                token(Tokens.LPAREN),
                                 OC.chainl1(
                                     OC.andMap([
                                         parseId,
                                         OC.optional(
                                             OC.andMap([
-                                                OC.token(Tokens.AS),
+                                                token(Tokens.AS),
                                                 parseId
                                             ])(a => a[1])),
                                         OC.optional(token(Tokens.MINUS))
@@ -117,8 +117,8 @@ module.exports = $importAll([
                                         name: a[0],
                                         qualified: a[1].withDefault(a[0]),
                                         public: a[2].isNothing()
-                                    })))(OC.token(Tokens.COMMA)),
-                                OC.token(Tokens.RPAREN)
+                                    })))(token(Tokens.COMMA)),
+                                token(Tokens.RPAREN)
                             ])(a => loc => urn => AST.QualifiedNameImport({urn: urn.token().value, names: a[1]}))
                         ])
                     ])(a => a[1])
