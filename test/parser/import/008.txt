@@ -8,6 +8,10 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
     "start": {
       "line": 1,
       "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 105
     }
   },
   "urn": {
@@ -32,16 +36,14 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
   "names": [
     {
       "loc": {
-        "source": {
-          "source": "008.txt",
-          "start": {
-            "line": 1,
-            "column": 41
-          },
-          "end": {
-            "line": 1,
-            "column": 46
-          }
+        "source": "008.txt",
+        "start": {
+          "line": 1,
+          "column": 41
+        },
+        "end": {
+          "line": 1,
+          "column": 46
         }
       },
       "name": {
@@ -78,16 +80,14 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
     },
     {
       "loc": {
-        "source": {
-          "source": "008.txt",
-          "start": {
-            "line": 1,
-            "column": 49
-          },
-          "end": {
-            "line": 1,
-            "column": 56
-          }
+        "source": "008.txt",
+        "start": {
+          "line": 1,
+          "column": 49
+        },
+        "end": {
+          "line": 1,
+          "column": 56
         }
       },
       "name": {
@@ -124,16 +124,14 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
     },
     {
       "loc": {
-        "source": {
-          "source": "008.txt",
-          "start": {
-            "line": 1,
-            "column": 59
-          },
-          "end": {
-            "line": 1,
-            "column": 79
-          }
+        "source": "008.txt",
+        "start": {
+          "line": 1,
+          "column": 59
+        },
+        "end": {
+          "line": 1,
+          "column": 79
         }
       },
       "name": {
@@ -170,16 +168,14 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
     },
     {
       "loc": {
-        "source": {
-          "source": "008.txt",
-          "start": {
-            "line": 1,
-            "column": 82
-          },
-          "end": {
-            "line": 1,
-            "column": 105
-          }
+        "source": "008.txt",
+        "start": {
+          "line": 1,
+          "column": 82
+        },
+        "end": {
+          "line": 1,
+          "column": 105
         }
       },
       "name": {

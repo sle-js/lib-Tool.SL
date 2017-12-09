@@ -73,6 +73,23 @@ module.exports = $importAll([
         tokenMap(Tokens.importReference)(t => SLAST.URN(locationAt(t), t.token().value))(lexer);
 
 
+    const parseNamedImport = lexer =>
+        C.andMap([
+            C.backtrack(parseId),
+            C.optional(
+                C.andMap([
+                    C.backtrack(token(Tokens.AS)),
+                    parseId
+                ])(a => a[1])),
+            C.optional(C.backtrack(token(Tokens.MINUS)))
+        ])(a => ({
+            loc: stretchSourceLocation(a[0].loc)(a[2].map(locationAt).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc))),
+            name: a[0],
+            qualified: a[1].withDefault(a[0]),
+            public: a[2].isNothing()
+        }))(lexer);
+
+
     // parseId :: Parser AST.Import
     function parseImport(lexer) {
         return C.andMap([
@@ -88,46 +105,12 @@ module.exports = $importAll([
                     C.andMap([
                         C.backtrack(token(Tokens.IMPORT)),
                         or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN])([
-                            C.andMap([
-                                C.backtrack(parseId),
-                                C.optional(
-                                    C.andMap([
-                                        C.backtrack(token(Tokens.AS)),
-                                        parseId
-                                    ])(a => a[1])),
-                                C.optional(C.backtrack(token(Tokens.MINUS)))
-                            ])(a => loc => urn => SLAST.QualifiedNameImport(
-                                stretchSourceLocation(loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc))),
-                                urn,
-                                [{
-                                    loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
-                                    name: a[0],
-                                    qualified: a[1].withDefault(a[0]),
-                                    public: a[2].isNothing()
-                                }]
-                            )),
+                            C.map(parseNamedImport)(a => loc => urn => SLAST.QualifiedNameImport(stretchSourceLocation(loc)(a.loc), urn, [a])),
                             C.andMap([
                                 C.backtrack(token(Tokens.LPAREN)),
-                                chainl1(
-                                    C.andMap([
-                                        C.backtrack(parseId),
-                                        C.optional(
-                                            C.andMap([
-                                                C.backtrack(token(Tokens.AS)),
-                                                parseId
-                                            ])(a => a[1])),
-                                        C.optional(C.backtrack(token(Tokens.MINUS)))
-                                    ])(a => ({
-                                        loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(locationAt).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
-                                        name: a[0],
-                                        qualified: a[1].withDefault(a[0]),
-                                        public: a[2].isNothing()
-                                    })))(C.backtrack(token(Tokens.COMMA))),
+                                chainl1(parseNamedImport)(C.backtrack(token(Tokens.COMMA))),
                                 token(Tokens.RPAREN)
-                            ])(a => loc => urn => SLAST.QualifiedNameImport(
-                                stretchSourceLocation(loc)(locationFromNodes(a[1]).withDefault(locationAt(a[0]))),
-                                urn,
-                                a[1]))
+                            ])(a => loc => urn => SLAST.QualifiedNameImport(stretchSourceLocation(loc)(locationFromNodes(a[1]).withDefault(locationAt(a[0]))), urn, a[1]))
                         ])
                     ])(a => a[1])
                 ]))

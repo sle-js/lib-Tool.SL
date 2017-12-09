@@ -36,16 +36,14 @@ use core:Native.Data.Array:1.1.0 import length as arrayLength
   "names": [
     {
       "loc": {
-        "source": {
-          "source": "005.txt",
-          "start": {
-            "line": 1,
-            "column": 40
-          },
-          "end": {
-            "line": 1,
-            "column": 60
-          }
+        "source": "005.txt",
+        "start": {
+          "line": 1,
+          "column": 40
+        },
+        "end": {
+          "line": 1,
+          "column": 60
         }
       },
       "name": {
