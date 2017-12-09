@@ -92,15 +92,16 @@ module.exports = $importAll([
                                         parseId
                                     ])(a => a[1])),
                                 OC.optional(token(Tokens.MINUS))
-                            ])(a => loc => urn => AST.QualifiedNameImport({
-                                urn: urn.token().value,
-                                names: [{
+                            ])(a => loc => urn => SLAST.QualifiedNameImport(
+                                stretchSourceLocation(loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc))),
+                                SLAST.URN(locationAt(urn), urn.token().value),
+                                [{
                                     loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
                                     name: a[0],
                                     qualified: a[1].withDefault(a[0]),
                                     public: a[2].isNothing()
                                 }]
-                            })),
+                            )),
                             OC.andMap([
                                 token(Tokens.LPAREN),
                                 OC.chainl1(
@@ -119,7 +120,10 @@ module.exports = $importAll([
                                         public: a[2].isNothing()
                                     })))(token(Tokens.COMMA)),
                                 token(Tokens.RPAREN)
-                            ])(a => loc => urn => AST.QualifiedNameImport({urn: urn.token().value, names: a[1]}))
+                            ])(a => loc => urn => SLAST.QualifiedNameImport(
+                                stretchSourceLocation(loc)(locationFromNodes(a[1]).withDefault(locationAt(a[0]))),
+                                SLAST.URN(locationAt(urn), urn.token().value),
+                                a[1]))
                         ])
                     ])(a => a[1])
                 ]))

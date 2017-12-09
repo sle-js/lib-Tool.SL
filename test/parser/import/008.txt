@@ -2,200 +2,217 @@
 use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend, prepend as arrayPrepend-)
 -- ast parseImport
 {
-  "content": [
-    2,
+  "kind": "QualifiedNameImport",
+  "loc": {
+    "source": "008.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    }
+  },
+  "urn": {
+    "kind": "URN",
+    "loc": {
+      "source": "008.txt",
+      "start": {
+        "line": 1,
+        "column": 4
+      },
+      "end": {
+        "line": 1,
+        "column": 31
+      }
+    },
+    "value": [
+      "core",
+      "Native.Data.Array",
+      "1.1.0"
+    ]
+  },
+  "names": [
     {
-      "urn": [
-        "core",
-        "Native.Data.Array",
-        "1.1.0"
-      ],
-      "names": [
-        {
-          "loc": {
-            "source": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 41
-              },
-              "end": {
-                "line": 1,
-                "column": 46
-              }
-            }
+      "loc": {
+        "source": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 41
           },
-          "name": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 41
-              },
-              "end": {
-                "line": 1,
-                "column": 46
-              }
-            },
-            "value": "length"
-          },
-          "qualified": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 41
-              },
-              "end": {
-                "line": 1,
-                "column": 46
-              }
-            },
-            "value": "length"
-          },
-          "public": true
-        },
-        {
-          "loc": {
-            "source": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 49
-              },
-              "end": {
-                "line": 1,
-                "column": 56
-              }
-            }
-          },
-          "name": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 49
-              },
-              "end": {
-                "line": 1,
-                "column": 55
-              }
-            },
-            "value": "findMap"
-          },
-          "qualified": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 49
-              },
-              "end": {
-                "line": 1,
-                "column": 55
-              }
-            },
-            "value": "findMap"
-          },
-          "public": false
-        },
-        {
-          "loc": {
-            "source": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 59
-              },
-              "end": {
-                "line": 1,
-                "column": 79
-              }
-            }
-          },
-          "name": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 59
-              },
-              "end": {
-                "line": 1,
-                "column": 64
-              }
-            },
-            "value": "append"
-          },
-          "qualified": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 69
-              },
-              "end": {
-                "line": 1,
-                "column": 79
-              }
-            },
-            "value": "arrayAppend"
-          },
-          "public": true
-        },
-        {
-          "loc": {
-            "source": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 82
-              },
-              "end": {
-                "line": 1,
-                "column": 105
-              }
-            }
-          },
-          "name": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 82
-              },
-              "end": {
-                "line": 1,
-                "column": 88
-              }
-            },
-            "value": "prepend"
-          },
-          "qualified": {
-            "kind": "Name",
-            "loc": {
-              "source": "008.txt",
-              "start": {
-                "line": 1,
-                "column": 93
-              },
-              "end": {
-                "line": 1,
-                "column": 104
-              }
-            },
-            "value": "arrayPrepend"
-          },
-          "public": false
+          "end": {
+            "line": 1,
+            "column": 46
+          }
         }
-      ]
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 41
+          },
+          "end": {
+            "line": 1,
+            "column": 46
+          }
+        },
+        "value": "length"
+      },
+      "qualified": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 41
+          },
+          "end": {
+            "line": 1,
+            "column": 46
+          }
+        },
+        "value": "length"
+      },
+      "public": true
+    },
+    {
+      "loc": {
+        "source": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 49
+          },
+          "end": {
+            "line": 1,
+            "column": 56
+          }
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 49
+          },
+          "end": {
+            "line": 1,
+            "column": 55
+          }
+        },
+        "value": "findMap"
+      },
+      "qualified": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 49
+          },
+          "end": {
+            "line": 1,
+            "column": 55
+          }
+        },
+        "value": "findMap"
+      },
+      "public": false
+    },
+    {
+      "loc": {
+        "source": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 59
+          },
+          "end": {
+            "line": 1,
+            "column": 79
+          }
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 59
+          },
+          "end": {
+            "line": 1,
+            "column": 64
+          }
+        },
+        "value": "append"
+      },
+      "qualified": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 69
+          },
+          "end": {
+            "line": 1,
+            "column": 79
+          }
+        },
+        "value": "arrayAppend"
+      },
+      "public": true
+    },
+    {
+      "loc": {
+        "source": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 82
+          },
+          "end": {
+            "line": 1,
+            "column": 105
+          }
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 82
+          },
+          "end": {
+            "line": 1,
+            "column": 88
+          }
+        },
+        "value": "prepend"
+      },
+      "qualified": {
+        "kind": "Name",
+        "loc": {
+          "source": "008.txt",
+          "start": {
+            "line": 1,
+            "column": 93
+          },
+          "end": {
+            "line": 1,
+            "column": 104
+          }
+        },
+        "value": "arrayPrepend"
+      },
+      "public": false
     }
   ]
 }
