@@ -1,0 +1,15 @@
+-- Simple import
+use core:Native.Data.Array:1.1.0
+-- ast parseImport
+{
+  "content": [
+    0,
+    {
+      "urn": [
+        "core",
+        "Native.Data.Array",
+        "1.1.0"
+      ]
+    }
+  ]
+}
