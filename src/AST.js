@@ -25,8 +25,8 @@ function ImportType(content) {
 
 
 // QualifiedImport :: { urn :: String, name :: String, public :: Bool } -> Import
-const QualifiedImport = qualifiedImport =>
-    new ImportType([1, qualifiedImport]);
+// const QualifiedImport = qualifiedImport =>
+//     new ImportType([1, qualifiedImport]);
 
 
 // QualifiedNameImport :: { urn :: String, names :: Sequence { name :: String, qualified :: String, public :: Bool }} -> Import
@@ -179,7 +179,7 @@ ExpressionType.prototype.reduce = function (fConstantInt) {
 module.exports = Promise.resolve({
     Module,
     // UnqualifiedImport,
-    QualifiedImport,
+    // QualifiedImport,
     QualifiedNameImport,
 
     TypeDeclaration,
