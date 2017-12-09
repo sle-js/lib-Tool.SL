@@ -1,0 +1,29 @@
+-- Syntax error following use as
+use core:Native.Data.Array:1.1.0 as 123
+-- ast parseImport
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "x002.txt",
+    "position": {
+      "line": 1,
+      "column": 36
+    }
+  },
+  "found": {
+    "id": 3,
+    "symbol": "constant integer",
+    "value": 123
+  },
+  "expected": [
+    {
+      "id": 34,
+      "symbol": "identifier starting with upper case"
+    },
+    {
+      "id": 35,
+      "symbol": "identifier starting with lower case"
+    }
+  ]
+}
