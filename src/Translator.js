@@ -56,10 +56,11 @@ module.exports = $importAll([
             compose([
                 flattenArray,
                 Array.map(
-                    i => i.kind === "UnqualifiedImport" ? [extractImportNameFromURN(i.urn.value)] : (i.reduce(
-                        c => [extractImportNameFromURN(c.urn)])(
-                        c => c.public ? [markupName(c.name.value)] : [])(
-                        c => Array.map(n => markupName(n.qualified.value))(Array.filter(n => n.public)(c.names)))))
+                    i => i.kind === "UnqualifiedImport" ? [extractImportNameFromURN(i.urn.value)] :
+                        i.kind === "QualifiedImport" ? (i.public ? [markupName(i.name.value)] : []) : (i.reduce(
+                            c => [extractImportNameFromURN(c.urn)])(
+                            c => c.public ? [markupName(c.name.value)] : [])(
+                            c => Array.map(n => markupName(n.qualified.value))(Array.filter(n => n.public)(c.names)))))
             ])(moduleAST.imports))(
             moduleAST.declarations.filter(x => x.kind === "NameDeclaration").map(x => x.name.value)
         );
@@ -71,15 +72,17 @@ module.exports = $importAll([
         const imports = compose([
             arrayToString,
             flattenArray,
-            Array.indexedMap(index => i => i.kind === "UnqualifiedImport" ? [`const ${extractImportNameFromURN(i.urn.value)} = mrequire("${i.urn.value.join(":")}");`] : i.reduce(
-                c => [`const ${extractImportNameFromURN(c.urn)} = mrequire("${c.urn.join(":")}");`])(
-                c => [`const ${markupName(c.name.value)} = mrequire("${c.urn.join(":")}");`])(
-                c => Array.length(c.names) === 1
-                    ? [`const ${markupName(c.names[0].qualified.value)} = mrequire("${c.urn.join(":")}").${c.names[0].name.value};`]
-                    : Array.concat(
-                        [`const $$${index} = mrequire("${c.urn.join(":")}");`])(
-                        c.names.map(n => `const ${n.qualified.value} = $$${index}.${n.name.value};`)
-                    )))
+            Array.indexedMap(index => i =>
+                i.kind === "UnqualifiedImport" ? [`const ${extractImportNameFromURN(i.urn.value)} = mrequire("${i.urn.value.join(":")}");`] :
+                    i.kind === "QualifiedImport" ? [`const ${markupName(i.name.value)} = mrequire("${i.urn.value.join(":")}");`] : i.reduce(
+                        c => [`const ${extractImportNameFromURN(c.urn)} = mrequire("${c.urn.join(":")}");`])(
+                        c => [`const ${markupName(c.name.value)} = mrequire("${c.urn.join(":")}");`])(
+                        c => Array.length(c.names) === 1
+                            ? [`const ${markupName(c.names[0].qualified.value)} = mrequire("${c.urn.join(":")}").${c.names[0].name.value};`]
+                            : Array.concat(
+                                [`const $$${index} = mrequire("${c.urn.join(":")}");`])(
+                                c.names.map(n => `const ${n.qualified.value} = $$${index}.${n.name.value};`)
+                            )))
         ]);
 
         // exports :: AST.Import -> String

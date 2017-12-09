@@ -2,30 +2,51 @@
 use core:Native.Data.Array:1.1.0 as MyArray'-
 -- ast parseImport
 {
-  "content": [
-    1,
-    {
-      "urn": [
-        "core",
-        "Native.Data.Array",
-        "1.1.0"
-      ],
-      "name": {
-        "kind": "Name",
-        "loc": {
-          "source": "003.txt",
-          "start": {
-            "line": 1,
-            "column": 36
-          },
-          "end": {
-            "line": 1,
-            "column": 43
-          }
-        },
-        "value": "MyArray'"
-      },
-      "public": false
+  "kind": "QualifiedImport",
+  "loc": {
+    "source": "003.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 44
     }
-  ]
+  },
+  "urn": {
+    "kind": "URN",
+    "loc": {
+      "source": "003.txt",
+      "start": {
+        "line": 1,
+        "column": 4
+      },
+      "end": {
+        "line": 1,
+        "column": 31
+      }
+    },
+    "value": [
+      "core",
+      "Native.Data.Array",
+      "1.1.0"
+    ]
+  },
+  "name": {
+    "kind": "Name",
+    "loc": {
+      "source": "003.txt",
+      "start": {
+        "line": 1,
+        "column": 36
+      },
+      "end": {
+        "line": 1,
+        "column": 43
+      }
+    },
+    "value": "MyArray'"
+  },
+  "public": false
 }

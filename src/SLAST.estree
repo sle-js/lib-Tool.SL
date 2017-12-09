@@ -38,6 +38,14 @@ interface UnqualifiedImport <: Import {
 }
 
 
+interface QualifiedImport <: Import {
+    kind: "QualifiedImport";
+    urn: URN;
+    name: Name;
+    public: boolean;
+}
+
+
 interface Declaration <: Node {
     name: string;
 }

@@ -79,8 +79,8 @@ module.exports = $importAll([
                     OC.andMap([
                         OC.token(Tokens.AS),
                         parseId,
-                        OC.optional(OC.token(Tokens.MINUS))
-                    ])(s => loc => urn => AST.QualifiedImport({urn: urn.token().value, name: s[1], public: s[2].isNothing()})),
+                        OC.optional(token(Tokens.MINUS))
+                    ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(t => locationAt(t)).withDefault(s[1].loc)), SLAST.URN(locationAt(urn), urn.token().value), s[1], s[2].isNothing())),
                     OC.andMap([
                         OC.token(Tokens.IMPORT),
                         OC.or([
