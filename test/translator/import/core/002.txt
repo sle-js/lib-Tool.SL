@@ -1,39 +1,5 @@
 -- Qualified import with the qualified name exported
 use core:Native.Data.Array:1.1.0 as MyArray'
--- ast
-{
-  "imports": [
-    {
-      "content": [
-        1,
-        {
-          "urn": [
-            "core",
-            "Native.Data.Array",
-            "1.1.0"
-          ],
-          "name": {
-            "kind": "Name",
-            "loc": {
-              "source": "002.txt",
-              "start": {
-                "line": 1,
-                "column": 36
-              },
-              "end": {
-                "line": 1,
-                "column": 43
-              }
-            },
-            "value": "MyArray'"
-          },
-          "public": true
-        }
-      ]
-    }
-  ],
-  "declarations": []
-}
 -- js
 const MyArray$39 = mrequire("core:Native.Data.Array:1.1.0");
 
