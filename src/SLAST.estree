@@ -23,6 +23,13 @@ interface Name <: Node {
 }
 
 
+interface Module {
+    kind: "Module";
+    imports: [ Import ];
+    declarations : [ Declaration ];
+}
+
+
 interface URN <: Node {
     kind: "URN";
     value: [ string ];

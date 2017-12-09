@@ -3,6 +3,7 @@ pi = 3
 ln = 2
 -- ast parseModule
 {
+  "kind": "Module",
   "imports": [],
   "declarations": [
     {

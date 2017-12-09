@@ -3,6 +3,7 @@ use core:Native.Data.Array:1.0.0 as Array
 use core:Native.Data.String:1.0.0 as String
 -- ast parseModule
 {
+  "kind": "Module",
   "imports": [
     {
       "kind": "QualifiedImport",

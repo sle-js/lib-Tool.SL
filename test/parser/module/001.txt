@@ -1,6 +1,7 @@
 -- No import or declaration
 -- ast parseModule
 {
+  "kind": "Module",
   "imports": [],
   "declarations": []
 }

@@ -64,7 +64,7 @@ module.exports = $importAll([
             C.many(parseImport),
             C.many(parseDeclaration),
             token(Tokens.eof)
-        ])(a => AST.Module(a[0])(a[1]))(lexer);
+        ])(a => SLAST.Module(a[0], a[1]))(lexer);
 
 
     const parseImportReference = lexer =>
