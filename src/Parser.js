@@ -80,7 +80,7 @@ module.exports = $importAll([
                         OC.token(Tokens.AS),
                         parseId,
                         OC.optional(OC.token(Tokens.MINUS))
-                    ])(s => urn => AST.QualifiedImport({urn: urn.token().value, name: s[1], public: s[2].isNothing()})),
+                    ])(s => loc => urn => AST.QualifiedImport({urn: urn.token().value, name: s[1], public: s[2].isNothing()})),
                     OC.andMap([
                         OC.token(Tokens.IMPORT),
                         OC.or([
@@ -92,7 +92,7 @@ module.exports = $importAll([
                                         parseId
                                     ])(a => a[1])),
                                 OC.optional(OC.token(Tokens.MINUS))
-                            ])(a => urn => AST.QualifiedNameImport({
+                            ])(a => loc => urn => AST.QualifiedNameImport({
                                 urn: urn.token().value,
                                 names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]
                             })),
@@ -113,12 +113,12 @@ module.exports = $importAll([
                                         public: a[2].isNothing()
                                     })))(OC.token(Tokens.COMMA)),
                                 OC.token(Tokens.RPAREN)
-                            ])(a => urn => AST.QualifiedNameImport({urn: urn.token().value, names: a[1]}))
+                            ])(a => loc => urn => AST.QualifiedNameImport({urn: urn.token().value, names: a[1]}))
                         ])
                     ])(a => a[1])
                 ]))
         ])(a => a[2].isJust()
-            ? a[2].content[1](a[1])
+            ? a[2].content[1](locationAt(a[0]))(a[1])
             : SLAST.UnqualifiedImport(stretchSourceLocation(locationAt(a[0]))(locationAt(a[1])), SLAST.URN(locationAt(a[1]), a[1].token().value)))(lexer);
     }
 
