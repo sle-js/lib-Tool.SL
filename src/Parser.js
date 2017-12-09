@@ -1,15 +1,13 @@
 module.exports = $importAll([
     "./Libs",
-    "./AST",
     "./Tokens"
 ]).then($imports => {
     const Array = $imports[0].Array;
-    const AST = $imports[1];
     const C = $imports[0].ParserCombinator;
     const Errors = $imports[0].Errors;
     const Maybe = $imports[0].Maybe;
     const SLAST = $imports[0].SLAST;
-    const Tokens = $imports[2];
+    const Tokens = $imports[1];
 
 
     const errorLocation = token =>
