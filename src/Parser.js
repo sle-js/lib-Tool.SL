@@ -73,7 +73,7 @@ module.exports = $importAll([
     function parseImport(lexer) {
         return OC.andMap([
             OC.token(Tokens.USE),
-            tokenValue(Tokens.importReference),
+            token(Tokens.importReference),
             OC.optional(
                 OC.or([
                     OC.andMap([
@@ -118,8 +118,8 @@ module.exports = $importAll([
                     ])(a => a[1])
                 ]))
         ])(a => a[2].isJust()
-            ? a[2].content[1](a[1])
-            : AST.UnqualifiedImport({urn: a[1]}))(lexer);
+            ? a[2].content[1](a[1].token().value)
+            : AST.UnqualifiedImport({urn: a[1].token().value}))(lexer);
     }
 
 
