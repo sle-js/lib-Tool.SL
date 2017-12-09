@@ -1,0 +1,6 @@
+-- No import or declaration
+-- ast parseModule
+{
+  "imports": [],
+  "declarations": []
+}

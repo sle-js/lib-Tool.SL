@@ -62,9 +62,9 @@ module.exports = $importAll([
     // type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
 
     const parseModule = lexer =>
-        OC.andMap([
-            OC.many(parseImport),
-            OC.many(parseDeclaration),
+        C.andMap([
+            C.many(parseImport),
+            C.many(parseDeclaration),
             token(Tokens.eof)
         ])(a => AST.Module(a[0])(a[1]))(lexer);
 
@@ -100,7 +100,7 @@ module.exports = $importAll([
                     C.andMap([
                         C.backtrack(token(Tokens.AS)),
                         parseId,
-                        C.optional(token(Tokens.MINUS))
+                        C.optional(C.backtrack(token(Tokens.MINUS)))
                     ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), urn, s[1], s[2].isNothing())),
                     C.andMap([
                         C.backtrack(token(Tokens.IMPORT)),

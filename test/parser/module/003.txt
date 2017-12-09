@@ -1,0 +1,99 @@
+-- No imports with declarations
+pi = 3
+ln = 2
+-- ast parseModule
+{
+  "imports": [],
+  "declarations": [
+    {
+      "kind": "NameDeclaration",
+      "loc": {
+        "source": "003.txt",
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 5
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "003.txt",
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 1
+          }
+        },
+        "value": "pi"
+      },
+      "arguments": [],
+      "expression": {
+        "kind": "ConstantNumber",
+        "loc": {
+          "source": "003.txt",
+          "start": {
+            "line": 1,
+            "column": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 5
+          }
+        },
+        "value": 3
+      }
+    },
+    {
+      "kind": "NameDeclaration",
+      "loc": {
+        "source": "003.txt",
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 5
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "003.txt",
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 1
+          }
+        },
+        "value": "ln"
+      },
+      "arguments": [],
+      "expression": {
+        "kind": "ConstantNumber",
+        "loc": {
+          "source": "003.txt",
+          "start": {
+            "line": 2,
+            "column": 5
+          },
+          "end": {
+            "line": 2,
+            "column": 5
+          }
+        },
+        "value": 2
+      }
+    }
+  ]
+}
