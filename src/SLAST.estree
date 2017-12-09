@@ -23,6 +23,21 @@ interface Name <: Node {
 }
 
 
+interface URN <: Node {
+    kind: "URN";
+    value: [ string ];
+}
+
+
+interface Import <: Node { }
+
+
+interface UnqualifiedImport <: Import {
+    kind: "UnqualifiedImport";
+    urn: URN;
+}
+
+
 interface Declaration <: Node {
     name: string;
 }

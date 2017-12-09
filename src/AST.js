@@ -20,8 +20,8 @@ function ImportType(content) {
 
 
 // UnqualifiedImport :: { urn :: String } -> Import
-const UnqualifiedImport = unqualifiedImport =>
-    new ImportType([0, unqualifiedImport]);
+// const UnqualifiedImport = unqualifiedImport =>
+//     new ImportType([0, unqualifiedImport]);
 
 
 // QualifiedImport :: { urn :: String, name :: String, public :: Bool } -> Import
@@ -178,7 +178,7 @@ ExpressionType.prototype.reduce = function (fConstantInt) {
 
 module.exports = Promise.resolve({
     Module,
-    UnqualifiedImport,
+    // UnqualifiedImport,
     QualifiedImport,
     QualifiedNameImport,
 

@@ -2,14 +2,35 @@
 use core:Native.Data.Array:1.1.0
 -- ast parseImport
 {
-  "content": [
-    0,
-    {
-      "urn": [
-        "core",
-        "Native.Data.Array",
-        "1.1.0"
-      ]
+  "kind": "UnqualifiedImport",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 31
     }
-  ]
+  },
+  "urn": {
+    "kind": "URN",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 4
+      },
+      "end": {
+        "line": 1,
+        "column": 31
+      }
+    },
+    "value": [
+      "core",
+      "Native.Data.Array",
+      "1.1.0"
+    ]
+  }
 }

@@ -119,7 +119,7 @@ module.exports = $importAll([
                 ]))
         ])(a => a[2].isJust()
             ? a[2].content[1](a[1].token().value)
-            : AST.UnqualifiedImport({urn: a[1].token().value}))(lexer);
+            : SLAST.UnqualifiedImport(stretchSourceLocation(locationAt(a[0]))(locationAt(a[1])), SLAST.URN(locationAt(a[1]), a[1].token().value)))(lexer);
     }
 
 

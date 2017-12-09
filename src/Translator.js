@@ -56,10 +56,10 @@ module.exports = $importAll([
             compose([
                 flattenArray,
                 Array.map(
-                    i => i.reduce(
+                    i => i.kind === "UnqualifiedImport" ? [extractImportNameFromURN(i.urn.value)] : (i.reduce(
                         c => [extractImportNameFromURN(c.urn)])(
                         c => c.public ? [markupName(c.name.value)] : [])(
-                        c => Array.map(n => markupName(n.qualified.value))(Array.filter(n => n.public)(c.names))))
+                        c => Array.map(n => markupName(n.qualified.value))(Array.filter(n => n.public)(c.names)))))
             ])(moduleAST.imports))(
             moduleAST.declarations.filter(x => x.kind === "NameDeclaration").map(x => x.name.value)
         );
@@ -71,7 +71,7 @@ module.exports = $importAll([
         const imports = compose([
             arrayToString,
             flattenArray,
-            Array.indexedMap(index => i => i.reduce(
+            Array.indexedMap(index => i => i.kind === "UnqualifiedImport" ? [`const ${extractImportNameFromURN(i.urn.value)} = mrequire("${i.urn.value.join(":")}");`] : i.reduce(
                 c => [`const ${extractImportNameFromURN(c.urn)} = mrequire("${c.urn.join(":")}");`])(
                 c => [`const ${markupName(c.name.value)} = mrequire("${c.urn.join(":")}");`])(
                 c => Array.length(c.names) === 1
