@@ -75,27 +75,27 @@ module.exports = $importAll([
 
     // parseId :: Parser AST.Import
     function parseImport(lexer) {
-        return OC.andMap([
-            token(Tokens.USE),
+        return C.andMap([
+            C.backtrack(token(Tokens.USE)),
             parseImportReference,
-            OC.optional(
-                OC.or([
-                    OC.andMap([
-                        token(Tokens.AS),
+            C.optional(
+                or([Tokens.AS, Tokens.IMPORT])([
+                    C.andMap([
+                        C.backtrack(token(Tokens.AS)),
                         parseId,
-                        OC.optional(token(Tokens.MINUS))
+                        C.optional(token(Tokens.MINUS))
                     ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), urn, s[1], s[2].isNothing())),
-                    OC.andMap([
-                        token(Tokens.IMPORT),
-                        OC.or([
-                            OC.andMap([
-                                parseId,
-                                OC.optional(
-                                    OC.andMap([
-                                        token(Tokens.AS),
+                    C.andMap([
+                        C.backtrack(token(Tokens.IMPORT)),
+                        or([Tokens.upperID, Tokens.lowerID, Tokens.LPAREN])([
+                            C.andMap([
+                                C.backtrack(parseId),
+                                C.optional(
+                                    C.andMap([
+                                        C.backtrack(token(Tokens.AS)),
                                         parseId
                                     ])(a => a[1])),
-                                OC.optional(token(Tokens.MINUS))
+                                C.optional(C.backtrack(token(Tokens.MINUS)))
                             ])(a => loc => urn => SLAST.QualifiedNameImport(
                                 stretchSourceLocation(loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc))),
                                 urn,
@@ -106,23 +106,23 @@ module.exports = $importAll([
                                     public: a[2].isNothing()
                                 }]
                             )),
-                            OC.andMap([
-                                token(Tokens.LPAREN),
-                                OC.chainl1(
-                                    OC.andMap([
-                                        parseId,
-                                        OC.optional(
-                                            OC.andMap([
-                                                token(Tokens.AS),
+                            C.andMap([
+                                C.backtrack(token(Tokens.LPAREN)),
+                                chainl1(
+                                    C.andMap([
+                                        C.backtrack(parseId),
+                                        C.optional(
+                                            C.andMap([
+                                                C.backtrack(token(Tokens.AS)),
                                                 parseId
                                             ])(a => a[1])),
-                                        OC.optional(token(Tokens.MINUS))
+                                        C.optional(C.backtrack(token(Tokens.MINUS)))
                                     ])(a => ({
                                         loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(locationAt).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
                                         name: a[0],
                                         qualified: a[1].withDefault(a[0]),
                                         public: a[2].isNothing()
-                                    })))(token(Tokens.COMMA)),
+                                    })))(C.backtrack(token(Tokens.COMMA))),
                                 token(Tokens.RPAREN)
                             ])(a => loc => urn => SLAST.QualifiedNameImport(
                                 stretchSourceLocation(loc)(locationFromNodes(a[1]).withDefault(locationAt(a[0]))),
