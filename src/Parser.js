@@ -69,18 +69,22 @@ module.exports = $importAll([
         ])(a => AST.Module(a[0])(a[1]))(lexer);
 
 
+    const parseImportReference = lexer =>
+        tokenMap(Tokens.importReference)(t => SLAST.URN(locationAt(t), t.token().value))(lexer);
+
+
     // parseId :: Parser AST.Import
     function parseImport(lexer) {
         return OC.andMap([
             token(Tokens.USE),
-            token(Tokens.importReference),
+            parseImportReference,
             OC.optional(
                 OC.or([
                     OC.andMap([
                         token(Tokens.AS),
                         parseId,
                         OC.optional(token(Tokens.MINUS))
-                    ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), SLAST.URN(locationAt(urn), urn.token().value), s[1], s[2].isNothing())),
+                    ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), urn, s[1], s[2].isNothing())),
                     OC.andMap([
                         token(Tokens.IMPORT),
                         OC.or([
@@ -94,7 +98,7 @@ module.exports = $importAll([
                                 OC.optional(token(Tokens.MINUS))
                             ])(a => loc => urn => SLAST.QualifiedNameImport(
                                 stretchSourceLocation(loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc))),
-                                SLAST.URN(locationAt(urn), urn.token().value),
+                                urn,
                                 [{
                                     loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
                                     name: a[0],
@@ -122,14 +126,14 @@ module.exports = $importAll([
                                 token(Tokens.RPAREN)
                             ])(a => loc => urn => SLAST.QualifiedNameImport(
                                 stretchSourceLocation(loc)(locationFromNodes(a[1]).withDefault(locationAt(a[0]))),
-                                SLAST.URN(locationAt(urn), urn.token().value),
+                                urn,
                                 a[1]))
                         ])
                     ])(a => a[1])
                 ]))
         ])(a => a[2].isJust()
             ? a[2].content[1](locationAt(a[0]))(a[1])
-            : SLAST.UnqualifiedImport(stretchSourceLocation(locationAt(a[0]))(locationAt(a[1])), SLAST.URN(locationAt(a[1]), a[1].token().value)))(lexer);
+            : SLAST.UnqualifiedImport(stretchSourceLocation(locationAt(a[0]))(a[1].loc), a[1]))(lexer);
     }
 
 
