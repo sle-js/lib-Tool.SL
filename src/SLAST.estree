@@ -46,6 +46,18 @@ interface QualifiedImport <: Import {
 }
 
 
+interface QualifiedNameImport <: Import {
+    kind: "QualifiedNameImport";
+    urn: URN;
+    names: [ {
+        loc: SourceLocation;
+        name: Name;
+        qualified: Name;
+        public: boolean;
+    } ];
+}
+
+
 interface Declaration <: Node {
     name: string;
 }

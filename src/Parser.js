@@ -80,7 +80,7 @@ module.exports = $importAll([
                         OC.token(Tokens.AS),
                         parseId,
                         OC.optional(token(Tokens.MINUS))
-                    ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(t => locationAt(t)).withDefault(s[1].loc)), SLAST.URN(locationAt(urn), urn.token().value), s[1], s[2].isNothing())),
+                    ])(s => loc => urn => SLAST.QualifiedImport(stretchSourceLocation(loc)(s[2].map(locationAt).withDefault(s[1].loc)), SLAST.URN(locationAt(urn), urn.token().value), s[1], s[2].isNothing())),
                     OC.andMap([
                         OC.token(Tokens.IMPORT),
                         OC.or([
@@ -91,10 +91,15 @@ module.exports = $importAll([
                                         OC.token(Tokens.AS),
                                         parseId
                                     ])(a => a[1])),
-                                OC.optional(OC.token(Tokens.MINUS))
+                                OC.optional(token(Tokens.MINUS))
                             ])(a => loc => urn => AST.QualifiedNameImport({
                                 urn: urn.token().value,
-                                names: [{name: a[0], qualified: a[1].withDefault(a[0]), public: a[2].isNothing()}]
+                                names: [{
+                                    loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(t => locationAt(t)).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
+                                    name: a[0],
+                                    qualified: a[1].withDefault(a[0]),
+                                    public: a[2].isNothing()
+                                }]
                             })),
                             OC.andMap([
                                 OC.token(Tokens.LPAREN),
@@ -106,8 +111,9 @@ module.exports = $importAll([
                                                 OC.token(Tokens.AS),
                                                 parseId
                                             ])(a => a[1])),
-                                        OC.optional(OC.token(Tokens.MINUS))
+                                        OC.optional(token(Tokens.MINUS))
                                     ])(a => ({
+                                        loc: SLAST.SourceLocation(stretchSourceLocation(a[0].loc)(a[2].map(locationAt).withDefault(a[1].map(t => t.loc).withDefault(a[0].loc)))),
                                         name: a[0],
                                         qualified: a[1].withDefault(a[0]),
                                         public: a[2].isNothing()

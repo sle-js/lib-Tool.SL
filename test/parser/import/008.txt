@@ -12,6 +12,19 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
       ],
       "names": [
         {
+          "loc": {
+            "source": {
+              "source": "008.txt",
+              "start": {
+                "line": 1,
+                "column": 41
+              },
+              "end": {
+                "line": 1,
+                "column": 46
+              }
+            }
+          },
           "name": {
             "kind": "Name",
             "loc": {
@@ -45,6 +58,19 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
           "public": true
         },
         {
+          "loc": {
+            "source": {
+              "source": "008.txt",
+              "start": {
+                "line": 1,
+                "column": 49
+              },
+              "end": {
+                "line": 1,
+                "column": 56
+              }
+            }
+          },
           "name": {
             "kind": "Name",
             "loc": {
@@ -78,6 +104,19 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
           "public": false
         },
         {
+          "loc": {
+            "source": {
+              "source": "008.txt",
+              "start": {
+                "line": 1,
+                "column": 59
+              },
+              "end": {
+                "line": 1,
+                "column": 79
+              }
+            }
+          },
           "name": {
             "kind": "Name",
             "loc": {
@@ -111,6 +150,19 @@ use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend
           "public": true
         },
         {
+          "loc": {
+            "source": {
+              "source": "008.txt",
+              "start": {
+                "line": 1,
+                "column": 82
+              },
+              "end": {
+                "line": 1,
+                "column": 105
+              }
+            }
+          },
           "name": {
             "kind": "Name",
             "loc": {
