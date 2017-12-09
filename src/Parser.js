@@ -91,8 +91,8 @@ module.exports = $importAll([
 
 
     // parseId :: Parser AST.Import
-    function parseImport(lexer) {
-        return C.andMap([
+    const parseImport = lexer =>
+        C.andMap([
             C.backtrack(token(Tokens.USE)),
             parseImportReference,
             C.optional(
@@ -117,7 +117,6 @@ module.exports = $importAll([
         ])(a => a[2].isJust()
             ? a[2].content[1](locationAt(a[0]))(a[1])
             : SLAST.UnqualifiedImport(stretchSourceLocation(locationAt(a[0]))(a[1].loc), a[1]))(lexer);
-    }
 
 
     // parseId :: Parser String
