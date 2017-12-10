@@ -3,6 +3,7 @@ module.exports = $import(
 ).then($imports => {
     const Array = $imports.Array;
     const Assertion = $imports.Assertion;
+    const ASTTranslator = $imports.ASTTranslator;
     const FileSystem = $imports.FileSystem;
     const Path = $imports.Path;
     const String = $imports.String;
@@ -53,7 +54,7 @@ module.exports = $import(
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
 
-        if (astKey.map(v => v === "ast").withDefault(false) || content.js) {
+        if (astKey.map(v => v === "ast").withDefault(false) || content.js || content.jsast) {
             const ast =
                 Parser.parseModule(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
@@ -65,15 +66,19 @@ module.exports = $import(
                     : assertion
                         .isTrue(ast.isOkay());
 
+            const jsASTAssertion = content.jsast
+                ? astAssertion.equals(asString(ASTTranslator.translate(ast.content[1].result)))(content.jsast.join("\n").trim())
+                : astAssertion;
+
             if (content.js) {
                 const output =
                     ast.map(x => x.result).andThen(ast => Translator.translate(ast));
 
-                return astAssertion
+                return jsASTAssertion
                     .isTrue(output.isOkay())
                     .equals(output.content[1])(content.js.join("\n").trim());
             } else {
-                return astAssertion;
+                return jsASTAssertion;
             }
         } else if (astKey.isJust()) {
             const parseName =
