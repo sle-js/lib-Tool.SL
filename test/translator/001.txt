@@ -54,3 +54,23 @@ pi =
   ]
 }
 -- jsast
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "declarations": {
+        "type": "VariableDeclarator",
+        "id": {
+          "type": "Identifier",
+          "name": "pi"
+        },
+        "init": {
+          "type": "Literal",
+          "loc": 3
+        }
+      },
+      "kind": "const"
+    }
+  ]
+}
