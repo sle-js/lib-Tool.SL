@@ -17,9 +17,7 @@ module.exports = $importAll([
                 undefined,
                 ES2015.VariableDeclarator(
                     undefined,
-                    ES2015.Identifier(
-                        undefined,
-                        declaration.name.value),
+                    ES2015.Identifier(undefined, declaration.name.value),
                     xExpression(declaration.expression)),
                 "const");
 
@@ -27,8 +25,27 @@ module.exports = $importAll([
     };
 
 
-    const translate = slAST =>
-        ES2015.Program(undefined, Array.map(xDeclaration)(slAST.declarations));
+    const translate = slAST => {
+        const exportNames =
+            Array.map(d => d.name.value)(slAST.declarations);
+
+        const moduleExports =
+            ES2015.AssignmentExpression(
+                undefined,
+                ES2015.AssignmentOperator("="),
+                ES2015.MemberExpression(
+                    undefined,
+                    ES2015.Identifier(undefined, "module"),
+                    ES2015.Identifier(undefined, "exports"),
+                    false),
+                ES2015.ObjectExpression(
+                    undefined,
+                    Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), ES2015.Identifier(undefined, n), "init"))(exportNames)));
+
+        return ES2015.Program(
+            undefined,
+            Array.append(moduleExports)(Array.map(xDeclaration)(slAST.declarations)));
+    };
 
 
     return {
