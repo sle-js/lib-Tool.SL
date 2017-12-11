@@ -1,7 +1,7 @@
 -- Empty import
 pi =
     3
--- js
+-- js-
 const pi =
     3;
 

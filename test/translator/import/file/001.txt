@@ -1,6 +1,6 @@
 -- Simple import
 use file:../Native/Data/Array
--- js
+-- js-
 const Array = mrequire("file:../Native/Data/Array");
 
 module.exports = {

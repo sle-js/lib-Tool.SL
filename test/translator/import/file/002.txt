@@ -1,6 +1,6 @@
 -- Multiple qualified name imports from a file
 use file:../Native/Data/Array import (length, findMap-, append as arrayAppend, prepend as arrayPrepend-)
--- js
+-- js-
 const $$0 = mrequire("file:../Native/Data/Array");
 const length = $$0.length;
 const findMap = $$0.findMap;

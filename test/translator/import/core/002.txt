@@ -1,6 +1,6 @@
 -- Qualified import with the qualified name exported
 use core:Native.Data.Array:1.1.0 as MyArray'
--- js
+-- js-
 const MyArray$39 = mrequire("core:Native.Data.Array:1.1.0");
 
 module.exports = {

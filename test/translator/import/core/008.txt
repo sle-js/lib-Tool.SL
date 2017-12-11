@@ -1,6 +1,6 @@
 -- Multiple qualified name import with a mixture of names public and private with renames
 use core:Native.Data.Array:1.1.0 import (length, findMap-, append as arrayAppend, prepend as arrayPrepend-)
--- js
+-- js-
 const $$0 = mrequire("core:Native.Data.Array:1.1.0");
 const length = $$0.length;
 const findMap = $$0.findMap;

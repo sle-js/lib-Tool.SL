@@ -1,6 +1,6 @@
 -- Single qualified name import with that name exported
 use core:Native.Data.Array:1.1.0 import length
--- js
+-- js-
 const length = mrequire("core:Native.Data.Array:1.1.0").length;
 
 module.exports = {

@@ -1,6 +1,6 @@
 -- Simple import
 use core:Native.Data.Array:1.1.0
--- js
+-- js-
 const Array = mrequire("core:Native.Data.Array:1.1.0");
 
 module.exports = {
