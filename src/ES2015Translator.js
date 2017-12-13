@@ -30,11 +30,26 @@ module.exports = $importAll([
         Array.map(xStatement(state))(node).join("\n");
 
 
-    const xExpression = state => node =>
-        node.type === "Literal" ? xLiteral(state)(node)
-            : node.type === "ObjectExpression" ? xObjectExpression(state)(node)
-            : node.type === "Identifier" ? xIdentifier(state)(node)
-                : `=== unknown: xExpression: ${node.type}`;
+    const xCallExpression = state => node =>
+        "" + xExpression(state)(node.callee) + "(" + Array.map(xExpression(state))(node.arguments).join(", ") + ")";
+
+
+    const xExpression = state => node => {
+        switch (node.type) {
+            case "Literal":
+                return xLiteral(state)(node);
+            case "ObjectExpression":
+                return xObjectExpression(state)(node);
+            case "Identifier":
+                return xIdentifier(state)(node);
+            case "CallExpression":
+                return xCallExpression(state)(node);
+            case "MemberExpression":
+                return xMemberExpression(state)(node);
+            default:
+                return `=== unknown: xExpression: ${node.type}`;
+        }
+    };
 
 
     const xIdentifier = state => node =>
