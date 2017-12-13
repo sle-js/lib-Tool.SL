@@ -38,19 +38,36 @@ pi =
         "computed": false
       },
       "right": {
-        "type": "ObjectExpression",
-        "properties": [
+        "type": "CallExpression",
+        "callee": {
+          "type": "MemberExpression",
+          "object": {
+            "type": "Identifier",
+            "name": "Promise"
+          },
+          "property": {
+            "type": "Identifier",
+            "name": "resolve"
+          },
+          "computed": false
+        },
+        "arguments": [
           {
-            "type": "Property",
-            "key": {
-              "type": "Literal",
-              "value": "pi"
-            },
-            "value": {
-              "type": "Identifier",
-              "name": "pi"
-            },
-            "kind": "init"
+            "type": "ObjectExpression",
+            "properties": [
+              {
+                "type": "Property",
+                "key": {
+                  "type": "Literal",
+                  "value": "pi"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "name": "pi"
+                },
+                "kind": "init"
+              }
+            ]
           }
         ]
       }
@@ -61,6 +78,6 @@ pi =
 const pi =
     3;
 
-module.exports = {
+module.exports = Promise.resolve({
     pi
-};
+});

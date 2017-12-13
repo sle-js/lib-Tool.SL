@@ -40,9 +40,18 @@ module.exports = $importAll([
                     ES2015.Identifier(undefined, "module"),
                     ES2015.Identifier(undefined, "exports"),
                     false),
-                ES2015.ObjectExpression(
+                ES2015.CallExpression(
                     undefined,
-                    Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), ES2015.Identifier(undefined, n), "init"))(exportNames)));
+                    ES2015.MemberExpression(
+                        undefined,
+                        ES2015.Identifier(undefined, "Promise"),
+                        ES2015.Identifier(undefined, "resolve"),
+                        false),
+                    [
+                        ES2015.ObjectExpression(
+                            undefined,
+                            Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), ES2015.Identifier(undefined, n), "init"))(exportNames))
+                    ]));
 
         return ES2015.Program(
             undefined,
