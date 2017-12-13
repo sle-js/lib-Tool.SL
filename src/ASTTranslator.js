@@ -7,7 +7,7 @@ module.exports = $importAll([
 
 
     const xExpression = expression => {
-        return ES2015.Literal(expression.value);
+        return ES2015.Literal(undefined, expression.value);
     };
 
 
@@ -15,10 +15,12 @@ module.exports = $importAll([
         const xNameDeclaration = declaration =>
             ES2015.VariableDeclaration(
                 undefined,
-                ES2015.VariableDeclarator(
-                    undefined,
-                    ES2015.Identifier(undefined, declaration.name.value),
-                    xExpression(declaration.expression)),
+                [
+                    ES2015.VariableDeclarator(
+                        undefined,
+                        ES2015.Identifier(undefined, declaration.name.value),
+                        xExpression(declaration.expression))
+                ],
                 "const");
 
         return xNameDeclaration(declaration);

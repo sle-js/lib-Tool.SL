@@ -7,17 +7,19 @@ pi =
   "body": [
     {
       "type": "VariableDeclaration",
-      "declarations": {
-        "type": "VariableDeclarator",
-        "id": {
-          "type": "Identifier",
-          "name": "pi"
-        },
-        "init": {
-          "type": "Literal",
-          "loc": 3
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "pi"
+          },
+          "init": {
+            "type": "Literal",
+            "value": 3
+          }
         }
-      },
+      ],
       "kind": "const"
     },
     {

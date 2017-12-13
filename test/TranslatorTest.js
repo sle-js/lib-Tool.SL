@@ -4,6 +4,7 @@ module.exports = $import(
     const Array = $imports.Array;
     const Assertion = $imports.Assertion;
     const ASTTranslator = $imports.ASTTranslator;
+    const ES2015Translator = $imports.ES2015Translator;
     const FileSystem = $imports.FileSystem;
     const Path = $imports.Path;
     const String = $imports.String;
@@ -72,11 +73,10 @@ module.exports = $import(
 
             if (content.js) {
                 const output =
-                    ast.map(x => x.result).andThen(ast => Translator.translate(ast));
+                    ast.map(x => x.result).andThen(ast => ES2015Translator.translate(ASTTranslator.translate(ast)));
 
                 return jsASTAssertion
-                    .isTrue(output.isOkay())
-                    .equals(output.content[1])(content.js.join("\n").trim());
+                    .equals(output.trim())(content.js.join("\n").trim());
             } else {
                 return jsASTAssertion;
             }
