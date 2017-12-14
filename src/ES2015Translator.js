@@ -67,7 +67,9 @@ module.exports = $importAll([
 
 
     const xObjectExpression = state => node =>
-        `{\n${Array.map(xProperty(nextIndent(state)))(node.properties).join("")}}`;
+        Array.length(node.properties) === 0
+            ? "{}"
+            : `{\n${Array.map(xProperty(nextIndent(state)))(node.properties).join("")}}`;
 
 
     const xPattern = state => node =>
