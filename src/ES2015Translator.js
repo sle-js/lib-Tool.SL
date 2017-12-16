@@ -26,6 +26,10 @@ module.exports = $importAll([
         `${isPattern(node.left) ? xPattern(state)(node.left) : xExpression(state)(node.left)} ${node.operator} ${xExpression(state)(node.right)}`;
 
 
+    const xBlockStatement = state => node =>
+        `{\n${xBody(nextIndent(state))(node.body)}${state.indent}${state.indent}}`;
+
+
     const xBody = state => node =>
         Array.map(xStatement(state))(node).join("\n");
 
@@ -36,19 +40,34 @@ module.exports = $importAll([
 
     const xExpression = state => node => {
         switch (node.type) {
-            case "Literal":
-                return xLiteral(state)(node);
-            case "ObjectExpression":
-                return xObjectExpression(state)(node);
-            case "Identifier":
-                return xIdentifier(state)(node);
             case "CallExpression":
                 return xCallExpression(state)(node);
+            case "FunctionExpression":
+                return xFunctionExpression(state)(node);
+            case "Identifier":
+                return xIdentifier(state)(node);
+            case "Literal":
+                return xLiteral(state)(node);
             case "MemberExpression":
                 return xMemberExpression(state)(node);
+            case "ObjectExpression":
+                return xObjectExpression(state)(node);
             default:
                 return `=== unknown: xExpression: ${node.type}`;
         }
+    };
+
+
+    const xFunctionExpression = state => node => {
+        const params =
+            Array.map(xPattern(state))(node.params);
+
+        const xParams =
+            Array.length(params) === 1
+                ? Array.join(", ")(params)
+                : `(${Array.join(", ")(params)})`;
+
+        return `${xParams} => ${xBlockStatement(state)(node.body)}`;
     };
 
 
@@ -57,7 +76,9 @@ module.exports = $importAll([
 
 
     const xLiteral = state => node =>
-        node.value;
+        typeof node.value === "string"
+            ? `"${node.value}"`
+            : node.value;
 
 
     const xMemberExpression = state => node =>
@@ -69,7 +90,7 @@ module.exports = $importAll([
     const xObjectExpression = state => node =>
         Array.length(node.properties) === 0
             ? "{}"
-            : `{\n${Array.map(xProperty(nextIndent(state)))(node.properties).join("")}}`;
+            : `{\n${Array.map(xProperty(nextIndent(state)))(node.properties).join("")}${state.indent}}`;
 
 
     const xPattern = state => node =>
@@ -84,16 +105,28 @@ module.exports = $importAll([
         const value =
             xExpression(state)(node.value);
 
-        return key === value
-            ? `${state.indent}${key}\n`
+        return key === `"${value}"`
+            ? `${state.indent}${value}\n`
             : `${state.indent}${key}: ${value}\n`;
     };
 
 
-    const xStatement = state => node =>
-        node.type === "VariableDeclaration" ? `${xVariableDeclaration(state)(node)};\n`
-            : node.type === "AssignmentExpression" ? `${xAssignmentExpression(state)(node)};\n`
-            : `=== unknown: xStatement: ${node.type}`;
+    const xReturnStatement = state => node =>
+        `${state.indent}return${node.argument === null ? "" : ` ${xExpression(state)(node.argument)}`}`;
+
+
+    const xStatement = state => node => {
+        switch (node.type) {
+            case "AssignmentExpression":
+                return `${xAssignmentExpression(state)(node)};\n`;
+            case "ReturnStatement":
+                return `${xReturnStatement(state)(node)};\n`;
+            case "VariableDeclaration":
+                return `${xVariableDeclaration(state)(node)};\n`;
+            default:
+                return `=== unknown: xStatement: ${node.type}`;
+        }
+    };
 
 
     const xVariableDeclaration = state => node =>
