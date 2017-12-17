@@ -2,6 +2,8 @@ module.exports = $importAll([
     "./Libs"
 ]).then($imports => {
     const Array = $imports[0].Array;
+    const Char = $imports[0].Char;
+    const String = $imports[0].String;
 
     const mkState = indent => deltaIndent => ({
         indent,
@@ -71,8 +73,18 @@ module.exports = $importAll([
     };
 
 
+    const markupIdentifier = name => {
+        const markupChar = c =>
+            (c === 36) || (c === 95) || Char.alphaDigit$63(c)
+                ? String.fromChar(c)
+                : "$" + c;
+
+        return String.foldl("")(acc => item => acc + markupChar(item))(name);
+    };
+
+
     const xIdentifier = state => node =>
-        node.name;
+        markupIdentifier(node.name);
 
 
     const xLiteral = state => node =>

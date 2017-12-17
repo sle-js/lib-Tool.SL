@@ -3,7 +3,19 @@ module.exports = $importAll([
     "./es2015"
 ]).then($imports => {
     const Array = $imports[0].Array;
+    const Char = $imports[0].Char;
     const ES2015 = $imports[1];
+    const String = $imports[0].String;
+
+
+    const markupIdentifier = name => {
+        const markupChar = c =>
+            (c === 36) || (c === 95) || Char.alphaDigit$63(c)
+                ? String.fromChar(c)
+                : "$" + c;
+
+        return String.foldl("")(acc => item => acc + markupChar(item))(name);
+    };
 
 
     const xExpression = expression => {
@@ -38,7 +50,9 @@ module.exports = $importAll([
             const nameItems =
                 $import.urn.value[1].split(".");
 
-            return nameItems[nameItems.length - 1];
+            return $import.kind === "QualifiedImport"
+                ? $import.name.value
+                : nameItems[nameItems.length - 1];
         };
 
         const exportNamesFromImport = $import =>
@@ -86,7 +100,7 @@ module.exports = $importAll([
                     undefined,
                     ES2015.ObjectExpression(
                         undefined,
-                        Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), ES2015.Identifier(undefined, n), "init"))(exportNames)));
+                        Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, markupIdentifier(n)), ES2015.Identifier(undefined, n), "init"))(exportNames)));
 
             return ES2015.Program(
                 undefined,
