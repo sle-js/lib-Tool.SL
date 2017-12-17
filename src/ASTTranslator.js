@@ -34,12 +34,15 @@ module.exports = $importAll([
 
 
     const translate = slAST => {
-        const exportNamesFromImport = $import => {
+        const exportNameFromImport = $import => {
             const nameItems =
                 $import.urn.value[1].split(".");
 
-            return [nameItems[nameItems.length - 1]];
+            return nameItems[nameItems.length - 1];
         };
+
+        const exportNamesFromImport = $import =>
+            [exportNameFromImport($import)];
 
         const exportNamesFromImports =
             flatten(Array.map(exportNamesFromImport)(slAST.imports));
@@ -74,7 +77,10 @@ module.exports = $importAll([
             return ES2015.Program(
                 undefined,
                 Array.append(moduleExports)(Array.map(xDeclaration)(slAST.declarations)))
-        } else {
+        } else if (Array.length(slAST.imports) === 1) {
+            const astImport =
+                slAST.imports[0];
+
             const returnExports =
                 ES2015.ReturnStatement(
                     undefined,
@@ -100,7 +106,7 @@ module.exports = $importAll([
                                 undefined,
                                 ES2015.Identifier(undefined, "$import"),
                                 [
-                                    ES2015.Literal(undefined, "core:Native.Data.Array:1.1.0")
+                                    ES2015.Literal(undefined, astImport.urn.value.join(":"))
                                 ]),
                             ES2015.CallExpression(
                                 undefined,
@@ -109,7 +115,7 @@ module.exports = $importAll([
                                     ES2015.FunctionExpression(
                                         undefined,
                                         null,
-                                        [ES2015.Identifier(undefined, "Array")],
+                                        [ES2015.Identifier(undefined, exportNameFromImport(astImport))],
                                         ES2015.FunctionBody(
                                             undefined,
                                             Array.append(returnExports)(Array.map(xDeclaration)(slAST.declarations))))
