@@ -1,5 +1,6 @@
 module.exports = $importAll([
     "core:Native.Data.Array:1.2.0",
+    "./Char",
     "use:./Errors.estree core:Tool.ESTree:1.0.3",
     "core:Native.System.IO.FileSystem:1.1.0",
     "./Float",
@@ -13,15 +14,16 @@ module.exports = $importAll([
     "core:Native.Data.String:1.0.0"
 ]).then($imports => ({
     Array: $imports[0],
-    Errors: $imports[1],
-    FileSystem: $imports[2],
-    Float: $imports[3],
-    Int: $imports[4],
-    Lexer: $imports[5],
-    Maybe: $imports[6],
-    ParserCombinator: $imports[7],
-    Result: $imports[8],
-    SLAST: $imports[9],
-    Stream: $imports[10],
-    String: $imports[11]
+    Char: $imports[1],
+    Errors: $imports[2],
+    FileSystem: $imports[3],
+    Float: $imports[4],
+    Int: $imports[5],
+    Lexer: $imports[6],
+    Maybe: $imports[7],
+    ParserCombinator: $imports[8],
+    Result: $imports[9],
+    SLAST: $imports[10],
+    Stream: $imports[11],
+    String: $imports[12]
 }));
