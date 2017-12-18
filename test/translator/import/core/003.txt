@@ -1,7 +1,6 @@
 -- Qualified import with the qualified name being private
 use core:Native.Data.Array:1.1.0 as MyArray'-
--- js-
-const MyArray$39 = mrequire("core:Native.Data.Array:1.1.0");
-
-module.exports = {
-};
+-- js
+module.exports = $import("core:Native.Data.Array:1.1.0").then(MyArray$39 => {
+    return {};
+});

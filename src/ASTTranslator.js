@@ -56,7 +56,9 @@ module.exports = $importAll([
         };
 
         const exportNamesFromImport = $import =>
-            [exportNameFromImport($import)];
+            $import.kind === "UnqualifiedImport" || $import.kind === "QualifiedImport" && $import.public
+                ? [exportNameFromImport($import)]
+                : [];
 
         const exportNamesFromImports =
             flatten(Array.map(exportNamesFromImport)(slAST.imports));
