@@ -54,6 +54,8 @@ module.exports = $importAll([
                 return xMemberExpression(state)(node);
             case "ObjectExpression":
                 return xObjectExpression(state)(node);
+            case "SequenceExpression":
+                return xSequenceExpression(state)(node);
             default:
                 return `=== unknown: xExpression: ${node.type}`;
         }
@@ -85,7 +87,7 @@ module.exports = $importAll([
 
     const xMemberExpression = state => node =>
         node.computed
-            ? `${xExpression(state)(node.object)}[${xExpression(state)(node.property)}]}`
+            ? `${xExpression(state)(node.object)}[${xExpression(state)(node.property)}]`
             : `${xExpression(state)(node.object)}.${xExpression(state)(node.property)}`;
 
 
@@ -115,6 +117,12 @@ module.exports = $importAll([
 
     const xReturnStatement = state => node =>
         `${state.indent}return${node.argument === null ? "" : ` ${xExpression(state)(node.argument)}`}`;
+
+
+    const xSequenceExpression = state => node =>
+        Array.length(node.expressions) === 0
+            ? "[]"
+            : `[\n${Array.join(",\n")(Array.map(e => `${nextIndent(state).indent}${xExpression(nextIndent(state))(e)}`)(node.expressions))}\n${state.indent}]`;
 
 
     const xStatement = state => node => {

@@ -97,9 +97,38 @@ module.exports = $importAll([
             return ES2015.Program(
                 undefined,
                 Array.append(moduleExports)(Array.map(xDeclaration)(slAST.declarations)))
-        } else if (Array.length(slAST.imports) === 1) {
-            const astImport =
-                slAST.imports[0];
+        } else {
+            const importAssignments =
+                Array.map(i => i.kind === "UnqualifiedImport"
+                    ? ES2015.VariableDeclaration(
+                        undefined,
+                        [
+                            ES2015.VariableDeclarator(
+                                undefined,
+                                Identifier(undefined, exportNameFromImport(i)),
+                                ES2015.MemberExpression(
+                                    undefined,
+                                    Identifier(undefined, "$imports"),
+                                    ES2015.Literal(undefined, 0),
+                                    true
+                                ))
+                        ],
+                        "const")
+                    : ES2015.VariableDeclaration(
+                        undefined,
+                        [
+                            ES2015.VariableDeclarator(
+                                undefined,
+                                Identifier(undefined, i.name.value),
+                                    ES2015.MemberExpression(
+                                        undefined,
+                                        Identifier(undefined, "$imports"),
+                                        ES2015.Literal(undefined, 0),
+                                        true))
+                        ],
+                        "const")
+                )(slAST.imports);
+
 
             const returnExports =
                 ES2015.ReturnStatement(
@@ -124,9 +153,11 @@ module.exports = $importAll([
                             undefined,
                             ES2015.CallExpression(
                                 undefined,
-                                Identifier(undefined, "$import"),
+                                Identifier(undefined, "$importAll"),
                                 [
-                                    ES2015.Literal(undefined, astImport.urn.value.join(":"))
+                                    ES2015.SequenceExpression(
+                                        undefined,
+                                        Array.map(i => ES2015.Literal(undefined, i.urn.value.join(":")))(slAST.imports))
                                 ]),
                             ES2015.CallExpression(
                                 undefined,
@@ -135,10 +166,10 @@ module.exports = $importAll([
                                     ES2015.FunctionExpression(
                                         undefined,
                                         null,
-                                        [Identifier(undefined, exportNameFromImport(astImport))],
+                                        [Identifier(undefined, "$imports")],
                                         ES2015.FunctionBody(
                                             undefined,
-                                            Array.append(returnExports)(Array.map(xDeclaration)(slAST.declarations))))
+                                            Array.concat(importAssignments)(Array.append(returnExports)(Array.map(xDeclaration)(slAST.declarations)))))
                                 ]),
                             false)),
                 ]);
