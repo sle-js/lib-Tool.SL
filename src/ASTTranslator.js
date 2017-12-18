@@ -18,6 +18,10 @@ module.exports = $importAll([
     };
 
 
+    const Identifier = (loc, name) =>
+        ES2015.Identifier(loc, markupIdentifier(name));
+
+
     const xExpression = expression => {
         return ES2015.Literal(undefined, expression.value);
     };
@@ -30,7 +34,7 @@ module.exports = $importAll([
                 [
                     ES2015.VariableDeclarator(
                         undefined,
-                        ES2015.Identifier(undefined, declaration.name.value),
+                        Identifier(undefined, declaration.name.value),
                         xExpression(declaration.expression))
                 ],
                 "const");
@@ -74,20 +78,20 @@ module.exports = $importAll([
                     ES2015.AssignmentOperator("="),
                     ES2015.MemberExpression(
                         undefined,
-                        ES2015.Identifier(undefined, "module"),
-                        ES2015.Identifier(undefined, "exports"),
+                        Identifier(undefined, "module"),
+                        Identifier(undefined, "exports"),
                         false),
                     ES2015.CallExpression(
                         undefined,
                         ES2015.MemberExpression(
                             undefined,
-                            ES2015.Identifier(undefined, "Promise"),
-                            ES2015.Identifier(undefined, "resolve"),
+                            Identifier(undefined, "Promise"),
+                            Identifier(undefined, "resolve"),
                             false),
                         [
                             ES2015.ObjectExpression(
                                 undefined,
-                                Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), ES2015.Identifier(undefined, n), "init"))(exportNames))
+                                Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, n), Identifier(undefined, n), "init"))(exportNames))
                         ]));
 
             return ES2015.Program(
@@ -102,7 +106,7 @@ module.exports = $importAll([
                     undefined,
                     ES2015.ObjectExpression(
                         undefined,
-                        Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, markupIdentifier(n)), ES2015.Identifier(undefined, n), "init"))(exportNames)));
+                        Array.map(n => ES2015.Property(undefined, ES2015.Literal(undefined, markupIdentifier(n)), Identifier(undefined, n), "init"))(exportNames)));
 
             return ES2015.Program(
                 undefined,
@@ -112,26 +116,26 @@ module.exports = $importAll([
                         ES2015.AssignmentOperator("="),
                         ES2015.MemberExpression(
                             undefined,
-                            ES2015.Identifier(undefined, "module"),
-                            ES2015.Identifier(undefined, "exports"),
+                            Identifier(undefined, "module"),
+                            Identifier(undefined, "exports"),
                             false),
 
                         ES2015.MemberExpression(
                             undefined,
                             ES2015.CallExpression(
                                 undefined,
-                                ES2015.Identifier(undefined, "$import"),
+                                Identifier(undefined, "$import"),
                                 [
                                     ES2015.Literal(undefined, astImport.urn.value.join(":"))
                                 ]),
                             ES2015.CallExpression(
                                 undefined,
-                                ES2015.Identifier(undefined, "then"),
+                                Identifier(undefined, "then"),
                                 [
                                     ES2015.FunctionExpression(
                                         undefined,
                                         null,
-                                        [ES2015.Identifier(undefined, exportNameFromImport(astImport))],
+                                        [Identifier(undefined, exportNameFromImport(astImport))],
                                         ES2015.FunctionBody(
                                             undefined,
                                             Array.append(returnExports)(Array.map(xDeclaration)(slAST.declarations))))
