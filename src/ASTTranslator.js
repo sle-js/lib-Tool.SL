@@ -100,7 +100,7 @@ module.exports = $importAll([
                 Array.append(moduleExports)(Array.map(xDeclaration)(slAST.declarations)))
         } else {
             const importAssignments =
-                flatten(Array.map(i => i.kind === "UnqualifiedImport"
+                flatten(Array.indexedMap(n => i => i.kind === "UnqualifiedImport"
                     ? [ES2015.VariableDeclaration(
                         undefined,
                         [
@@ -110,7 +110,7 @@ module.exports = $importAll([
                                 ES2015.MemberExpression(
                                     undefined,
                                     Identifier(undefined, "$imports"),
-                                    ES2015.Literal(undefined, 0),
+                                    ES2015.Literal(undefined, n),
                                     true
                                 ))
                         ],
@@ -125,7 +125,7 @@ module.exports = $importAll([
                                     ES2015.MemberExpression(
                                         undefined,
                                         Identifier(undefined, "$imports"),
-                                        ES2015.Literal(undefined, 0),
+                                        ES2015.Literal(undefined, n),
                                         true))
                             ],
                             "const")]
@@ -141,7 +141,7 @@ module.exports = $importAll([
                                             ES2015.MemberExpression(
                                                 undefined,
                                                 Identifier(undefined, "$imports"),
-                                                ES2015.Literal(undefined, 0),
+                                                ES2015.Literal(undefined, n),
                                                 true),
                                             Identifier(undefined, i.name.value),
                                             false))
