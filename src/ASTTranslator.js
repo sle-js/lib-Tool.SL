@@ -50,21 +50,19 @@ module.exports = $importAll([
 
 
     const translate = slAST => {
-        const exportNameFromImport = $import => {
+        const exportNameFromURN = urn => {
             const nameItems =
-                $import.urn.value[1].split(".");
+                urn.value[1].split(".");
 
-            return $import.kind === "QualifiedImport"
-                ? $import.name.value
-                : nameItems[nameItems.length - 1];
+            return nameItems[nameItems.length - 1];
         };
 
         const exportNamesFromImport = $import => {
             switch ($import.kind) {
                 case "UnqualifiedImport":
-                    return [exportNameFromImport($import)];
+                    return [exportNameFromURN($import.urn)];
                 case "QualifiedImport":
-                    return $import.public ? [exportNameFromImport($import)] : [];
+                    return $import.public ? [$import.name.value] : [];
                 case "QualifiedNameImport":
                     return Array.map(i => i.qualified.value)(Array.filter(i => i.public)($import.names));
                 default:
@@ -122,7 +120,7 @@ module.exports = $importAll([
                     case "UnqualifiedImport":
                         return [
                             variableDeclaration(
-                                exportNameFromImport($import))(
+                                exportNameFromURN($import.urn))(
                                 ES2015.MemberExpression(
                                     undefined,
                                     Identifier(undefined, "$imports"),
