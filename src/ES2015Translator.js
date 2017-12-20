@@ -94,7 +94,7 @@ module.exports = $importAll([
     const xObjectExpression = state => node =>
         Array.length(node.properties) === 0
             ? "{}"
-            : `{\n${Array.map(xProperty(nextIndent(state)))(node.properties).join("")}${state.indent}}`;
+            : `{\n${Array.map(property => `${nextIndent(state).indent}${xProperty(nextIndent(state))(property)}`)(node.properties).join(",\n")}\n${state.indent}}`;
 
 
     const xPattern = state => node =>
@@ -110,8 +110,8 @@ module.exports = $importAll([
             xExpression(state)(node.value);
 
         return key === `"${value}"`
-            ? `${state.indent}${value}\n`
-            : `${state.indent}${key}: ${value}\n`;
+            ? `${value}`
+            : `${key}: ${value}`;
     };
 
 
