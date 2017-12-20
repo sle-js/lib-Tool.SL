@@ -1,8 +1,13 @@
 -- Simple import
 use file:../Native/Data/Array
--- js-
-const Array = mrequire("file:../Native/Data/Array");
+-- js
+module.exports = $importAll([
+    "file:../Native/Data/Array"
+]).then($imports => {
+    const Array =
+        $imports[0];
 
-module.exports = {
-    Array
-};
+    return {
+        Array
+    };
+});

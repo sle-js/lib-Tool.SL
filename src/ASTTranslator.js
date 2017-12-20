@@ -52,7 +52,7 @@ module.exports = $importAll([
     const translate = slAST => {
         const exportNameFromURN = urn => {
             const nameItems =
-                urn.value[1].split(".");
+                urn.value[1].split(/\.|\//);
 
             return nameItems[nameItems.length - 1];
         };
