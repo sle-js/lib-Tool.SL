@@ -1,8 +1,13 @@
 -- Single qualified name import with that name renamed and exported
 use core:Native.Data.Array:1.1.0 import length as arrayLength
--- js-
-const arrayLength = mrequire("core:Native.Data.Array:1.1.0").length;
+-- js
+module.exports = $importAll([
+    "core:Native.Data.Array:1.1.0"
+]).then($imports => {
+    const arrayLength =
+        $imports[0].length;
 
-module.exports = {
-    arrayLength
-};
+    return {
+        arrayLength
+    };
+});
