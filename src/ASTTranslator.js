@@ -59,11 +59,18 @@ module.exports = $importAll([
                 : nameItems[nameItems.length - 1];
         };
 
-        const exportNamesFromImport = $import =>
-            $import.kind === "UnqualifiedImport" || $import.kind === "QualifiedImport" && $import.public
-                ? [exportNameFromImport($import)]
-                : $import.kind === "QualifiedNameImport" ? Array.map(i => i.qualified.value)(Array.filter(i => i.public)($import.names))
-                : [];
+        const exportNamesFromImport = $import => {
+            switch ($import.kind) {
+                case "UnqualifiedImport":
+                    return [exportNameFromImport($import)];
+                case "QualifiedImport":
+                    return $import.public ? [exportNameFromImport($import)] : [];
+                case "QualifiedNameImport":
+                    return Array.map(i => i.qualified.value)(Array.filter(i => i.public)($import.names));
+                default:
+                    return [];
+            }
+        };
 
         const exportNamesFromImports =
             flatten(Array.map(exportNamesFromImport)(slAST.imports));
@@ -99,59 +106,62 @@ module.exports = $importAll([
                 undefined,
                 Array.append(moduleExports)(Array.map(xDeclaration)(slAST.declarations)))
         } else {
-            const importAssignments =
-                flatten(Array.indexedMap(n => i => i.kind === "UnqualifiedImport"
-                    ? [ES2015.VariableDeclaration(
+            const xImportAssignments = importIndex => $import => {
+                const variableDeclaration = name => expression =>
+                    ES2015.VariableDeclaration(
                         undefined,
                         [
                             ES2015.VariableDeclarator(
                                 undefined,
-                                Identifier(undefined, exportNameFromImport(i)),
+                                Identifier(undefined, name),
+                                expression)],
+                        "const");
+
+
+                switch ($import.kind) {
+                    case "UnqualifiedImport":
+                        return [
+                            variableDeclaration(
+                                exportNameFromImport($import))(
                                 ES2015.MemberExpression(
                                     undefined,
                                     Identifier(undefined, "$imports"),
-                                    ES2015.Literal(undefined, n),
-                                    true
-                                ))
-                        ],
-                        "const")]
-                    : i.kind === "QualifiedImport" ?
-                        [ES2015.VariableDeclaration(
-                            undefined,
-                            [
-                                ES2015.VariableDeclarator(
+                                    ES2015.Literal(undefined, importIndex),
+                                    true))
+                        ];
+                    case "QualifiedImport":
+                        return [
+                            variableDeclaration(
+                                $import.name.value)(
+                                ES2015.MemberExpression(
                                     undefined,
-                                    Identifier(undefined, i.name.value),
+                                    Identifier(undefined, "$imports"),
+                                    ES2015.Literal(undefined, importIndex),
+                                    true))
+                        ];
+                    case "QualifiedNameImport":
+                        return Array.map(qualifiedName =>
+                            variableDeclaration(
+                                qualifiedName.qualified.value)(
+                                ES2015.MemberExpression(
+                                    undefined,
                                     ES2015.MemberExpression(
                                         undefined,
                                         Identifier(undefined, "$imports"),
-                                        ES2015.Literal(undefined, n),
-                                        true))
-                            ],
-                            "const")]
-                        : Array.map(i =>
-                            ES2015.VariableDeclaration(
-                                undefined,
-                                [
-                                    ES2015.VariableDeclarator(
-                                        undefined,
-                                        Identifier(undefined, i.qualified.value),
-                                        ES2015.MemberExpression(
-                                            undefined,
-                                            ES2015.MemberExpression(
-                                                undefined,
-                                                Identifier(undefined, "$imports"),
-                                                ES2015.Literal(undefined, n),
-                                                true),
-                                            Identifier(undefined, i.name.value),
-                                            false))
-                                ],
-                                "const")
-                        )(i.names)
-                )(slAST.imports));
+                                        ES2015.Literal(undefined, importIndex),
+                                        true),
+                                    Identifier(undefined, qualifiedName.name.value),
+                                    false)))($import.names);
+                    default:
+                        return [];
+                }
+            };
 
 
-            const returnExports =
+            const xImportsAssignments =
+                flatten(Array.indexedMap(xImportAssignments)(slAST.imports));
+
+            const xImportsReturn =
                 ES2015.ReturnStatement(
                     undefined,
                     ES2015.ObjectExpression(
@@ -190,7 +200,11 @@ module.exports = $importAll([
                                         [Identifier(undefined, "$imports")],
                                         ES2015.FunctionBody(
                                             undefined,
-                                            Array.concat(importAssignments)(Array.append(returnExports)(Array.map(xDeclaration)(slAST.declarations)))))
+                                            flatten([
+                                                xImportsAssignments,
+                                                Array.map(xDeclaration)(slAST.declarations),
+                                                [xImportsReturn]
+                                            ])))
                                 ]),
                             false)),
                 ]);
