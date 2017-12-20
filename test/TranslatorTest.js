@@ -12,7 +12,6 @@ module.exports = $import(
 
     const LexerConfiguration = $imports.LexerConfiguration;
     const Parser = $imports.Parser;
-    const Translator = $imports.Translator;
 
 
     const asString = o =>
@@ -116,16 +115,6 @@ module.exports = $import(
 
 
     return Unit.Suite("Translator Suite")([
-        Unit.Suite("markup name")([
-            Unit.Test("hello")(Assertion
-                .equals("hello")(Translator.markupName("hello"))),
-            Unit.Test("hello'")(Assertion
-                .equals("hello$39")(Translator.markupName("hello'"))),
-            Unit.Test("hello?")(Assertion
-                .equals("hello$63")(Translator.markupName("hello?"))),
-            Unit.Test("==")(Assertion
-                .equals("$61$61")(Translator.markupName("==")))
-        ]),
         loadSuite("parseModule")(dirname("./translator")),
         loadSuite("parse")(dirname("./parser"))
     ]);
