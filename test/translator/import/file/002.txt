@@ -1,13 +1,23 @@
 -- Multiple qualified name imports from a file
 use file:../Native/Data/Array import (length, findMap-, append as arrayAppend, prepend as arrayPrepend-)
--- js-
-const $$0 = mrequire("file:../Native/Data/Array");
-const length = $$0.length;
-const findMap = $$0.findMap;
-const arrayAppend = $$0.append;
-const arrayPrepend = $$0.prepend;
+-- js
+module.exports = $importAll([
+    "file:../Native/Data/Array"
+]).then($imports => {
+    const length =
+        $imports[0].length;
 
-module.exports = {
-    length,
-    arrayAppend
-};
+    const findMap =
+        $imports[0].findMap;
+
+    const arrayAppend =
+        $imports[0].append;
+
+    const arrayPrepend =
+        $imports[0].prepend;
+
+    return {
+        length,
+        arrayAppend
+    };
+});
