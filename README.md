@@ -7,176 +7,36 @@ how that would work.  The unification algorithm in itself needs to be worked out
 The features that I would like to be included in this language are:
 
 - Native data types: Char, Int, String, Float, Unit and functions
-- Type constraints through type signatures
 - Object based where an object is a collection of named values
 - No side-effects
 - No null values and no exceptions
 - No inheritance but object composition using delegation
+- No external configuration files but rather all dependencies are placed within the source files
+- No runtime errors
+
+I am not sure how far I can push the "no runtime errors" but I would like to push it as far as I can.
 
 
 ## Approach
 
 The approach to be taken in building a compiler for this language is:
 
-- Parser for the entire language
-- First phase is to ignore all of the type information and perform a translation
-- Second phase is to introduce type verification
-
-The rationale is that compiling with this syntax is still an improvement over writing native JavaScript.  The type 
-information offers itself as documentation whilst benefit can be derived from the syntax.
+- Incrementally add features piece by piece
+- Included type checking from the start
+- Build the compiler in JavaScript until, at some point, the compiled language is sufficiently feature rich that it can 
+  be bootstrapped.
 
 
 ## Grammar
 
-The following describes the grammar of the language.
+The following describes the grammar of the language that is under development for the next feature.
 
 ```text
 Module = 
-      {Import}
-      {Declaration};
-
-Import = 
-      USE importReference [AS upperID ["-"] | [IMPORT (Id [AS Id] ["-"] | "(" Id [AS Id] ["-"] {"," Id [AS Id] ["-"]} ")")]];
+    {Declaration};
       
-Id =
-      upperID
-    | lowerID;
-    
-Declaration = 
-      TypeDeclaration 
-    | DataDeclaration 
-    | NameSignatureDeclaration 
-    | NameDeclaration;
-
-TypeDeclaration = 
-      TYPE upperID {lowerID} "=" Type;
- 
-Type = 
-      [TypeConstraints "=>"] TypeReferences;
-
-TypeReferences = 
-      TypeReference {"&" TypeReference} [WHERE Declaration {Declaration}];
-
-TypeReference = 
-      TypeReference1 {"->" TypeReference1};
-    
-TypeReference1 = 
-      TypeReference2 {"*" TypeReference2};
-    
-TypeReference2 =
-      upperID TypeReference3 {TypeReference3}
-    | TypeReference3;
-    
-TypeReference3 = 
-      upperID
-    | lowerID
-    | "{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
-    | "()"
-    | "(" TypeReference ")";
-
-TypeConstraints = 
-      TypeConstraint {"," TypeConstraint};
-
-TypeConstraint = 
-      (lowerID | "Self") "::" TypeReferences;
-
-DataDeclaration = 
-      DATA upperID {lowerID} "=" [TypeConstraints "=>"] 
-      upperID {TypeReference3} {"|" upperID {TypeReference3}}
-      [WHERE Declaration {Declaration}];
-
-NameSignatureDeclaration = 
-      Name "::" Type;
-
-NameDeclaration = 
-      Name {lowerID | "()"} "=" IfExpression;
-
-Name =
-      lowerID
-    | "(" OperatorName ")";
-    
-OperatorName =
-      "+" | "-" | "*" | "/" | "==" | "!=" | "<" | "<=" | ">" | ">=" | "||" | "&&";
-      
-Expression = 
-      IF LetExpression THEN LetExpression ELSE LetExpression
-    | LetExpression;
-    
-LetExpression =
-      LET Declaration {Declaration} IN WhereExpression
-    | WhereExpression;
-    
-WhereExpression =
-      CaseExpression [WHERE Declaration {Declaration}];
-      
-CaseExpression =
-      CASE PipeExpression OF Case {Case} [ELSE 
-    | PipeExpression;
-    
-PipeExpression =
-      CompositionExpression {("<|" | "|>") CompositionExpression};
-      
-CompositionExpression =
-      LambdaExpression {"o" LambdaExpression};
-      
-LambdaExpression =
-      "\" (lowerID | "()") {lowerID | "()"} "->" ObjectCompositionExpression
-    | ObjectCompositionExpression;
-
-ObjectCompositionExpression =
-      OrExpression {"&" OrExpression};
-    
-OrExpression =
-      AndExpression {"||" AndExpression};
-      
-AndExpression = 
-      RelationalExpression {"&&" RelationalExpression};
-      
-RelationalExpression =
-      AdditiveExpression {("==" | "!=" | "<" | ">" | "<=" | "=>") AdditiveExpression};
-      
-AdditiveExpression =
-      MultiplicativeExpression {("+" | "-") MultiplicativeExpression};
-       
-MultiplicativeExpression =
-      ApplicationExpression {("*" | "/") ApplicationExpression}''
-
-ApplicationExpression =
-      ReferenceExpression {ReferenceExpression};
-      
-ReferenceExpression =
-      SimpleExpression "." Id;
-      
-SimpleExpression =
-      SELF
-    | Id
-    | TRUE
-    | FALSE
-    | constantString
-    | constantChar
-    | constantInteger
-    | constantFloat
-    | "()"
-    | "(" Expression {"," Expression} )";
-    | "(" OperatorName ")"
-    | "{" [Expression "|"] (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"
-    | NEW upperID {"&" upperID} ["{" (NameSignatureDeclaration | NameDeclaration) {"," (NameSignatureDeclaration | NameDeclaration)} "}"] 
-    
-Case =
-      Pattern "->" Expression;
-      
-Pattern =
-      TRUE
-    | FALSE
-    | constantString
-    | constantChar
-    | constantInteger
-    | constantFloat
-    | "_"
-    | lowerID
-    | "()"
-    | "(" Pattern {"," Pattern} )"
-    | upperID {Pattern};
+Declaration =
+    ...
 ```
 
 Commentary:
@@ -186,7 +46,8 @@ Commentary:
 
 ### Precedence
 
-The following table lists the operators and their associated precedence.
+The following table lists the operators and their associated precedence.  Although these operators have not been 
+included into the grammar this serves as a working list.
 
 | Operators | Description |
 |-----------|-------------|
@@ -210,26 +71,103 @@ The following table lists the operators and their associated precedence.
 
 ## Example
 
-The following is an example of a piece of code showing off the usage of types and data.
+The following are pieces of code that I fiddle around with to arrange my thoughts.
 
 ```haskell
-use core:Parity:1.0.0
-use core:Show:1.0.0
+map: (f: a -> b) -> (v: a?) -> (b?) =
+    match v 
+    | v: a -> f a
+    | Null -> Null
+        
 
-data List a b = a :: Parity & Show, Self :: Parity & Show => 
-          Nil
-        | Cons a (List a) 
-  (==) :: Parity a => Self -> Bool
-  (==) other =
-    case (self, other) of
-      (Nil, Nil) -> true
-      (Cons s ss, Cons o os) -> s == o && ss == os
-      else -> false
+age: ({ year: Int } | Null) -> (Int | Null) =
+    map (\d -> 2018 - d.year) 
 
-  show :: Show a => () -> String
-  show () =
-    case self of
-      Nil -> ""
-      Cons x Nil -> x.show()
-      Cons x xs -> x.show() ++ ", " ++ xs.show()
+
+type Date = {
+    millisecondsSince1970: Int,   
+    year: Int = millisecondsSince1970 / 31540000000
+}
+
+
+type List <T: Parity | Show> =
+        Nil 
+      | Cons T (List T) {
+    length: Int =
+        match self 
+        | Nil -> 0
+        | Cons x xs -> 1 + xs.length
+            
+    map <S: Parity | Show>: (f: T -> S) -> (List S) =
+        match self
+        | Nil -> Nil
+        | Cons x xs -> Cons (f x) (xs.map f)
+          
+    show: String =
+        match self
+        | Nil -> "[]"
+        | Cons x xs -> "[" ++ xs.foldl x.show (\a \i -> i.show ++ ", " ++ a) ++ "]"
+                    
+    (==): (o: T) -> Bool =
+        match (self, o)
+        | (Nil, Nil) -> true
+        | (Cons x xs, Cons y ys) -> x == y && xs == ys
+        | _ -> false     
+} | Parity | Show
+
+
+type NewList <T: Parity | Show> = List a {
+    reduce <S>: S -> (S -> T -> S) -> S = 
+        foldl
+}
+
+
+type Show = {
+    show: () -> String
+}
+
+type CINT = {
+    x: NativeInt,
+    show: () = x.show
+} | Show
+
+type PLUS <E: Show> = {
+    r: E,
+    l: E,
+    show: () = ...
+} | Show
+
+type EQUALS <E: Show> = {
+    r: E,
+    l: E,
+    show: () = ...
+} | Show
+
+type Expression = 
+    CINT | PLUS <Expression> | EQUALS <Expression>
+
+
+type CSTRING = {
+    x: NativeString,
+    show: () = x.show
+} | Show
+
+
+type NExpression =
+    CINT | PLUS <NExpression> | EQUALS <NExpression> | CSTRING
+    
+
+type Nil = {
+  length: () -> 0
+}
+
+type Cons <T, S: { length: () -> Int }> = {
+    car: T,
+    cdr: S,
+    length: () -> 1 + cdr.length()
+}
+
+type List <T> =
+    Nil | Cons <T> <List <T>> 
 ```
+
