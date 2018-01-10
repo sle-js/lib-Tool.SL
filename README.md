@@ -36,7 +36,45 @@ Module =
     {Declaration};
       
 Declaration =
-    ...
+    lowerID '=' Expression;
+
+Expression =
+    IfExpression;
+    
+IfExpression =
+    IF LambdaExpression THEN LambdaExpression ELSE LambdaExpression
+  | LambdaExpression;
+  
+LambdaExpression =
+    lowerID {lowerID} '->' BooleanOrExpression
+  | BooleanOrExpression;
+  
+BooleanOrExpression =
+    BooleanAndExpression {'||' BooleanAndExpression}; 
+    
+BooleanAndExpression =
+    RelationalOpExpression {'&&' RelationalOpExpression}; 
+    
+RelationalOpExpression =
+    AdditiveExpression {['==' | '!=' | '<' | '<=' | '>' | '>='] AdditiveExpression}; 
+
+AdditiveExpression =
+    MultiplicativeExpression {['+' | '-'] MultiplicativeExpression};
+
+MultiplicativeExpression =
+    FunctionalApplicationExpression {['*' | '/'] FunctionalApplicationExpression};
+    
+FunctionalApplicationExpression =
+    TerminalExpression {TerminalExpression};
+    
+TerminalExpression =
+    '(' Expression ')'
+  | CONSTANTINT
+  | CONSTANTBOOL
+  | CONSTANTSTRING
+  | '!' Expression
+  | '-' Expression
+  | lowerID;
 ```
 
 Commentary:
@@ -168,6 +206,6 @@ type Cons <T, S: { length: () -> Int }> = {
 }
 
 type List <T> =
-    Nil | Cons <T> <List <T>> 
+    Nil | Cons <T, List <T>> 
 ```
 
