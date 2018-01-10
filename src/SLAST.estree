@@ -25,43 +25,7 @@ interface Name <: Node {
 
 interface Module {
     kind: "Module";
-    imports: [ Import ];
     declarations : [ Declaration ];
-}
-
-
-interface URN <: Node {
-    kind: "URN";
-    value: [ string ];
-}
-
-
-interface Import <: Node { }
-
-
-interface UnqualifiedImport <: Import {
-    kind: "UnqualifiedImport";
-    urn: URN;
-}
-
-
-interface QualifiedImport <: Import {
-    kind: "QualifiedImport";
-    urn: URN;
-    name: Name;
-    public: boolean;
-}
-
-
-interface QualifiedNameImport <: Import {
-    kind: "QualifiedNameImport";
-    urn: URN;
-    names: [ {
-        loc: SourceLocation;
-        name: Name;
-        qualified: Name;
-        public: boolean;
-    } ];
 }
 
 
@@ -70,45 +34,9 @@ interface Declaration <: Node {
 }
 
 
-interface Argument <: Node {
-    kind: "Argument";
-    value: string;
-}
-
-
 interface NameDeclaration <: Declaration {
     kind: "NameDeclaration";
-    arguments: [ Argument ];
     expression: Expression;
-}
-
-
-interface TypeDeclaration <: Declaration {
-    kind: "TypeDeclaration";
-    parameters: [ Name ];
-    type: Type;
-}
-
-
-interface NameSignatureDeclaration <: Declaration {
-    kind: "NameSignatureDeclaration";
-    type: Type;
-}
-
-
-interface DataDeclaration <: Declaration {
-    kind: "DataDeclaration";
-    parameters: [ Name ];
-    constraints: [ TypeConstraint ];
-    constructors: [ Constructor ];
-    declarations: [ Declaration ];
-}
-
-
-interface Constructor <: Node {
-    kind: "Constructor";
-    name: Name;
-    typeReferences: [ TypeReferences ];
 }
 
 
@@ -119,60 +47,5 @@ interface Expression <: Node {
 interface ConstantNumber <: Expression {
     kind: "ConstantNumber";
     value: number;
-}
-
-
-interface TypeConstraint <: Node {
-    kind: "TypeConstraint";
-    name: Name;
-    typeReference: TypeReference;
-}
-
-
-interface Type <: Node {
-    kind: "Type";
-    constraints: [ TypeConstraint ];
-    typeReference: TypeReference;
-}
-
-
-interface TypeReference <: Node { }
-
-
-interface DataTypeReference <: TypeReference {
-    kind: "DataTypeReference";
-    name: Name;
-    arguments: [ Type ];
-}
-
-
-interface ReferenceTypeReference <: TypeReference {
-    kind: "ReferenceTypeReference";
-    name: Name;
-}
-
-
-interface UnionTypeReference <: TypeReference {
-    kind: "UnionTypeReference";
-    typeReferences: [ TypeReference ];
-}
-
-
-interface FunctionTypeReference <: TypeReference {
-    kind: "FunctionTypeReference";
-    domain: TypeReference;
-    range: TypeReference;
-}
-
-
-interface NTupleTypeReference <: TypeReference {
-    kind: "NTupleTypeReference";
-    typeReferences: [ TypeReference ];
-}
-
-
-interface ComposedTypeReference <: TypeReference {
-    kind: "ComposedTypeReference";
-    typeReferences: [ TypeReference ];
 }
 
