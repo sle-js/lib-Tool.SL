@@ -14,6 +14,7 @@ const constantString = nextToken();
 const importReference = nextToken();
 
 const AMPERSAND_AMPERSAND = nextToken();
+const BANG = nextToken();
 const BANG_EQUAL = nextToken();
 const BAR_BAR = nextToken();
 const EQUAL = nextToken();
@@ -47,6 +48,7 @@ names[eof] = "end-of-file";
 names[constantInteger] = "constant integer";
 names[constantString] = "constant string";
 names[AMPERSAND_AMPERSAND] = "&&";
+names[BANG] = "!";
 names[BANG_EQUAL] = "!=";
 names[BAR_BAR] = "||";
 names[EQUAL] = "=";
@@ -80,6 +82,7 @@ module.exports = Promise.resolve({
     constantString,
     importReference,
     AMPERSAND_AMPERSAND,
+    BANG,
     BANG_EQUAL,
     BAR_BAR,
     EQUAL,

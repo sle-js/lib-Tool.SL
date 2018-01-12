@@ -61,12 +61,20 @@ module.exports = $importAll([
         token(Tokens.eof)(lexer);
 
 
+    const parseExpression = lexer =>
+        parseTerminalExpression(lexer);
+
+
     const parseTerminalExpression = lexer =>
         or([])([
             C.backtrack(tokenMap(Tokens.constantInteger)(t => SLAST.ConstantInteger(locationAt(t), t.token().value))),
             C.backtrack(tokenMap(Tokens.TRUE)(t => SLAST.ConstantBoolean(locationAt(t), true))),
             C.backtrack(tokenMap(Tokens.FALSE)(t => SLAST.ConstantBoolean(locationAt(t), false))),
-            C.backtrack(tokenMap(Tokens.constantString)(t => SLAST.ConstantString(locationAt(t), t.token().value)))
+            C.backtrack(tokenMap(Tokens.constantString)(t => SLAST.ConstantString(locationAt(t), t.token().value))),
+            C.andMap([
+                token(Tokens.BANG),
+                parseExpression
+            ])(t => SLAST.Not(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1]))
         ])(lexer);
 
 

@@ -69,6 +69,7 @@ module.exports = $importAll([
             [Regex.from(/&/iy), text => ({id: Tokens.AMPERSAND, value: text})],
             [Regex.from(/\\/iy), text => ({id: Tokens.BACKSLASH, value: text})],
             [Regex.from(/!=/iy), text => ({id: Tokens.BANG_EQUAL, value: text})],
+            [Regex.from(/!/iy), text => ({id: Tokens.BANG, value: text})],
             [Regex.from(/\|\|/iy), text => ({id: Tokens.BAR_BAR, value: text})],
             [Regex.from(/\|>/iy), text => ({id: Tokens.BAR_GREATER, value: text})],
             [Regex.from(/\|/iy), text => ({id: Tokens.BAR, value: text})],

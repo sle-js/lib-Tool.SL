@@ -60,3 +60,9 @@ interface ConstantString <: Expression {
     kind: "ConstantString";
     value: boolean;
 }
+
+
+interface Not <: Expression {
+    kind: "Not";
+    expression: Expression;
+}
