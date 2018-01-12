@@ -72,3 +72,9 @@ interface Negate <: Expression {
     kind: "Negate";
     expression: Expression;
 }
+
+
+interface LowerIDReference <: Expression {
+    kind: "LowerIDReference";
+    expression: Expression;
+}

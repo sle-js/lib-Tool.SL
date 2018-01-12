@@ -1,0 +1,18 @@
+-- hello
+hello
+-- ast parseTerminalExpression
+{
+  "kind": "LowerIDReference",
+  "loc": {
+    "source": "007.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 4
+    }
+  },
+  "expression": "hello"
+}
