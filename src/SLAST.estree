@@ -56,3 +56,7 @@ interface ConstantBoolean <: Expression {
 }
 
 
+interface ConstantString <: Expression {
+    kind: "ConstantString";
+    value: boolean;
+}
