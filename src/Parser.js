@@ -64,7 +64,8 @@ module.exports = $importAll([
     const parseTerminalExpression = lexer =>
         or([])([
             C.backtrack(tokenMap(Tokens.constantInteger)(t => SLAST.ConstantInteger(locationAt(t), t.token().value))),
-            tokenMap(Tokens.TRUE)(t => SLAST.ConstantBoolean(locationAt(t), true))
+            C.backtrack(tokenMap(Tokens.TRUE)(t => SLAST.ConstantBoolean(locationAt(t), true))),
+            C.backtrack(tokenMap(Tokens.FALSE)(t => SLAST.ConstantBoolean(locationAt(t), false)))
         ])(lexer);
 
 
