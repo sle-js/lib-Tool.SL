@@ -66,7 +66,9 @@ module.exports = $importAll([
 
 
     const parseFunctionalApplicationExpression = lexer =>
-        parseTerminalExpression(lexer);
+        C.many1Map(parseTerminalExpression)(r =>
+                Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(
+                    Array.drop(1)(r)))(lexer);
 
 
     const parseTerminalExpression = lexer =>

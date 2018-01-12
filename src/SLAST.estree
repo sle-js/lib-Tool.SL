@@ -44,6 +44,13 @@ interface Expression <: Node {
 }
 
 
+interface Apply <: Expression {
+    kind: "Apply";
+    operator: Expression;
+    operand: Expression;
+}
+
+
 interface ConstantInteger <: Expression {
     kind: "ConstantInteger";
     value: number;
