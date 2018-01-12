@@ -5,8 +5,8 @@ module.exports = $importAll([
         $imports[0];
 
 
-    ParserCombinator.chainl1 = parser => lexer =>
-        ParserCombinator.chainl1Map(parser)(lexer)(_ => _);
+    ParserCombinator.chainl1 = parser => sep =>
+        ParserCombinator.chainl1Map(parser)(sep)(_ => _);
 
 
     return ParserCombinator;
