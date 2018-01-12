@@ -44,8 +44,8 @@ interface Expression <: Node {
 }
 
 
-interface ConstantNumber <: Expression {
-    kind: "ConstantNumber";
+interface ConstantInteger <: Expression {
+    kind: "ConstantInteger";
     value: number;
 }
 

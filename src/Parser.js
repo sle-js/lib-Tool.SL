@@ -60,6 +60,11 @@ module.exports = $importAll([
     const parseModule = lexer =>
         token(Tokens.eof)(lexer);
 
+
+    const parseTerminalExpression = lexer =>
+        tokenMap(Tokens.constantInteger)(t => SLAST.ConstantInteger(locationAt(t), t.token().value))(lexer);
+
+
     const tokenValue = token =>
         tokenMap(token)(t => t.token().value);
 
@@ -95,6 +100,7 @@ module.exports = $importAll([
 
 
     return {
-        parseModule
+        parseModule,
+        parseTerminalExpression
     };
 });

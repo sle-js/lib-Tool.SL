@@ -116,6 +116,6 @@ module.exports = $import(
 
     return Unit.Suite("Translator Suite")([
         // loadSuite("parseModule")(dirname("./translator")),
-        // loadSuite("parse")(dirname("./parser"))
+        loadSuite("parse")(dirname("./parser"))
     ]);
 });
