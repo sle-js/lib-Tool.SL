@@ -66,3 +66,9 @@ interface Not <: Expression {
     kind: "Not";
     expression: Expression;
 }
+
+
+interface Negate <: Expression {
+    kind: "Negate";
+    expression: Expression;
+}

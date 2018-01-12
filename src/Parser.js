@@ -72,9 +72,13 @@ module.exports = $importAll([
             C.backtrack(tokenMap(Tokens.FALSE)(t => SLAST.ConstantBoolean(locationAt(t), false))),
             C.backtrack(tokenMap(Tokens.constantString)(t => SLAST.ConstantString(locationAt(t), t.token().value))),
             C.andMap([
-                token(Tokens.BANG),
+                C.backtrack(token(Tokens.BANG)),
                 parseExpression
-            ])(t => SLAST.Not(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1]))
+            ])(t => SLAST.Not(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1])),
+            C.andMap([
+                C.backtrack(token(Tokens.MINUS)),
+                parseExpression
+            ])(t => SLAST.Negate(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1]))
         ])(lexer);
 
 
