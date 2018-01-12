@@ -49,3 +49,10 @@ interface ConstantInteger <: Expression {
     value: number;
 }
 
+
+interface ConstantBoolean <: Expression {
+    kind: "ConstantBoolean";
+    value: boolean;
+}
+
+
