@@ -79,7 +79,12 @@ module.exports = $importAll([
                 C.backtrack(token(Tokens.MINUS)),
                 parseExpression
             ])(t => SLAST.Negate(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1])),
-            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.LowerIDReference(locationAt(t), t.token().value)))
+            C.backtrack(tokenMap(Tokens.lowerID)(t => SLAST.LowerIDReference(locationAt(t), t.token().value))),
+            C.andMap([
+                C.backtrack(token(Tokens.LPAREN)),
+                parseExpression,
+                C.backtrack(token(Tokens.RPAREN))
+            ])(t => t[1])
         ])(lexer);
 
 
