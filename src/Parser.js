@@ -67,7 +67,7 @@ module.exports = $importAll([
             parseFunctionalApplicationExpression,
             C.many(C.and([
                 C.backtrack(or([Tokens.STAR, Tokens.SLASH])([
-                    token(Tokens.STAR),
+                    C.backtrack(token(Tokens.STAR)),
                     token(Tokens.SLASH)
                 ])),
                 parseFunctionalApplicationExpression
