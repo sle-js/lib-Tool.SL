@@ -51,6 +51,14 @@ interface Apply <: Expression {
 }
 
 
+interface Binary <: Expression {
+    kind: "Binary";
+    operator: string;
+    left: Expression;
+    right: Expression;
+}
+
+
 interface ConstantInteger <: Expression {
     kind: "ConstantInteger";
     value: number;

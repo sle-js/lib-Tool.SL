@@ -59,12 +59,29 @@ module.exports = $importAll([
 
 
     const parseExpression = lexer =>
-        parseFunctionalApplicationExpression(lexer);
+        parseMultiplicativeExpression(lexer);
+
+
+    const parseMultiplicativeExpression = lexer =>
+        C.andMap([
+            parseFunctionalApplicationExpression,
+            C.many(C.and([
+                C.backtrack(or([Tokens.STAR, Tokens.SLASH])([
+                    token(Tokens.STAR),
+                    token(Tokens.SLASH)
+                ])),
+                parseFunctionalApplicationExpression
+            ]))
+        ])(
+            r => Array.foldl(r[0])(left => item =>
+                SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0].token().value, left, item[1]))(r[1])
+        )(lexer);
 
 
     const parseFunctionalApplicationExpression = lexer =>
         C.many1Map(C.backtrack(parseTerminalExpression))(
-            r => Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(Array.drop(1)(r)))(lexer);
+            r => Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(Array.drop(1)(r))
+        )(lexer);
 
 
     const parseTerminalExpression = lexer =>
@@ -127,6 +144,7 @@ module.exports = $importAll([
     return {
         parseFunctionalApplicationExpression,
         parseModule,
+        parseMultiplicativeExpression,
         parseTerminalExpression
     };
 });

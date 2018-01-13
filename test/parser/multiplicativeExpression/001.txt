@@ -1,0 +1,48 @@
+-- 123 * a
+123 * a
+-- ast parseMultiplicativeExpression
+{
+  "kind": "Binary",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 6
+    }
+  },
+  "operator": "*",
+  "left": {
+    "kind": "ConstantInteger",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 2
+      }
+    },
+    "value": 123
+  },
+  "right": {
+    "kind": "LowerIDReference",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 6
+      },
+      "end": {
+        "line": 1,
+        "column": 6
+      }
+    },
+    "expression": "a"
+  }
+}
