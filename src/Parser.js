@@ -59,7 +59,17 @@ module.exports = $importAll([
 
 
     const parseExpression = lexer =>
-        parseRelationalOpExpression(lexer);
+        parseBooleanAndExpression(lexer);
+
+
+    const parseBooleanAndExpression = lexer =>
+        C.andMap([
+            parseRelationalOpExpression,
+            C.many(C.and([
+                C.backtrack(token(Tokens.AMPERSAND_AMPERSAND)),
+                parseRelationalOpExpression
+            ]))
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
 
 
     const parseRelationalOpExpression = lexer =>
@@ -166,6 +176,7 @@ module.exports = $importAll([
 
     return {
         parseAdditiveExpression,
+        parseBooleanAndExpression,
         parseFunctionalApplicationExpression,
         parseModule,
         parseMultiplicativeExpression,
