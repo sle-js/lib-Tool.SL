@@ -54,21 +54,17 @@ module.exports = $importAll([
         C.map(C.condition(expectedTokensError(tokens))(condition));
 
 
-    // type ParseError :: Errors
-    // type Parser b :: Stream Lexer -> Result ParseError { lexer :: Stream Lexer, result :: b }
-
     const parseModule = lexer =>
         token(Tokens.eof)(lexer);
 
 
     const parseExpression = lexer =>
-        parseTerminalExpression(lexer);
+        parseFunctionalApplicationExpression(lexer);
 
 
     const parseFunctionalApplicationExpression = lexer =>
-        C.many1Map(parseTerminalExpression)(r =>
-                Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(
-                    Array.drop(1)(r)))(lexer);
+        C.many1Map(C.backtrack(parseTerminalExpression))(
+            r => Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(Array.drop(1)(r)))(lexer);
 
 
     const parseTerminalExpression = lexer =>
@@ -89,7 +85,7 @@ module.exports = $importAll([
             C.andMap([
                 C.backtrack(token(Tokens.LPAREN)),
                 parseExpression,
-                C.backtrack(token(Tokens.RPAREN))
+                token(Tokens.RPAREN)
             ])(t => t[1])
         ])(lexer);
 
