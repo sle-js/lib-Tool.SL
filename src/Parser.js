@@ -66,9 +66,10 @@ module.exports = $importAll([
         C.andMap([
             parseAdditiveExpression,
             C.many(C.and([
-                C.backtrack(or([Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL])([
+                C.backtrack(or([Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS])([
                     C.backtrack(token(Tokens.EQUAL_EQUAL)),
-                    C.backtrack(token(Tokens.BANG_EQUAL))
+                    C.backtrack(token(Tokens.BANG_EQUAL)),
+                    C.backtrack(token(Tokens.LESS))
                 ])),
                 parseAdditiveExpression
             ]))

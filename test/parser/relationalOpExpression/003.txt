@@ -1,5 +1,5 @@
--- 123 + b - a
-123 + b - a
+-- 123 < b
+123 < b
 -- ast parseRelationalOpExpression
 {
   "kind": "Binary",
@@ -11,7 +11,7 @@
     },
     "end": {
       "line": 1,
-      "column": 10
+      "column": 6
     }
   },
   "operator": {
@@ -20,17 +20,17 @@
       "source": "003.txt",
       "start": {
         "line": 1,
-        "column": 8
+        "column": 4
       },
       "end": {
         "line": 1,
-        "column": 8
+        "column": 4
       }
     },
-    "value": "-"
+    "value": "<"
   },
   "left": {
-    "kind": "Binary",
+    "kind": "ConstantInteger",
     "loc": {
       "source": "003.txt",
       "start": {
@@ -39,54 +39,10 @@
       },
       "end": {
         "line": 1,
-        "column": 6
+        "column": 2
       }
     },
-    "operator": {
-      "kind": "Name",
-      "loc": {
-        "source": "003.txt",
-        "start": {
-          "line": 1,
-          "column": 4
-        },
-        "end": {
-          "line": 1,
-          "column": 4
-        }
-      },
-      "value": "+"
-    },
-    "left": {
-      "kind": "ConstantInteger",
-      "loc": {
-        "source": "003.txt",
-        "start": {
-          "line": 1,
-          "column": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 2
-        }
-      },
-      "value": 123
-    },
-    "right": {
-      "kind": "LowerIDReference",
-      "loc": {
-        "source": "003.txt",
-        "start": {
-          "line": 1,
-          "column": 6
-        },
-        "end": {
-          "line": 1,
-          "column": 6
-        }
-      },
-      "expression": "b"
-    }
+    "value": 123
   },
   "right": {
     "kind": "LowerIDReference",
@@ -94,13 +50,13 @@
       "source": "003.txt",
       "start": {
         "line": 1,
-        "column": 10
+        "column": 6
       },
       "end": {
         "line": 1,
-        "column": 10
+        "column": 6
       }
     },
-    "expression": "a"
+    "expression": "b"
   }
 }
