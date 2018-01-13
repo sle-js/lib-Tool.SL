@@ -1,0 +1,62 @@
+-- 123 || a
+123 || a
+-- ast parseBooleanOrExpression
+{
+  "kind": "Binary",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 7
+    }
+  },
+  "operator": {
+    "kind": "Name",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 4
+      },
+      "end": {
+        "line": 1,
+        "column": 5
+      }
+    },
+    "value": "||"
+  },
+  "left": {
+    "kind": "ConstantInteger",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 1,
+        "column": 2
+      }
+    },
+    "value": 123
+  },
+  "right": {
+    "kind": "LowerIDReference",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 7
+      },
+      "end": {
+        "line": 1,
+        "column": 7
+      }
+    },
+    "expression": "a"
+  }
+}
