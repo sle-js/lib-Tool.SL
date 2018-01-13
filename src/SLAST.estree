@@ -53,7 +53,7 @@ interface Apply <: Expression {
 
 interface Binary <: Expression {
     kind: "Binary";
-    operator: string;
+    operator: Name;
     left: Expression;
     right: Expression;
 }

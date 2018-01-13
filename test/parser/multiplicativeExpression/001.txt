@@ -14,7 +14,21 @@
       "column": 6
     }
   },
-  "operator": "*",
+  "operator": {
+    "kind": "Name",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 4
+      },
+      "end": {
+        "line": 1,
+        "column": 4
+      }
+    },
+    "value": "*"
+  },
   "left": {
     "kind": "ConstantInteger",
     "loc": {
