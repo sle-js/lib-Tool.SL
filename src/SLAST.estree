@@ -51,6 +51,13 @@ interface Apply <: Expression {
 }
 
 
+interface Lambda <: Expression {
+    kind: "Lambda";
+    names: [ Name ];
+    expression: Expression;
+}
+
+
 interface Binary <: Expression {
     kind: "Binary";
     operator: Name;

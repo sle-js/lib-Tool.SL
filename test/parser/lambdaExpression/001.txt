@@ -1,0 +1,93 @@
+-- n -> 0 - n
+n -> 0 - n
+-- ast parseLambdaExpression
+{
+  "kind": "Lambda",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 9
+    }
+  },
+  "names": [
+    {
+      "kind": "Name",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 0
+        }
+      },
+      "value": "n"
+    }
+  ],
+  "expression": {
+    "kind": "Binary",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 5
+      },
+      "end": {
+        "line": 1,
+        "column": 9
+      }
+    },
+    "operator": {
+      "kind": "Name",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 7
+        },
+        "end": {
+          "line": 1,
+          "column": 7
+        }
+      },
+      "value": "-"
+    },
+    "left": {
+      "kind": "ConstantInteger",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 5
+        },
+        "end": {
+          "line": 1,
+          "column": 5
+        }
+      },
+      "value": 0
+    },
+    "right": {
+      "kind": "LowerIDReference",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 9
+        },
+        "end": {
+          "line": 1,
+          "column": 9
+        }
+      },
+      "expression": "n"
+    }
+  }
+}

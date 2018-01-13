@@ -59,7 +59,20 @@ module.exports = $importAll([
 
 
     const parseExpression = lexer =>
-        parseBooleanOrExpression(lexer);
+        parseLambdaExpression(lexer);
+
+
+    const parseLambdaExpression = lexer =>
+        or([])([
+            C.andMap([
+                C.backtrack(C.andMap([
+                    C.many1(C.backtrack(tokenName(Tokens.lowerID))),
+                    token(Tokens.MINUS_GREATER)
+                ])(r => r[0])),
+                parseBooleanOrExpression
+            ])(r => SLAST.Lambda(stretchSourceLocation(locationFromNodes(r[0]).withDefault(r[0][0].loc))(r[1].loc), r[0], r[1])),
+            parseBooleanOrExpression
+        ])(lexer);
 
 
     const parseBooleanOrExpression = lexer =>
@@ -189,6 +202,7 @@ module.exports = $importAll([
         parseBooleanAndExpression,
         parseBooleanOrExpression,
         parseFunctionalApplicationExpression,
+        parseLambdaExpression,
         parseModule,
         parseMultiplicativeExpression,
         parseRelationalOpExpression,
