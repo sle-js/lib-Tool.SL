@@ -1,0 +1,50 @@
+-- ->
+->
+-- ast parseBooleanAndExpression
+{
+  "package": "Tool.SL",
+  "kind": "ExpectedTokens",
+  "loc": {
+    "source": "x001.txt",
+    "position": {
+      "line": 1,
+      "column": 0
+    }
+  },
+  "found": {
+    "id": 16,
+    "symbol": "->",
+    "value": "->"
+  },
+  "expected": [
+    {
+      "id": 1,
+      "symbol": "constant integer"
+    },
+    {
+      "id": 27,
+      "symbol": "true"
+    },
+    {
+      "id": 24,
+      "symbol": "false"
+    },
+    {
+      "id": 2,
+      "symbol": "constant string"
+    },
+    {
+      "id": 5,
+      "symbol": "!"
+    },
+    {
+      "id": 15,
+      "symbol": "-"
+    },
+    {
+      "id": 22,
+      "symbol": "identifier starting with lower case"
+    },
+    {}
+  ]
+}
