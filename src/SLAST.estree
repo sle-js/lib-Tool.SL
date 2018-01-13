@@ -58,6 +58,14 @@ interface Lambda <: Expression {
 }
 
 
+interface If <: Expression {
+    kind: "If";
+    testExpression: Expression;
+    thenExpression: Expression;
+    elseExpression: Expression;
+}
+
+
 interface Binary <: Expression {
     kind: "Binary";
     operator: Name;

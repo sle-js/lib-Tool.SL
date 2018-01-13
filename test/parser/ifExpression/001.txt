@@ -1,0 +1,62 @@
+-- if a then 1 else 2
+if a then 1 else 2
+-- ast parseIfExpression
+{
+  "kind": "If",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 17
+    }
+  },
+  "testExpression": {
+    "kind": "LowerIDReference",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 3
+      },
+      "end": {
+        "line": 1,
+        "column": 3
+      }
+    },
+    "expression": "a"
+  },
+  "thenExpression": {
+    "kind": "ConstantInteger",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 10
+      },
+      "end": {
+        "line": 1,
+        "column": 10
+      }
+    },
+    "value": 1
+  },
+  "elseExpression": {
+    "kind": "ConstantInteger",
+    "loc": {
+      "source": "001.txt",
+      "start": {
+        "line": 1,
+        "column": 17
+      },
+      "end": {
+        "line": 1,
+        "column": 17
+      }
+    },
+    "value": 2
+  }
+}

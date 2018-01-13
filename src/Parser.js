@@ -59,11 +59,24 @@ module.exports = $importAll([
 
 
     const parseExpression = lexer =>
-        parseLambdaExpression(lexer);
+        parseIfExpression(lexer);
 
+
+    const parseIfExpression = lexer =>
+        or([Tokens.If, Tokens.constantInteger, Tokens.TRUE, Tokens.FALSE, Tokens.constantString, Tokens.BANG, Tokens.MINUS, Tokens.lowerID, Tokens.LPAREN])([
+            C.andMap([
+                C.backtrack(token(Tokens.IF)),
+                parseLambdaExpression,
+                token(Tokens.THEN),
+                parseLambdaExpression,
+                token(Tokens.ELSE),
+                parseLambdaExpression
+            ])(r => SLAST.If(stretchSourceLocation(locationAt(r[0]))(r[5].loc), r[1], r[3], r[5])),
+            parseLambdaExpression
+        ])(lexer);
 
     const parseLambdaExpression = lexer =>
-        or([])([
+        or([Tokens.constantInteger, Tokens.TRUE, Tokens.FALSE, Tokens.constantString, Tokens.BANG, Tokens.MINUS, Tokens.lowerID, Tokens.LPAREN])([
             C.andMap([
                 C.backtrack(C.andMap([
                     C.many1(C.backtrack(tokenName(Tokens.lowerID))),
@@ -202,6 +215,7 @@ module.exports = $importAll([
         parseBooleanAndExpression,
         parseBooleanOrExpression,
         parseFunctionalApplicationExpression,
+        parseIfExpression,
         parseLambdaExpression,
         parseModule,
         parseMultiplicativeExpression,
