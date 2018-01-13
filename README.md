@@ -73,7 +73,6 @@ TerminalExpression =
   | CONSTANTBOOL
   | CONSTANTSTRING
   | '!' Expression
-  | '-' Expression
   | lowerID;
 ```
 
@@ -104,7 +103,7 @@ included into the grammar this serves as a working list.
 | * / | Multiplicative operators |
 | f x | Function application |
 | obj.n | Reference an object's field |
-| - | Constants and reference |
+| ! | Constants and reference |
 
 
 ## Example
