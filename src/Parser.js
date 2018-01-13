@@ -59,6 +59,10 @@ module.exports = $importAll([
 
 
     const parseExpression = lexer =>
+        parseRelationalOpExpression(lexer);
+
+
+    const parseRelationalOpExpression = lexer =>
         parseAdditiveExpression(lexer);
 
 
@@ -152,6 +156,7 @@ module.exports = $importAll([
         parseFunctionalApplicationExpression,
         parseModule,
         parseMultiplicativeExpression,
+        parseRelationalOpExpression,
         parseTerminalExpression
     };
 });
