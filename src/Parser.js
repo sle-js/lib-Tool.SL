@@ -72,10 +72,7 @@ module.exports = $importAll([
                 ])),
                 parseFunctionalApplicationExpression
             ]))
-        ])(
-            r => Array.foldl(r[0])(left => item =>
-                SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1])
-        )(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
 
 
     const parseFunctionalApplicationExpression = lexer =>
