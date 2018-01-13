@@ -79,20 +79,20 @@ module.exports = $importAll([
         C.andMap([
             parseRelationalOpExpression,
             C.many(C.and([
-                C.backtrack(token(Tokens.BAR_BAR)),
+                C.backtrack(tokenName(Tokens.BAR_BAR)),
                 parseRelationalOpExpression
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseBooleanAndExpression = lexer =>
         C.andMap([
             parseRelationalOpExpression,
             C.many(C.and([
-                C.backtrack(token(Tokens.AMPERSAND_AMPERSAND)),
+                C.backtrack(tokenName(Tokens.AMPERSAND_AMPERSAND)),
                 parseRelationalOpExpression
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseRelationalOpExpression = lexer =>
@@ -100,16 +100,16 @@ module.exports = $importAll([
             parseAdditiveExpression,
             C.many(C.and([
                 C.backtrack(or([Tokens.EQUAL_EQUAL, Tokens.BANG_EQUAL, Tokens.LESS, Tokens.LESS_EQUAL, Tokens.GREATER, Tokens.GREATER_EQUAL])([
-                    C.backtrack(token(Tokens.EQUAL_EQUAL)),
-                    C.backtrack(token(Tokens.BANG_EQUAL)),
-                    C.backtrack(token(Tokens.LESS)),
-                    C.backtrack(token(Tokens.LESS_EQUAL)),
-                    C.backtrack(token(Tokens.GREATER)),
-                    C.backtrack(token(Tokens.GREATER_EQUAL))
+                    C.backtrack(tokenName(Tokens.EQUAL_EQUAL)),
+                    C.backtrack(tokenName(Tokens.BANG_EQUAL)),
+                    C.backtrack(tokenName(Tokens.LESS)),
+                    C.backtrack(tokenName(Tokens.LESS_EQUAL)),
+                    C.backtrack(tokenName(Tokens.GREATER)),
+                    C.backtrack(tokenName(Tokens.GREATER_EQUAL))
                 ])),
                 parseAdditiveExpression
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseAdditiveExpression = lexer =>
@@ -117,12 +117,12 @@ module.exports = $importAll([
             parseMultiplicativeExpression,
             C.many(C.and([
                 C.backtrack(or([Tokens.STAR, Tokens.SLASH])([
-                    C.backtrack(token(Tokens.PLUS)),
-                    token(Tokens.MINUS)
+                    C.backtrack(tokenName(Tokens.PLUS)),
+                    tokenName(Tokens.MINUS)
                 ])),
                 parseMultiplicativeExpression
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseMultiplicativeExpression = lexer =>
@@ -130,12 +130,12 @@ module.exports = $importAll([
             parseFunctionalApplicationExpression,
             C.many(C.and([
                 C.backtrack(or([Tokens.STAR, Tokens.SLASH])([
-                    C.backtrack(token(Tokens.STAR)),
-                    token(Tokens.SLASH)
+                    C.backtrack(tokenName(Tokens.STAR)),
+                    tokenName(Tokens.SLASH)
                 ])),
                 parseFunctionalApplicationExpression
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), SLAST.Name(locationAt(item[0]), item[0].token().value), left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseFunctionalApplicationExpression = lexer =>
