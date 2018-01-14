@@ -23,7 +23,7 @@ interface Name <: Node {
 }
 
 
-interface Module {
+interface Module <: Node {
     kind: "Module";
     declarations : [ Declaration ];
 }

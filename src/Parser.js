@@ -55,7 +55,11 @@ module.exports = $importAll([
 
 
     const parseModule = lexer =>
-        token(Tokens.eof)(lexer);
+        C.andMap([
+            C.many(parseDeclaration),
+            token(Tokens.eof)
+        ])(r => SLAST.Module(stretchSourceLocation(locationFromNodes(r[0]).withDefault(locationAt(r[1])))(locationAt(r[1])), r[0]))(lexer);
+
 
     const parseDeclaration = lexer =>
         C.andMap([
