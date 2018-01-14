@@ -57,6 +57,12 @@ module.exports = $importAll([
     const parseModule = lexer =>
         token(Tokens.eof)(lexer);
 
+    const parseDeclaration = lexer =>
+        C.andMap([
+            tokenName(Tokens.lowerID),
+            token(Tokens.EQUAL),
+            parseExpression
+        ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], r[2]))(lexer);
 
     const parseExpression = lexer =>
         parseIfExpression(lexer);
@@ -214,6 +220,7 @@ module.exports = $importAll([
         parseAdditiveExpression,
         parseBooleanAndExpression,
         parseBooleanOrExpression,
+        parseDeclaration,
         parseFunctionalApplicationExpression,
         parseIfExpression,
         parseLambdaExpression,
