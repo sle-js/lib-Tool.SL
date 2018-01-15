@@ -11,7 +11,7 @@ module.exports = $importAll([
 
 
     const errorLocation = token =>
-        Errors.LocationPosition(token.state.source.withDefault(""), Errors.Position(transformColumn(token.position()[1]), transformRow(token.position()[0])));
+        Errors.LocationPosition(token.state.source.withDefault(""), Errors.Position(token.position()[1], token.position()[0]));
 
 
     const expectedTokensError = tokenIDs => token => {
@@ -196,14 +196,6 @@ module.exports = $importAll([
         ])(lexer);
 
 
-    const transformColumn = column =>
-        column;
-
-
-    const transformRow = row =>
-        row;
-
-
     const stretchSourceLocation = startLocation => endLocation =>
         SLAST.SourceLocation(startLocation.source, startLocation.start, endLocation.end);
 
@@ -213,11 +205,11 @@ module.exports = $importAll([
 
 
     const positionStart = t =>
-        SLAST.Position(transformColumn(t.position()[1]), transformRow(t.position()[0]));
+        SLAST.Position(t.position()[1], t.position()[0]);
 
 
     const positionEnd = t =>
-        SLAST.Position(transformColumn(t.position()[3]), transformRow(t.position()[2]));
+        SLAST.Position(t.position()[3], t.position()[2]);
 
 
     const locationFromNodes = nodes =>
