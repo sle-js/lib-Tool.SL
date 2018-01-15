@@ -76,6 +76,7 @@ module.exports = $importAll([
         ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], r[2]))(lexer);
     };
 
+
     const parseExpression = lexicalConstraint => lexer =>
         parseIfExpression(lexicalConstraint)(lexer);
 
