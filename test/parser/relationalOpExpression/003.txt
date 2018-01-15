@@ -7,11 +7,11 @@
     "source": "003.txt",
     "start": {
       "line": 1,
-      "column": 0
+      "column": 1
     },
     "end": {
       "line": 1,
-      "column": 6
+      "column": 7
     }
   },
   "operator": {
@@ -20,11 +20,11 @@
       "source": "003.txt",
       "start": {
         "line": 1,
-        "column": 4
+        "column": 5
       },
       "end": {
         "line": 1,
-        "column": 4
+        "column": 5
       }
     },
     "value": "<"
@@ -35,11 +35,11 @@
       "source": "003.txt",
       "start": {
         "line": 1,
-        "column": 0
+        "column": 1
       },
       "end": {
         "line": 1,
-        "column": 2
+        "column": 3
       }
     },
     "value": 123
@@ -50,13 +50,13 @@
       "source": "003.txt",
       "start": {
         "line": 1,
-        "column": 6
+        "column": 7
       },
       "end": {
         "line": 1,
-        "column": 6
+        "column": 7
       }
     },
-    "expression": "b"
+    "name": "b"
   }
 }

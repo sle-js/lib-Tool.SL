@@ -201,7 +201,7 @@ module.exports = $importAll([
 
 
     const transformRow = row =>
-        row - 1;
+        row;
 
 
     const stretchSourceLocation = startLocation => endLocation =>

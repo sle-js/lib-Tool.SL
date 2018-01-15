@@ -7,11 +7,11 @@ if a then 1 else 2
     "source": "001.txt",
     "start": {
       "line": 1,
-      "column": 0
+      "column": 1
     },
     "end": {
       "line": 1,
-      "column": 17
+      "column": 18
     }
   },
   "testExpression": {
@@ -20,14 +20,14 @@ if a then 1 else 2
       "source": "001.txt",
       "start": {
         "line": 1,
-        "column": 3
+        "column": 4
       },
       "end": {
         "line": 1,
-        "column": 3
+        "column": 4
       }
     },
-    "expression": "a"
+    "name": "a"
   },
   "thenExpression": {
     "kind": "ConstantInteger",
@@ -35,11 +35,11 @@ if a then 1 else 2
       "source": "001.txt",
       "start": {
         "line": 1,
-        "column": 10
+        "column": 11
       },
       "end": {
         "line": 1,
-        "column": 10
+        "column": 11
       }
     },
     "value": 1
@@ -50,11 +50,11 @@ if a then 1 else 2
       "source": "001.txt",
       "start": {
         "line": 1,
-        "column": 17
+        "column": 18
       },
       "end": {
         "line": 1,
-        "column": 17
+        "column": 18
       }
     },
     "value": 2

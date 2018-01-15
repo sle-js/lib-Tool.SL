@@ -7,11 +7,11 @@ add = a b -> a + b
     "source": "001.txt",
     "start": {
       "line": 1,
-      "column": 0
+      "column": 1
     },
     "end": {
       "line": 1,
-      "column": 18
+      "column": 19
     }
   },
   "declarations": [
@@ -21,11 +21,11 @@ add = a b -> a + b
         "source": "001.txt",
         "start": {
           "line": 1,
-          "column": 0
+          "column": 1
         },
         "end": {
           "line": 1,
-          "column": 17
+          "column": 18
         }
       },
       "name": {
@@ -34,11 +34,11 @@ add = a b -> a + b
           "source": "001.txt",
           "start": {
             "line": 1,
-            "column": 0
+            "column": 1
           },
           "end": {
             "line": 1,
-            "column": 2
+            "column": 3
           }
         },
         "value": "add"
@@ -49,11 +49,11 @@ add = a b -> a + b
           "source": "001.txt",
           "start": {
             "line": 1,
-            "column": 6
+            "column": 7
           },
           "end": {
             "line": 1,
-            "column": 17
+            "column": 18
           }
         },
         "names": [
@@ -63,11 +63,11 @@ add = a b -> a + b
               "source": "001.txt",
               "start": {
                 "line": 1,
-                "column": 6
+                "column": 7
               },
               "end": {
                 "line": 1,
-                "column": 6
+                "column": 7
               }
             },
             "value": "a"
@@ -78,11 +78,11 @@ add = a b -> a + b
               "source": "001.txt",
               "start": {
                 "line": 1,
-                "column": 8
+                "column": 9
               },
               "end": {
                 "line": 1,
-                "column": 8
+                "column": 9
               }
             },
             "value": "b"
@@ -94,11 +94,11 @@ add = a b -> a + b
             "source": "001.txt",
             "start": {
               "line": 1,
-              "column": 13
+              "column": 14
             },
             "end": {
               "line": 1,
-              "column": 17
+              "column": 18
             }
           },
           "operator": {
@@ -107,11 +107,11 @@ add = a b -> a + b
               "source": "001.txt",
               "start": {
                 "line": 1,
-                "column": 15
+                "column": 16
               },
               "end": {
                 "line": 1,
-                "column": 15
+                "column": 16
               }
             },
             "value": "+"
@@ -122,14 +122,14 @@ add = a b -> a + b
               "source": "001.txt",
               "start": {
                 "line": 1,
-                "column": 13
+                "column": 14
               },
               "end": {
                 "line": 1,
-                "column": 13
+                "column": 14
               }
             },
-            "expression": "a"
+            "name": "a"
           },
           "right": {
             "kind": "LowerIDReference",
@@ -137,14 +137,14 @@ add = a b -> a + b
               "source": "001.txt",
               "start": {
                 "line": 1,
-                "column": 17
+                "column": 18
               },
               "end": {
                 "line": 1,
-                "column": 17
+                "column": 18
               }
             },
-            "expression": "b"
+            "name": "b"
           }
         }
       }

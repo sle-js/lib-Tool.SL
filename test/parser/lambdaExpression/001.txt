@@ -7,11 +7,11 @@ n -> 0 - n
     "source": "001.txt",
     "start": {
       "line": 1,
-      "column": 0
+      "column": 1
     },
     "end": {
       "line": 1,
-      "column": 9
+      "column": 10
     }
   },
   "names": [
@@ -21,11 +21,11 @@ n -> 0 - n
         "source": "001.txt",
         "start": {
           "line": 1,
-          "column": 0
+          "column": 1
         },
         "end": {
           "line": 1,
-          "column": 0
+          "column": 1
         }
       },
       "value": "n"
@@ -37,11 +37,11 @@ n -> 0 - n
       "source": "001.txt",
       "start": {
         "line": 1,
-        "column": 5
+        "column": 6
       },
       "end": {
         "line": 1,
-        "column": 9
+        "column": 10
       }
     },
     "operator": {
@@ -50,11 +50,11 @@ n -> 0 - n
         "source": "001.txt",
         "start": {
           "line": 1,
-          "column": 7
+          "column": 8
         },
         "end": {
           "line": 1,
-          "column": 7
+          "column": 8
         }
       },
       "value": "-"
@@ -65,11 +65,11 @@ n -> 0 - n
         "source": "001.txt",
         "start": {
           "line": 1,
-          "column": 5
+          "column": 6
         },
         "end": {
           "line": 1,
-          "column": 5
+          "column": 6
         }
       },
       "value": 0
@@ -80,14 +80,14 @@ n -> 0 - n
         "source": "001.txt",
         "start": {
           "line": 1,
-          "column": 9
+          "column": 10
         },
         "end": {
           "line": 1,
-          "column": 9
+          "column": 10
         }
       },
-      "expression": "n"
+      "name": "n"
     }
   }
 }

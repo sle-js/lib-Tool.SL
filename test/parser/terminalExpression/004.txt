@@ -7,11 +7,11 @@
     "source": "004.txt",
     "start": {
       "line": 1,
-      "column": 0
+      "column": 1
     },
     "end": {
       "line": 1,
-      "column": 12
+      "column": 13
     }
   },
   "value": "Hello World"
