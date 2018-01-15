@@ -1,2 +1,3 @@
 .idea/*
 src/SLAST.js
+src/Errors.js
