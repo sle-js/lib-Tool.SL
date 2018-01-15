@@ -84,7 +84,7 @@ module.exports = $import(
                 astKey.withDefault("ast parseModule").split(" ")[1];
 
             const ast =
-                Parser[parseName](LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
+                Parser[parseName](_ => true)(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
             return assertion
                 .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());

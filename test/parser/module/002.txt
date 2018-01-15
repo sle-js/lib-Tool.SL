@@ -1,0 +1,333 @@
+-- Multiple functional declaration
+perimeter = w h -> 2 * (w + h)
+
+area = a b -> a * b
+-- ast parseModule
+{
+  "kind": "Module",
+  "loc": {
+    "source": "002.txt",
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 19
+    }
+  },
+  "declarations": [
+    {
+      "kind": "NameDeclaration",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 28
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 8
+          }
+        },
+        "value": "perimeter"
+      },
+      "expression": {
+        "kind": "Lambda",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 1,
+            "column": 12
+          },
+          "end": {
+            "line": 1,
+            "column": 28
+          }
+        },
+        "names": [
+          {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 12
+              },
+              "end": {
+                "line": 1,
+                "column": 12
+              }
+            },
+            "value": "w"
+          },
+          {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 14
+              },
+              "end": {
+                "line": 1,
+                "column": 14
+              }
+            },
+            "value": "h"
+          }
+        ],
+        "expression": {
+          "kind": "Binary",
+          "loc": {
+            "source": "002.txt",
+            "start": {
+              "line": 1,
+              "column": 19
+            },
+            "end": {
+              "line": 1,
+              "column": 28
+            }
+          },
+          "operator": {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 21
+              },
+              "end": {
+                "line": 1,
+                "column": 21
+              }
+            },
+            "value": "*"
+          },
+          "left": {
+            "kind": "ConstantInteger",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 19
+              },
+              "end": {
+                "line": 1,
+                "column": 19
+              }
+            },
+            "value": 2
+          },
+          "right": {
+            "kind": "Binary",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 1,
+                "column": 24
+              },
+              "end": {
+                "line": 1,
+                "column": 28
+              }
+            },
+            "operator": {
+              "kind": "Name",
+              "loc": {
+                "source": "002.txt",
+                "start": {
+                  "line": 1,
+                  "column": 26
+                },
+                "end": {
+                  "line": 1,
+                  "column": 26
+                }
+              },
+              "value": "+"
+            },
+            "left": {
+              "kind": "LowerIDReference",
+              "loc": {
+                "source": "002.txt",
+                "start": {
+                  "line": 1,
+                  "column": 24
+                },
+                "end": {
+                  "line": 1,
+                  "column": 24
+                }
+              },
+              "expression": "w"
+            },
+            "right": {
+              "kind": "LowerIDReference",
+              "loc": {
+                "source": "002.txt",
+                "start": {
+                  "line": 1,
+                  "column": 28
+                },
+                "end": {
+                  "line": 1,
+                  "column": 28
+                }
+              },
+              "expression": "h"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "NameDeclaration",
+      "loc": {
+        "source": "002.txt",
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 18
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 3
+          }
+        },
+        "value": "area"
+      },
+      "expression": {
+        "kind": "Lambda",
+        "loc": {
+          "source": "002.txt",
+          "start": {
+            "line": 3,
+            "column": 7
+          },
+          "end": {
+            "line": 3,
+            "column": 18
+          }
+        },
+        "names": [
+          {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 3,
+                "column": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 7
+              }
+            },
+            "value": "a"
+          },
+          {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 3,
+                "column": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 9
+              }
+            },
+            "value": "b"
+          }
+        ],
+        "expression": {
+          "kind": "Binary",
+          "loc": {
+            "source": "002.txt",
+            "start": {
+              "line": 3,
+              "column": 14
+            },
+            "end": {
+              "line": 3,
+              "column": 18
+            }
+          },
+          "operator": {
+            "kind": "Name",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 3,
+                "column": 16
+              },
+              "end": {
+                "line": 3,
+                "column": 16
+              }
+            },
+            "value": "*"
+          },
+          "left": {
+            "kind": "LowerIDReference",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 3,
+                "column": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 14
+              }
+            },
+            "expression": "a"
+          },
+          "right": {
+            "kind": "LowerIDReference",
+            "loc": {
+              "source": "002.txt",
+              "start": {
+                "line": 3,
+                "column": 18
+              },
+              "end": {
+                "line": 3,
+                "column": 18
+              }
+            },
+            "expression": "b"
+          }
+        }
+      }
+    }
+  ]
+}
