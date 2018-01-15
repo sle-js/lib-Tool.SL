@@ -196,10 +196,6 @@ module.exports = $importAll([
         ])(lexer);
 
 
-    const tokenValue = token =>
-        tokenMap(token)(t => t.token().value);
-
-
     const transformColumn = column =>
         column;
 
