@@ -42,16 +42,10 @@ module.exports = $importAll([]).then($imports => {
         TypeConstant("String");
 
 
-    const variableNameFromInt = value => {
-        const charToString = n =>
-            String.fromCharCode(n);
-
-        return value < 11
-            ? charToString(value + 80)
-            : value < 25
-                ? charToString(value + 54)
-                : "T" + (value - 24);
-    };
+    const variableNameFromInt = value =>
+        (value < 11) ? String.fromCharCode(value + 80)
+            : value < 25 ? String.fromCharCode(value + 54)
+            : "T" + (value - 24);
     assumptionEqual(variableNameFromInt(0), "P");
     assumptionEqual(variableNameFromInt(10), "Z");
     assumptionEqual(variableNameFromInt(11), "A");
