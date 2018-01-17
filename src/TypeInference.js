@@ -42,6 +42,10 @@ module.exports = $importAll([]).then($imports => {
         TypeConstant("String");
 
 
+    const Schema = names => type =>
+        [names, type];
+
+
     const variableNameFromInt = value =>
         (value < 11) ? String.fromCharCode(value + 80)
             : value < 25 ? String.fromCharCode(value + 54)
@@ -73,6 +77,7 @@ module.exports = $importAll([]).then($imports => {
         isTypeConstant,
         isTypeFunction,
         isTypeVariable,
+        Schema,
         typeBool,
         typeInt,
         typeString,
