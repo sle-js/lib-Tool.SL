@@ -6,45 +6,11 @@
 
 
 module.exports = $importAll([
-    "./../Libs"
+    "./../Libs",
+    "./Type"
 ]).then($imports => {
     const Dict = $imports[0].Dict;
-
-
-    const TypeVariable = name =>
-        [0, name];
-
-
-    const TypeConstant = name =>
-        [1, name];
-
-
-    const TypeFunction = domain => range =>
-        [2, domain, range];
-
-
-    const isTypeVariable = type =>
-        type[0] === 0;
-
-
-    const isTypeConstant = type =>
-        type[1] === 1;
-
-
-    const isTypeFunction = type =>
-        type[0] === 2;
-
-
-    const typeInt =
-        TypeConstant("Int");
-
-
-    const typeBool =
-        TypeConstant("Bool");
-
-
-    const typeString =
-        TypeConstant("String");
+    const Type = $imports[1];
 
 
     const Schema = names => type =>
@@ -89,15 +55,6 @@ module.exports = $importAll([
         freshVariable,
         initialInferState,
         initialTypeEnv,
-        isTypeConstant,
-        isTypeFunction,
-        isTypeVariable,
-        Schema,
-        typeBool,
-        typeInt,
-        typeString,
-        TypeConstant,
-        TypeFunction,
-        TypeVariable
+        Schema
     };
 });
