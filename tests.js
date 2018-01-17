@@ -7,7 +7,7 @@ module.exports = $import(
         $import("./test/FloatTest"),
         $import("./test/LexerConfigurationTest"),
         $import("./test/TranslatorTest"),
-        $import("./test/TypeInferenceTest")
+        $import("./test/InferTest")
     ])
         .then(Unit.showErrors)
         .then(Unit.showSummary)

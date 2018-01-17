@@ -8,7 +8,7 @@ module.exports = $importAll([
     "path",
     "../src/Regex",
     "../src/Tokens",
-    "../src/typeInference/TypeInference",
+    "../src/typeInference/Infer",
     "core:Test.Unit:1.0.0"
 ]).then($imports => Object.assign({}, $imports[0], {
     ASTTranslator: $imports[2],
@@ -19,6 +19,6 @@ module.exports = $importAll([
     Path: $imports[6],
     Regex: $imports[7],
     Tokens: $imports[8],
-    TypeInference: $imports[9],
+    Infer: $imports[9],
     Unit: $imports[10]
 }));
