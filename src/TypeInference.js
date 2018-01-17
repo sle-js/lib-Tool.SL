@@ -5,7 +5,12 @@
 // }
 
 
-module.exports = $importAll([]).then($imports => {
+module.exports = $importAll([
+    "./Libs"
+]).then($imports => {
+    const Dict = $imports[0].Dict;
+
+
     const TypeVariable = name =>
         [0, name];
 
@@ -46,6 +51,14 @@ module.exports = $importAll([]).then($imports => {
         [names, type];
 
 
+    const initialTypeEnv =
+        Dict.empty;
+
+
+    const extendTypeEnv =
+        Dict.insert;
+
+
     const variableNameFromInt = value =>
         (value < 11) ? String.fromCharCode(value + 80)
             : value < 25 ? String.fromCharCode(value + 54)
@@ -72,8 +85,10 @@ module.exports = $importAll([]).then($imports => {
 
 
     return {
+        extendTypeEnv,
         freshVariable,
         initialInferState,
+        initialTypeEnv,
         isTypeConstant,
         isTypeFunction,
         isTypeVariable,
