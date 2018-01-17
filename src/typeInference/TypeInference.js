@@ -6,7 +6,7 @@
 
 
 module.exports = $importAll([
-    "./Libs"
+    "./../Libs"
 ]).then($imports => {
     const Dict = $imports[0].Dict;
 
