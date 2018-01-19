@@ -1,0 +1,6 @@
+-- infer x = true
+x = 10
+-- typeInference
+{
+  "variableCounter": 0
+}

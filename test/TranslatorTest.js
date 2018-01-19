@@ -6,6 +6,7 @@ module.exports = $import(
     const ASTTranslator = $imports.ASTTranslator;
     const ES2015Translator = $imports.ES2015Translator;
     const FileSystem = $imports.FileSystem;
+    const Infer = $imports.Infer;
     const Path = $imports.Path;
     const String = $imports.String;
     const Unit = $imports.Unit;
@@ -54,9 +55,9 @@ module.exports = $import(
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
 
-        if (astKey.map(v => v === "ast").withDefault(false) || content.js || content.jsast) {
+        if (astKey.map(v => v === "ast").withDefault(false) || content.typeInference || content.js || content.jsast) {
             const ast =
-                Parser.parseModule(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
+                Parser.parseModule(_ => true)(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
             const astAssertion =
                 content.ast
@@ -66,28 +67,19 @@ module.exports = $import(
                     : assertion
                         .isTrue(ast.isOkay());
 
-            const jsASTAssertion = content.jsast
-                ? astAssertion.equals(asString(ASTTranslator.translate(ast.content[1].result)))(content.jsast.join("\n").trim())
+            return content.typeInference
+                ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
+                    .then(is => astAssertion.equals(asString(is))(content.typeInference.join("\n").trim()))
                 : astAssertion;
-
-            if (content.js) {
-                const output =
-                    ast.map(x => x.result).andThen(ast => ES2015Translator.translate(ASTTranslator.translate(ast)));
-
-                return jsASTAssertion
-                    .equals(output.trim())(content.js.join("\n").trim());
-            } else {
-                return jsASTAssertion;
-            }
-        } else if (astKey.isJust()) {
+            } else if (astKey.isJust()) {
             const parseName =
                 astKey.withDefault("ast parseModule").split(" ")[1];
 
             const ast =
                 Parser[parseName](_ => true)(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
-            return assertion
-                .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim());
+            return Promise.resolve(assertion
+                .equals(asString(ast.content[1].result).trim())(content[astKey.withDefault("ast parseModule")].join("\n").trim()));
         } else {
             return assertion;
         }
@@ -102,7 +94,8 @@ module.exports = $import(
                     ? FileSystem
                         .readFile(fileSystemName)
                         .then(content => parseFile(content.split("\n")))
-                        .then(content => Unit.Test(suiteName + ": " + content.name)(processFile(suiteName)(content)(Assertion.AllGood)))
+                        .then(content => processFile(suiteName)(content)(Assertion.AllGood)
+                            .then(a => Unit.Test(suiteName + ": " + content.name)(a)))
                         .catch(error => Unit.Test(suiteName)(Assertion.fail(error)))
 
                     : FileSystem
@@ -116,6 +109,7 @@ module.exports = $import(
 
     return Unit.Suite("Translator Suite")([
         // loadSuite("parseModule")(dirname("./translator")),
-        loadSuite("parse")(dirname("./parser"))
+        loadSuite("parse")(dirname("./parser")),
+        loadSuite("Type Inference")(dirname("./typeInference"))
     ]);
 });

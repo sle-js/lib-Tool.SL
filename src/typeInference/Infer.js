@@ -9,6 +9,7 @@ module.exports = $importAll([
     "./../Libs",
     "./Type"
 ]).then($imports => {
+    const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
     const Type = $imports[1];
 
@@ -50,9 +51,24 @@ module.exports = $importAll([
     };
 
 
+    // infer: InferState -> AST -> Promise Error InferState
+    const infer = declaration => inferState => {
+        switch (declaration.kind) {
+            case "NameDeclaration":
+            default:
+                return Promise.resolve(inferState);
+        }
+    };
+
+
+    const inferModule = module => inferState =>
+         Array.foldl(Promise.resolve(inferState))(acc => declaration => acc.then(is => infer(declaration)(is)))(module.declarations);
+
+
     return {
         extendTypeEnv,
         freshVariable,
+        inferModule,
         initialInferState,
         initialTypeEnv,
         Schema
