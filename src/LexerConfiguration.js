@@ -17,7 +17,7 @@ module.exports = $importAll([
         case: Tokens.CASE,
         data: Tokens.DATA,
         else: Tokens.ELSE,
-        false: Tokens.FALSE,
+        False: Tokens.FALSE,
         if: Tokens.IF,
         import: Tokens.IMPORT,
         in: Tokens.IN,
@@ -25,7 +25,7 @@ module.exports = $importAll([
         of: Tokens.OF,
         self: Tokens.SELF,
         then: Tokens.THEN,
-        true: Tokens.TRUE,
+        True: Tokens.TRUE,
         type: Tokens.TYPE,
         use: Tokens.USE,
         where: Tokens.WHERE

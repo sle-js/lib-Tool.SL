@@ -1,5 +1,5 @@
--- true
-true
+-- True
+True
 -- ast parseTerminalExpression
 {
   "kind": "ConstantBoolean",
