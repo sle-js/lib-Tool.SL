@@ -1,0 +1,15 @@
+-- infer x = True
+x = True
+-- typeInference
+{
+  "variableCounter": 0,
+  "env": {
+    "x": [
+      [],
+      [
+        1,
+        "Bool"
+      ]
+    ]
+  }
+}

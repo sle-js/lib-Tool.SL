@@ -62,7 +62,16 @@ module.exports = $importAll([
 
     // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
     const inferExpression = e => is => {
-        return Promise.resolve([Type.typeInt, is]);
+        switch (e.kind) {
+            case "ConstantInteger":
+                return Promise.resolve([Type.typeInt, is]);
+
+            case "ConstantBoolean":
+                return Promise.resolve([Type.typeBool, is]);
+
+            default:
+                return Promise.resolve([Type.typeInt, is]);
+        }
     };
 
 
