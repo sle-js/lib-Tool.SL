@@ -1,51 +1,51 @@
 module.exports = $importAll([
     "./../Libs"
 ]).then($imports => {
-    const TypeVariable = name =>
+    const Variable = name =>
         [0, name];
 
 
-    const TypeConstant = name =>
+    const Constant = name =>
         [1, name];
 
 
-    const TypeFunction = domain => range =>
+    const Function = domain => range =>
         [2, domain, range];
 
 
-    const isTypeVariable = type =>
+    const isVariable = type =>
         type[0] === 0;
 
 
-    const isTypeConstant = type =>
+    const isConstant = type =>
         type[1] === 1;
 
 
-    const isTypeFunction = type =>
+    const isFunction = type =>
         type[0] === 2;
 
 
-    const typeInt =
-        TypeConstant("Int");
+    const ConstantInt =
+        Constant("Int");
 
 
-    const typeBool =
-        TypeConstant("Bool");
+    const ConstantBool =
+        Constant("Bool");
 
 
-    const typeString =
-        TypeConstant("String");
+    const ConstantString =
+        Constant("String");
 
 
     return {
-        isTypeConstant,
-        isTypeFunction,
-        isTypeVariable,
-        TypeConstant,
-        TypeFunction,
-        TypeVariable,
-        typeBool,
-        typeInt,
-        typeString
+        isTypeConstant: isConstant,
+        isTypeFunction: isFunction,
+        isTypeVariable: isVariable,
+        TypeConstant: Constant,
+        TypeFunction: Function,
+        TypeVariable: Variable,
+        typeBool: ConstantBool,
+        typeInt: ConstantInt,
+        typeString: ConstantString
     };
 });
