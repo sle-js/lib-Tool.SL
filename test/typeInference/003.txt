@@ -1,0 +1,15 @@
+-- infer x = "Hello"
+x = "Hello"
+-- typeInference
+{
+  "variableCounter": 0,
+  "env": {
+    "x": [
+      [],
+      [
+        1,
+        "String"
+      ]
+    ]
+  }
+}
