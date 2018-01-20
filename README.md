@@ -46,7 +46,7 @@ IfExpression =
   | LambdaExpression;
   
 LambdaExpression =
-    lowerID {lowerID} '->' BooleanOrExpression
+    lowerID {lowerID} '->' LambdaExpression
   | BooleanOrExpression;
   
 BooleanOrExpression =
