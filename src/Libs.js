@@ -1,7 +1,7 @@
 module.exports = $importAll([
     "./Array",
     "./Char",
-    "core:Native.Data.Dict:1.0.0",
+    "./Dict",
     "use:./Errors.estree core:Tool.ESTree:1.0.3",
     "core:Native.System.IO.FileSystem:1.1.0",
     "./Float",

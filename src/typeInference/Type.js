@@ -43,6 +43,9 @@ module.exports = $importAll([
         isTypeVariable,
         TypeConstant,
         TypeFunction,
-        TypeVariable
+        TypeVariable,
+        typeBool,
+        typeInt,
+        typeString
     };
 });

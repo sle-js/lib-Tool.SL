@@ -46,23 +46,41 @@ module.exports = $importAll([
             })]);
 
 
+    const bindSchema = name => schema => is =>
+        Promise.resolve(
+            Object.assign({}, is, {
+                env: extendTypeEnv(name)(schema)(is.env)
+            })
+        );
+
+
     const initialInferState = {
-        variableCounter: 0
+        variableCounter: 0,
+        env: initialTypeEnv
+    };
+
+
+    // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
+    const inferExpression = e => is => {
+        return Promise.resolve([Type.typeInt, is]);
     };
 
 
     // infer: InferState -> AST -> Promise Error InferState
-    const infer = declaration => inferState => {
+    const infer = declaration => is => {
         switch (declaration.kind) {
             case "NameDeclaration":
+                return inferExpression(declaration.expression)(is)
+                    .then(e1 =>
+                        bindSchema(declaration.name.value)(Schema([])(e1[0]))(e1[1]));
             default:
-                return Promise.resolve(inferState);
+                return Promise.resolve(is);
         }
     };
 
 
     const inferModule = module => inferState =>
-         Array.foldl(Promise.resolve(inferState))(acc => declaration => acc.then(is => infer(declaration)(is)))(module.declarations);
+        Array.foldl(Promise.resolve(inferState))(acc => declaration => acc.then(is => infer(declaration)(is)))(module.declarations);
 
 
     return {

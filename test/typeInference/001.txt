@@ -1,6 +1,15 @@
--- infer x = true
+-- infer x = 10
 x = 10
 -- typeInference
 {
-  "variableCounter": 0
+  "variableCounter": 0,
+  "env": {
+    "x": [
+      [],
+      [
+        1,
+        "Int"
+      ]
+    ]
+  }
 }
