@@ -78,29 +78,29 @@ module.exports = $importAll([
     const inferExpression = e => is => {
         switch (e.kind) {
             case "ConstantBoolean":
-                return Promise.resolve([Type.typeBool, is]);
+                return Promise.resolve([Type.ConstantBool, is]);
 
             case "ConstantInteger":
-                return Promise.resolve([Type.typeInt, is]);
+                return Promise.resolve([Type.ConstantInt, is]);
 
             case "ConstantString":
-                return Promise.resolve([Type.typeString, is]);
+                return Promise.resolve([Type.ConstantString, is]);
 
             case "Lambda": {
                 const x =
                     e.names[0].value;
 
                 return freshVariable(is)
-                    .then(tv => bindSchema(x)(Schema([])(Type.TypeVariable(tv[0])))(tv[1])
+                    .then(tv => bindSchema(x)(Schema([])(Type.Variable(tv[0])))(tv[1])
                         .then(inferExpression(e.expression))
-                        .then(et => Promise.resolve([Type.TypeFunction(Type.TypeVariable(tv[0]))(et[0]), tv[1]])))
+                        .then(et => Promise.resolve([Type.Function(Type.Variable(tv[0]))(et[0]), tv[1]])))
             }
 
             case "LowerIDReference":
                 return lookupInEnv(e.name)(is);
 
             default:
-                return Promise.resolve([Type.typeInt, is]);
+                return Promise.reject("Unable to infer kind " + e.kind);
         }
     };
 

@@ -38,14 +38,14 @@ module.exports = $importAll([
 
 
     return {
-        isTypeConstant: isConstant,
-        isTypeFunction: isFunction,
-        isTypeVariable: isVariable,
-        TypeConstant: Constant,
-        TypeFunction: Function,
-        TypeVariable: Variable,
-        typeBool: ConstantBool,
-        typeInt: ConstantInt,
-        typeString: ConstantString
+        isConstant,
+        isFunction,
+        isVariable,
+        Constant,
+        Function,
+        Variable,
+        ConstantBool,
+        ConstantInt,
+        ConstantString
     };
 });
