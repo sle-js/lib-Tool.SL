@@ -113,13 +113,18 @@ module.exports = $importAll([
                 return Promise.resolve([Type.ConstantString, is]);
 
             case "Lambda": {
-                const x =
-                    e.names[0].value;
+                const lambda = params => expression => is =>
+                    Array.length(params) === 1
+                        ? freshVariable(is)
+                            .then(tv => bindSchema(params[0].value)(tv[0])(openScope(tv[1]))
+                                .then(inferExpression(expression))
+                                .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])))
+                        : freshVariable(is)
+                            .then(tv => bindSchema(params[0].value)(tv[0])(openScope(tv[1]))
+                                .then(lambda(params.slice(1))(expression))
+                                .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])));
 
-                return freshVariable(is)
-                    .then(tv => bindSchema(x)(tv[0])(openScope(tv[1]))
-                        .then(inferExpression(e.expression))
-                        .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])))
+                return lambda(e.names)(e.expression)(is);
             }
 
             case "LowerIDReference":

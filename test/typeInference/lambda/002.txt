@@ -1,0 +1,16 @@
+-- infer apply = f x -> f x
+apply = f x -> f x
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "apply": "P -> Q -> R"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "P",
+      "Q -> R"
+    ]
+  ]
+}
