@@ -9,6 +9,7 @@ module.exports = $import(
     const Infer = $imports.Infer;
     const Path = $imports.Path;
     const String = $imports.String;
+    const Type = $imports.Type;
     const Unit = $imports.Unit;
 
     const LexerConfiguration = $imports.LexerConfiguration;
@@ -51,6 +52,12 @@ module.exports = $import(
     };
 
 
+    const showInferState = is =>
+        Object.assign({}, is, {
+            subst: Array.map(Array.map(Type.show))(is.subst)
+        });
+
+
     const processFile = suiteName => content => assertion => {
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
@@ -69,7 +76,7 @@ module.exports = $import(
 
             return content.typeInference
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
-                    .then(is => astAssertion.equals(asString(is))(content.typeInference.join("\n").trim()))
+                    .then(is => astAssertion.equals(asString(showInferState(is)))(content.typeInference.join("\n").trim()))
                 : astAssertion;
             } else if (astKey.isJust()) {
             const parseName =
