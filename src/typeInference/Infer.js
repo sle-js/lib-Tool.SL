@@ -25,6 +25,10 @@ module.exports = $importAll([
         [names, type];
 
 
+    const schemaType = schema =>
+        schema[1];
+
+
     const initialTypeEnv =
         Dict.empty;
 
@@ -47,7 +51,7 @@ module.exports = $importAll([
 
     const freshVariable = infer =>
         Promise.resolve([
-            variableNameFromInt(infer.variableCounter),
+            Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))),
             Object.assign({}, infer, {
                 variableCounter: infer.variableCounter + 1
             })]);
@@ -68,15 +72,43 @@ module.exports = $importAll([
                 t => Promise.resolve([t[1], is]));
 
 
+    const uni = t1 => t2 => is =>
+        Promise.resolve(Object.assign({}, is, {
+            subst: Array.append([t1, t2])(is.subst)
+        }));
+
+
+    const openScope = is =>
+        Object.assign({}, is, {
+            scopes: Array.prepend(is.env)(is.scopes)
+        });
+
+
+    const closeScope = is =>
+        Object.assign({}, is, {
+            env: is.scopes[0],
+            scopes: is.scopes.slice(1)
+        });
+
+
     const initialInferState = {
         variableCounter: 0,
-        env: initialTypeEnv
+        env: initialTypeEnv,
+        scopes: [],
+        subst: []
     };
 
 
     // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
     const inferExpression = e => is => {
         switch (e.kind) {
+            case "Apply":
+                return inferExpression(e.operator)(is)
+                    .then(t1 => inferExpression(e.operand)(t1[1])
+                        .then(t2 => freshVariable(t2[1])
+                            .then(tv => uni(t1[0])(Type.Function(t2[0])(schemaType(tv[0])))(tv[1])
+                                .then(unifyResult => Promise.resolve([schemaType(tv[0]), unifyResult])))));
+
             case "ConstantBoolean":
                 return Promise.resolve([Type.ConstantBool, is]);
 
@@ -91,9 +123,9 @@ module.exports = $importAll([
                     e.names[0].value;
 
                 return freshVariable(is)
-                    .then(tv => bindSchema(x)(Schema([])(Type.Variable(tv[0])))(tv[1])
+                    .then(tv => bindSchema(x)(tv[0])(openScope(tv[1]))
                         .then(inferExpression(e.expression))
-                        .then(et => Promise.resolve([Type.Function(Type.Variable(tv[0]))(et[0]), tv[1]])))
+                        .then(et => Promise.resolve([Type.Function(schemaType(tv[0]))(et[0]), closeScope(et[1])])))
             }
 
             case "LowerIDReference":

@@ -18,5 +18,7 @@ identity = x -> x
         ]
       ]
     ]
-  }
+  },
+  "scopes": [],
+  "subst": []
 }
