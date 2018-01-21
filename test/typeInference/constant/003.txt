@@ -4,13 +4,7 @@ x = "Hello"
 {
   "variableCounter": 0,
   "env": {
-    "x": [
-      [],
-      [
-        1,
-        "String"
-      ]
-    ]
+    "x": "String"
   },
   "scopes": [],
   "subst": []

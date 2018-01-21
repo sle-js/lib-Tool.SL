@@ -4,13 +4,7 @@ x = True
 {
   "variableCounter": 0,
   "env": {
-    "x": [
-      [],
-      [
-        1,
-        "Bool"
-      ]
-    ]
+    "x": "Bool"
   },
   "scopes": [],
   "subst": []

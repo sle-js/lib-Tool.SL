@@ -28,9 +28,21 @@ module.exports = $importAll([
     };
 
 
+    const mapValue = f => d => {
+        const result = {};
+
+        for (const key of Object.keys(d)) {
+            result[key] = f(d[key]);
+        }
+
+        return result;
+    };
+
+
     return {
         empty,
         get,
-        insert
+        insert,
+        mapValue
     };
 });

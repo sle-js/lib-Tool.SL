@@ -4,10 +4,12 @@ module.exports = $import(
     const Array = $imports.Array;
     const Assertion = $imports.Assertion;
     const ASTTranslator = $imports.ASTTranslator;
+    const Dict = $imports.Dict;
     const ES2015Translator = $imports.ES2015Translator;
     const FileSystem = $imports.FileSystem;
     const Infer = $imports.Infer;
     const Path = $imports.Path;
+    const Schema = $imports.Schema;
     const String = $imports.String;
     const Type = $imports.Type;
     const Unit = $imports.Unit;
@@ -54,6 +56,7 @@ module.exports = $import(
 
     const showInferState = is =>
         Object.assign({}, is, {
+            env: Dict.mapValue(Schema.show)(is.env),
             subst: Array.map(Array.map(Type.show))(is.subst)
         });
 

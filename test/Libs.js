@@ -7,6 +7,7 @@ module.exports = $importAll([
     "../src/Parser",
     "path",
     "../src/Regex",
+    "../src/typeInference/Schema",
     "../src/typeInference/Type",
     "../src/Tokens",
     "../src/typeInference/Infer",
@@ -19,8 +20,9 @@ module.exports = $importAll([
     Parser: $imports[5],
     Path: $imports[6],
     Regex: $imports[7],
-    Type: $imports[8],
-    Tokens: $imports[9],
-    Infer: $imports[10],
-    Unit: $imports[11]
+    Schema: $imports[8],
+    Type: $imports[9],
+    Tokens: $imports[10],
+    Infer: $imports[11],
+    Unit: $imports[12]
 }));

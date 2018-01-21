@@ -4,13 +4,7 @@ x = 10
 {
   "variableCounter": 0,
   "env": {
-    "x": [
-      [],
-      [
-        1,
-        "Int"
-      ]
-    ]
+    "x": "Int"
   },
   "scopes": [],
   "subst": []

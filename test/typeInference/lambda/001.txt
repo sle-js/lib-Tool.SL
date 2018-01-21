@@ -4,20 +4,7 @@ identity = x -> x
 {
   "variableCounter": 1,
   "env": {
-    "identity": [
-      [],
-      [
-        2,
-        [
-          0,
-          "P"
-        ],
-        [
-          0,
-          "P"
-        ]
-      ]
-    ]
+    "identity": "P -> P"
   },
   "scopes": [],
   "subst": []
