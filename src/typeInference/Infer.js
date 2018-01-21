@@ -14,19 +14,13 @@
 
 module.exports = $importAll([
     "./../Libs",
+    "./Schema",
     "./Type"
 ]).then($imports => {
     const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
-    const Type = $imports[1];
-
-
-    const Schema = names => type =>
-        [names, type];
-
-
-    const schemaType = schema =>
-        schema[1];
+    const Schema = $imports[1];
+    const Type = $imports[2];
 
 
     const initialTypeEnv =
@@ -51,7 +45,7 @@ module.exports = $importAll([
 
     const freshVariable = infer =>
         Promise.resolve([
-            Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))),
+            Schema.Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))),
             Object.assign({}, infer, {
                 variableCounter: infer.variableCounter + 1
             })]);
@@ -106,8 +100,8 @@ module.exports = $importAll([
                 return inferExpression(e.operator)(is)
                     .then(t1 => inferExpression(e.operand)(t1[1])
                         .then(t2 => freshVariable(t2[1])
-                            .then(tv => uni(t1[0])(Type.Function(t2[0])(schemaType(tv[0])))(tv[1])
-                                .then(unifyResult => Promise.resolve([schemaType(tv[0]), unifyResult])))));
+                            .then(tv => uni(t1[0])(Type.Function(t2[0])(Schema.type(tv[0])))(tv[1])
+                                .then(unifyResult => Promise.resolve([Schema.type(tv[0]), unifyResult])))));
 
             case "ConstantBoolean":
                 return Promise.resolve([Type.ConstantBool, is]);
@@ -125,7 +119,7 @@ module.exports = $importAll([
                 return freshVariable(is)
                     .then(tv => bindSchema(x)(tv[0])(openScope(tv[1]))
                         .then(inferExpression(e.expression))
-                        .then(et => Promise.resolve([Type.Function(schemaType(tv[0]))(et[0]), closeScope(et[1])])))
+                        .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])))
             }
 
             case "LowerIDReference":
@@ -143,7 +137,7 @@ module.exports = $importAll([
             case "NameDeclaration":
                 return inferExpression(declaration.expression)(is)
                     .then(e1 =>
-                        bindSchema(declaration.name.value)(Schema([])(e1[0]))(e1[1]));
+                        bindSchema(declaration.name.value)(Schema.Schema([])(e1[0]))(e1[1]));
             default:
                 return Promise.resolve(is);
         }
@@ -159,7 +153,6 @@ module.exports = $importAll([
         freshVariable,
         inferModule,
         initialInferState,
-        initialTypeEnv,
-        Schema
+        initialTypeEnv
     };
 });
