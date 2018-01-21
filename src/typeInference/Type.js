@@ -5,24 +5,40 @@ module.exports = $importAll([
         [0, name];
 
 
+    const isVariable = type =>
+        type[0] === 0;
+
+
+    const variableName = type =>
+        type[1];
+
+
     const Constant = name =>
         [1, name];
+
+
+    const isConstant = type =>
+        type[0] === 1;
+
+
+    const constantName = type =>
+        type[1];
 
 
     const Function = domain => range =>
         [2, domain, range];
 
 
-    const isVariable = type =>
-        type[0] === 0;
-
-
-    const isConstant = type =>
-        type[1] === 1;
-
-
     const isFunction = type =>
         type[0] === 2;
+
+
+    const functionDomain = type =>
+        type[1];
+
+
+    const functionRange = type =>
+        type[2];
 
 
     const ConstantInt =
@@ -37,15 +53,35 @@ module.exports = $importAll([
         Constant("String");
 
 
+    const show = t => {
+        const showDomain = item =>
+            isFunction(item) ? `(${show(item)})` : show(item);
+
+        const showRange = item =>
+            isFunction(item) && isFunction(functionDomain(item)) ? `(${show(item)})` : show(item);
+
+        return isConstant(t) ? constantName(t) : isVariable(t) ? variableName(t) : `${showDomain(functionDomain(t))} -> ${showRange(functionRange(t))}`;
+    };
+    assumptionEqual(show(ConstantBool), "Bool");
+    assumptionEqual(show(Variable("P")), "P");
+    assumptionEqual(show(Function(Variable("P"))(ConstantBool)), "P -> Bool");
+    assumptionEqual(show(Function(Function(ConstantInt)(Variable("P")))(Function(Variable("Q"))(ConstantBool))), "(Int -> P) -> Q -> Bool");
+
+
     return {
+        Constant,
+        ConstantBool,
+        ConstantInt,
+        constantName,
+        ConstantString,
         isConstant,
         isFunction,
         isVariable,
-        Constant,
         Function,
+        functionDomain,
+        functionRange,
+        show,
         Variable,
-        ConstantBool,
-        ConstantInt,
-        ConstantString
+        variableName
     };
 });
