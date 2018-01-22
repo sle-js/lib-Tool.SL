@@ -15,20 +15,14 @@
 module.exports = $importAll([
     "./../Libs",
     "./Schema",
-    "./Type"
+    "./Type",
+    "./TypeEnv"
 ]).then($imports => {
     const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
     const Schema = $imports[1];
     const Type = $imports[2];
-
-
-    const initialTypeEnv =
-        Dict.empty;
-
-
-    const extendTypeEnv =
-        Dict.insert;
+    const TypeEnv = $imports[3];
 
 
     const variableNameFromInt = value =>
@@ -54,7 +48,7 @@ module.exports = $importAll([
     const bindSchema = name => schema => is =>
         Promise.resolve(
             Object.assign({}, is, {
-                env: extendTypeEnv(name)(schema)(is.env)
+                env: TypeEnv.extend(name)(schema)(is.env)
             })
         );
 
@@ -87,7 +81,7 @@ module.exports = $importAll([
 
     const initialInferState = {
         variableCounter: 0,
-        env: initialTypeEnv,
+        env: TypeEnv.empty,
         scopes: [],
         subst: []
     };
@@ -159,10 +153,8 @@ module.exports = $importAll([
 
 
     return {
-        extendTypeEnv,
         freshVariable,
         inferModule,
-        initialInferState,
-        initialTypeEnv
+        initialInferState
     };
 });
