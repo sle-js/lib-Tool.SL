@@ -130,6 +130,11 @@ module.exports = $importAll([
             case "LowerIDReference":
                 return lookupInEnv(e.name)(is);
 
+            case "Not":
+                return inferExpression(e.expression)(is)
+                    .then(t1 => uni(t1[0])(Type.ConstantBool)(t1[1]))
+                    .then(t2 => Promise.resolve([Type.ConstantBool, t2]));
+
             default:
                 return Promise.reject("Unable to infer kind " + e.kind);
         }
