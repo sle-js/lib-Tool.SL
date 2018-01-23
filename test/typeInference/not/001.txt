@@ -4,12 +4,12 @@ identity = x -> !x
 {
   "variableCounter": 1,
   "env": {
-    "identity": "forall P: P -> Bool"
+    "identity": "forall a: a -> Bool"
   },
   "scopes": [],
   "subst": [
     [
-      "P",
+      "a",
       "Bool"
     ]
   ]

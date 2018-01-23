@@ -27,15 +27,13 @@ module.exports = $importAll([
 
 
     const variableNameFromInt = value =>
-        (value < 11) ? String.fromCharCode(value + 80)
-            : value < 25 ? String.fromCharCode(value + 54)
-            : "T" + (value - 24);
-    assumptionEqual(variableNameFromInt(0), "P");
-    assumptionEqual(variableNameFromInt(10), "Z");
-    assumptionEqual(variableNameFromInt(11), "A");
-    assumptionEqual(variableNameFromInt(24), "N");
-    assumptionEqual(variableNameFromInt(25), "T1");
-    assumptionEqual(variableNameFromInt(26), "T2");
+        (value < 26) ? String.fromCharCode(value + 97)
+            : "a" + (value - 26);
+    assumptionEqual(variableNameFromInt(0), "a");
+    assumptionEqual(variableNameFromInt(10), "k");
+    assumptionEqual(variableNameFromInt(25), "z");
+    assumptionEqual(variableNameFromInt(26), "a0");
+    assumptionEqual(variableNameFromInt(27), "a1");
 
 
     const freshVariable = infer =>

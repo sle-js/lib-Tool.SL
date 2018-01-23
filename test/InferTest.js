@@ -11,8 +11,8 @@ module.exports = $import(
                 .equals(Infer.initialInferState.variableCounter)(0)),
 
             Infer.freshVariable(Infer.initialInferState).then(r =>
-                Unit.Test("counter of 0 gives 'R' and the counter is updated to 1")(Assertion
-                    .equals(r[0][1][1])("P")
+                Unit.Test("counter of 0 gives 'a' and the counter is updated to 1")(Assertion
+                    .equals(r[0][1][1])("a")
                     .equals(r[1].variableCounter)(1))
             )
         ])

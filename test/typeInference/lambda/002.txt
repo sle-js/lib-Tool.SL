@@ -4,13 +4,13 @@ apply = f x -> f x
 {
   "variableCounter": 3,
   "env": {
-    "apply": "forall P, Q, R: P -> Q -> R"
+    "apply": "forall a, b, c: a -> b -> c"
   },
   "scopes": [],
   "subst": [
     [
-      "P",
-      "Q -> R"
+      "a",
+      "b -> c"
     ]
   ]
 }

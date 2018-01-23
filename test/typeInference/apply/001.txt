@@ -4,17 +4,17 @@ compose = f -> g -> x -> f (g x)
 {
   "variableCounter": 5,
   "env": {
-    "compose": "forall P, Q, R, T: P -> Q -> R -> T"
+    "compose": "forall a, b, c, e: a -> b -> c -> e"
   },
   "scopes": [],
   "subst": [
     [
-      "Q",
-      "R -> S"
+      "b",
+      "c -> d"
     ],
     [
-      "P",
-      "S -> T"
+      "a",
+      "d -> e"
     ]
   ]
 }
