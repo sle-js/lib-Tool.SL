@@ -1,6 +1,9 @@
 module.exports = $importAll([
     "./../Libs"
 ]).then($imports => {
+    const Set = $imports[0].Set;
+
+
     const Variable = name =>
         [0, name];
 
@@ -68,6 +71,15 @@ module.exports = $importAll([
     assumptionEqual(show(Function(Function(ConstantInt)(Variable("P")))(Function(Variable("Q"))(ConstantBool))), "(Int -> P) -> Q -> Bool");
 
 
+    const ftv = type =>
+        isConstant(type) ? Set.empty
+            : isVariable(type) ? Set.singleton(variableName(type))
+            : Set.union(ftv(functionDomain(type)))(ftv(functionRange(type)));
+    assumption(Set.equals(ftv(ConstantInt))(Set.empty));
+    assumption(Set.equals(ftv(Variable("A")))(Set.singleton("A")));
+    assumption(Set.equals(ftv(Function(Variable("A"))(Variable("B"))))(Set.fromArray(["A", "B"])));
+
+
     return {
         Constant,
         ConstantBool,
@@ -77,6 +89,7 @@ module.exports = $importAll([
         isConstant,
         isFunction,
         isVariable,
+        ftv,
         Function,
         functionDomain,
         functionRange,

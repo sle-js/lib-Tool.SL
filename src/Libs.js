@@ -10,6 +10,7 @@ module.exports = $importAll([
     "core:Native.Data.Maybe:1.0.0",
     "core:Text.Parsing.Combinators:1.2.0",
     "core:Native.Data.Result:1.0.0",
+    "./Set",
     "use:./SLAST.estree core:Tool.ESTree:1.0.3",
     "core:Data.Collection.InfiniteStream:1.0.0",
     "core:Native.Data.String:1.0.0"
@@ -25,7 +26,8 @@ module.exports = $importAll([
     Maybe: $imports[8],
     ParserCombinator: $imports[9],
     Result: $imports[10],
-    SLAST: $imports[11],
-    Stream: $imports[12],
-    String: $imports[13]
+    Set: $imports[11],
+    SLAST: $imports[12],
+    Stream: $imports[13],
+    String: $imports[14]
 }));
