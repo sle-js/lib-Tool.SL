@@ -22,8 +22,12 @@ const union = s1 => s2 =>
     new Set([...s1, ...s2]);
 
 
+const asArray = s =>
+    [...s];
+
+
 const show = s =>
-    `{${[...s].join(", ")}}`;
+    `{${asArray(s).join(", ")}}`;
 
 
 const equals = as => bs => {
@@ -34,6 +38,7 @@ const equals = as => bs => {
 
 
 module.exports = Promise.resolve({
+    asArray,
     difference,
     empty,
     equals,
