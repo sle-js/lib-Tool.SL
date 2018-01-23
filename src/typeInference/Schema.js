@@ -3,6 +3,7 @@ module.exports = $importAll([
     "./Type"
 ]).then($imports => {
     const Array = $imports[0].Array;
+    const Set = $imports[0].Set;
     const Type = $imports[1];
 
 
@@ -26,7 +27,14 @@ module.exports = $importAll([
     assumptionEqual(show(Schema(["P", "Q"])(Type.Function(Type.Variable("P"))(Type.Variable("Q")))), "forall P, Q: P -> Q");
 
 
+    const ftv = schema =>
+        Set.fromArray(names(schema));
+    assumption(Set.equals(ftv(Schema([])(Type.ConstantBool)))(Set.empty));
+    assumption(Set.equals(ftv(Schema(["A", "B"])(Type.ConstantBool)))(Set.fromArray(["A", "B"])));
+
+
     return {
+        ftv,
         names,
         Schema,
         show,
