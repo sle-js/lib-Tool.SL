@@ -39,18 +39,17 @@ module.exports = $importAll([
 
     const freshVariable = infer =>
         Promise.resolve([
-            Schema.Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))),
-            Object.assign({}, infer, {
+            Schema.Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))), {
+                ...infer,
                 variableCounter: infer.variableCounter + 1
-            })]);
+            }]);
 
 
     const bindSchema = name => schema => is =>
-        Promise.resolve(
-            Object.assign({}, is, {
-                env: TypeEnv.extend(name)(schema)(is.env)
-            })
-        );
+        Promise.resolve({
+            ...is,
+            env: TypeEnv.extend(name)(schema)(is.env)
+        });
 
 
     const lookupInEnv = name => is =>
@@ -61,19 +60,22 @@ module.exports = $importAll([
 
 
     const uni = t1 => t2 => is =>
-        Promise.resolve(Object.assign({}, is, {
+        Promise.resolve({
+            ...is,
             subst: Array.append([t1, t2])(is.subst)
-        }));
+        });
 
 
     const openScope = is =>
-        Object.assign({}, is, {
+        ({
+            ...is,
             scopes: Array.prepend(is.env)(is.scopes)
         });
 
 
     const closeScope = is =>
-        Object.assign({}, is, {
+        ({
+            ...is,
             env: is.scopes[0],
             scopes: is.scopes.slice(1)
         });
