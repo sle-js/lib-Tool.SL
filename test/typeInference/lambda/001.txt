@@ -4,7 +4,7 @@ identity = x -> x
 {
   "variableCounter": 1,
   "env": {
-    "identity": "P -> P"
+    "identity": "forall P: P -> P"
   },
   "scopes": [],
   "subst": []

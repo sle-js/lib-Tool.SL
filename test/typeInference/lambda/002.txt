@@ -4,7 +4,7 @@ apply = f x -> f x
 {
   "variableCounter": 3,
   "env": {
-    "apply": "P -> Q -> R"
+    "apply": "forall P, Q, R: P -> Q -> R"
   },
   "scopes": [],
   "subst": [

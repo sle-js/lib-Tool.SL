@@ -21,6 +21,7 @@ module.exports = $importAll([
     const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
     const Schema = $imports[1];
+    const Set = $imports[0].Set;
     const Type = $imports[2];
     const TypeEnv = $imports[3];
 
@@ -137,13 +138,17 @@ module.exports = $importAll([
     };
 
 
+    const generalise = type =>
+        Schema.Schema(Set.asArray(Type.ftv(type)))(type);
+
+
     // infer: InferState -> AST -> Promise Error InferState
     const infer = declaration => is => {
         switch (declaration.kind) {
             case "NameDeclaration":
                 return inferExpression(declaration.expression)(is)
                     .then(e1 =>
-                        bindSchema(declaration.name.value)(Schema.Schema([])(e1[0]))(e1[1]));
+                        bindSchema(declaration.name.value)(generalise(e1[0]))(e1[1]));
             default:
                 return Promise.resolve(is);
         }
