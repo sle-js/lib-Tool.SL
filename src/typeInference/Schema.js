@@ -30,7 +30,7 @@ module.exports = $importAll([
     const ftv = schema =>
         Set.fromArray(names(schema));
     assumption(Set.equals(ftv(Schema([])(Type.ConstantBool)))(Set.empty));
-    assumption(Set.equals(ftv(Schema(["A", "B"])(Type.ConstantBool)))(Set.fromArray(["A", "B"])));
+    assumption(Set.equals(ftv(Schema(["A", "B"])(Type.Function(Type.Variable("A"))(Type.Variable("B")))))(Set.fromArray(["A", "B"])));
 
 
     return {
