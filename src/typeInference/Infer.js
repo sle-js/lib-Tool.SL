@@ -108,6 +108,25 @@ module.exports = $importAll([
                 t => instantiate(t)(is));
 
 
+    const operationSignatures = {
+        "||": Schema.Schema([])(Type.Function(Type.ConstantBool)(Type.Function(Type.ConstantBool)(Type.ConstantBool))),
+        "&&": Schema.Schema([])(Type.Function(Type.ConstantBool)(Type.Function(Type.ConstantBool)(Type.ConstantBool))),
+
+        "+": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantInt))),
+        "-": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantInt))),
+        "*": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantInt))),
+        "/": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantInt))),
+
+        "==": Schema.Schema(["a"])(Type.Function(Type.Variable("a"))(Type.Function(Type.Variable("a"))(Type.ConstantBool))),
+        "!=": Schema.Schema(["a"])(Type.Function(Type.Variable("a"))(Type.Function(Type.Variable("a"))(Type.ConstantBool))),
+
+        "<": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantBool))),
+        "<=": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantBool))),
+        ">": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantBool))),
+        ">=": Schema.Schema([])(Type.Function(Type.ConstantInt)(Type.Function(Type.ConstantInt)(Type.ConstantBool)))
+    };
+
+
     // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
     const inferExpression = e => is => {
         switch (e.kind) {
