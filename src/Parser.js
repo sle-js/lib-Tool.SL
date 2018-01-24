@@ -102,7 +102,7 @@ module.exports = $importAll([
                     C.many1(C.backtrack(tokenName(Tokens.lowerID))),
                     token(Tokens.MINUS_GREATER)
                 ])(r => r[0])),
-                parseLambdaExpression(lexicalConstraint)
+                parseExpression(lexicalConstraint)
             ])(r => SLAST.Lambda(stretchSourceLocation(locationFromNodes(r[0]).withDefault(r[0][0].loc))(r[1].loc), r[0], r[1])),
             parseBooleanOrExpression(lexicalConstraint)
         ])(lexer);
