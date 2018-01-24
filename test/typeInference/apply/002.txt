@@ -1,4 +1,4 @@
--- infer compose = f -> g -> x -> f (g x)
+-- infer related functions
 funny = a b -> a !b
 
 other = y -> funny y
