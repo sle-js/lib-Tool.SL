@@ -1,3 +1,20 @@
 -- infer if
 identity = x y -> if x then y else 2
 -- typeInference
+{
+  "variableCounter": 2,
+  "env": {
+    "identity": "forall a, b: a -> b -> b"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a",
+      "Bool"
+    ],
+    [
+      "b",
+      "Int"
+    ]
+  ]
+}
