@@ -15,6 +15,10 @@ module.exports = $importAll([
             : Maybe.Just(a[a.length - 1]);
 
 
+    Array.zip =
+        Array.zipWith(a => b => [a, b]);
+
+
     return Array;
 });
 
