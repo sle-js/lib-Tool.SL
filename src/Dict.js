@@ -28,6 +28,16 @@ module.exports = $importAll([
     };
 
 
+    const getWithDefault = def => k => d => {
+        const value =
+            d[k];
+
+        return value === undefined
+            ? def
+            : value;
+    };
+
+
     const mapValue = f => d => {
         const result = {};
 
@@ -39,9 +49,22 @@ module.exports = $importAll([
     };
 
 
+    const fromArray = a => {
+        const result = {};
+
+        for (const t in a) {
+            result[t[0]] = t[1];
+        }
+
+        return result;
+    };
+
+
     return {
         empty,
+        fromArray,
         get,
+        getWithDefault,
         insert,
         mapValue
     };
