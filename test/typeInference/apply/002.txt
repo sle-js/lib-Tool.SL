@@ -1,0 +1,27 @@
+-- infer compose = f -> g -> x -> f (g x)
+funny = a b -> a !b
+
+other = y -> funny y
+-- typeInference
+{
+  "variableCounter": 8,
+  "env": {
+    "funny": "forall a, b, c: a -> b -> c",
+    "other": "forall d, h: d -> h"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "b",
+      "Bool"
+    ],
+    [
+      "a",
+      "Bool -> c"
+    ],
+    [
+      "a -> b -> c",
+      "d -> h"
+    ]
+  ]
+}
