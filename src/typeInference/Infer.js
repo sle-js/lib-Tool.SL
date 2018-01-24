@@ -127,6 +127,14 @@ module.exports = $importAll([
             case "ConstantString":
                 return Promise.resolve([Type.ConstantString, is]);
 
+            case "If":
+                return inferExpression(e.testExpression)(is)
+                    .then(testType => inferExpression(e.thenExpression)(testType[1])
+                        .then(thenType => inferExpression(e.elseExpression)(thenType[1])
+                            .then(elseType => uni(testType[0])(Type.ConstantBool)(elseType[1])
+                                .then(uni(thenType[0])(elseType[0]))
+                                .then(finalIs => Promise.resolve([thenType[0], finalIs])))));
+
             case "Lambda": {
                 const lambda = params => expression => is =>
                     Array.length(params) === 1
