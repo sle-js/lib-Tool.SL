@@ -22,6 +22,7 @@ module.exports = $importAll([
     const Dict = $imports[0].Dict;
     const Schema = $imports[1];
     const Set = $imports[0].Set;
+    const Subst = $imports[2].Subst;
     const Type = $imports[2];
     const TypeEnv = $imports[3];
 
@@ -44,18 +45,19 @@ module.exports = $importAll([
             }]);
 
 
+    const freshVariables = n => infer =>
+        n === 0
+            ? Promise.resolve([[], infer])
+            : freshVariable(infer)
+                .then(t => freshVariables(n - 1)(t[1])
+                    .then(fv => Promise.resolve([Array.append(t[0])(fv[0]), fv[1]])));
+
+
     const bindSchema = name => schema => is =>
         Promise.resolve({
             ...is,
             env: TypeEnv.extend(name)(schema)(is.env)
         });
-
-
-    const lookupInEnv = name => is =>
-        Dict.get(name)(is.env)
-            .reduce(
-                () => Promise.reject(name + " is an unknown variable"))(
-                t => Promise.resolve([t[1], is]));
 
 
     const uni = t1 => t2 => is =>
@@ -86,6 +88,24 @@ module.exports = $importAll([
         scopes: [],
         subst: []
     };
+
+
+    const instantiate = schema => is =>
+        freshVariables(Array.length(Schema.names(schema)))(is)
+            .then(fv => [
+                Type.apply(Subst.fromArray(Array.zip(Schema.names(schema))(fv[0])))(Schema.type(schema)),
+                fv[1]]);
+
+
+    const generalise = type =>
+        Schema.Schema(Set.asArray(Type.ftv(type)))(type);
+
+
+    const lookupInEnv = name => is =>
+        Dict.get(name)(is.env)
+            .reduce(
+                () => Promise.reject(name + " is an unknown variable"))(
+                t => instantiate(t)(is));
 
 
     // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
@@ -134,10 +154,6 @@ module.exports = $importAll([
                 return Promise.reject("Unable to infer kind " + e.kind);
         }
     };
-
-
-    const generalise = type =>
-        Schema.Schema(Set.asArray(Type.ftv(type)))(type);
 
 
     // infer: InferState -> AST -> Promise Error InferState
