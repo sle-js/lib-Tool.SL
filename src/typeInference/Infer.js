@@ -137,6 +137,21 @@ module.exports = $importAll([
                             .then(tv => uni(t1[0])(Type.Function(t2[0])(Schema.type(tv[0])))(tv[1])
                                 .then(unifyResult => Promise.resolve([Schema.type(tv[0]), unifyResult])))));
 
+
+            case "Binary": {
+                const operation =
+                    operationSignatures[e.operator.value];
+
+                return operation === undefined
+                    ? Promise.reject("Unknown operator " + e.operator.value)
+                    : instantiate(operation)(is)
+                        .then(os => freshVariable(os[1])
+                            .then(fv => inferExpression(e.left)(fv[1])
+                                .then(le => inferExpression(e.right)(le[1])
+                                    .then(re => uni(Type.Function(le[0])(Type.Function(re[0])(Schema.type(fv[0]))))(os[0])(re[1])
+                                        .then(unifyResult => Promise.resolve([Schema.type(fv[0]), unifyResult]))))));
+            }
+
             case "ConstantBoolean":
                 return Promise.resolve([Type.ConstantBool, is]);
 

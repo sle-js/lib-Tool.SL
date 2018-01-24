@@ -1,0 +1,16 @@
+-- infer plus10 = n -> n + 10
+plus10 = n -> n + 10
+-- typeInference
+{
+  "variableCounter": 2,
+  "env": {
+    "plus10": "forall a, b: a -> b"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> Int -> b",
+      "Int -> Int -> Int"
+    ]
+  ]
+}
