@@ -1,6 +1,7 @@
 module.exports = $importAll([
     "./../Libs"
 ]).then($imports => {
+    const Dict = $imports[0].Dict;
     const Set = $imports[0].Set;
 
 
@@ -80,20 +81,35 @@ module.exports = $importAll([
     assumption(Set.equals(ftv(Function(Variable("A"))(Variable("B"))))(Set.fromArray(["A", "B"])));
 
 
+    const apply = subst => type =>
+        isConstant(type) ? type
+            : isVariable(type) ? Dict.getWithDefault(type)(variableName(type))(subst)
+            : Function(apply(subst)(functionDomain(type)))(apply(subst)(functionRange(type)));
+
+
+    const Subst = {
+        nullSubst: Dict.empty,
+        getWithDefault: Dict.getWithDefault,
+        fromArray: Dict.fromArray
+    };
+
+
     return {
+        apply,
         Constant,
         ConstantBool,
         ConstantInt,
         constantName,
         ConstantString,
-        isConstant,
-        isFunction,
-        isVariable,
         ftv,
         Function,
         functionDomain,
         functionRange,
+        isConstant,
+        isFunction,
+        isVariable,
         show,
+        Subst,
         Variable,
         variableName
     };
