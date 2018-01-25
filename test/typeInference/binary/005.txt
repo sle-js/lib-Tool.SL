@@ -1,0 +1,16 @@
+-- infer equals = n -> n == 10
+equals = n -> n == 10
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "equals": "forall a, c: a -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> Int -> c",
+      "a -> a -> Bool"
+    ]
+  ]
+}
