@@ -1,0 +1,16 @@
+-- infer aa = n m -> n && m
+aa = n m -> n && m
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "aa": "forall a, b, c: a -> b -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> b -> c",
+      "Bool -> Bool -> Bool"
+    ]
+  ]
+}

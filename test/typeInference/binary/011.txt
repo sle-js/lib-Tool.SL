@@ -1,0 +1,16 @@
+-- infer gt = n m -> n > m
+gt = n m -> n > m
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "gt": "forall a, b, c: a -> b -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> b -> c",
+      "Int -> Int -> Bool"
+    ]
+  ]
+}

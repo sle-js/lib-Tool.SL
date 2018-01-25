@@ -1,0 +1,16 @@
+-- infer lt = n m -> n < m
+lt = n m -> n < m
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "lt": "forall a, b, c: a -> b -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> b -> c",
+      "Int -> Int -> Bool"
+    ]
+  ]
+}

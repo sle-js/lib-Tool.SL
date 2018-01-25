@@ -1,0 +1,16 @@
+-- infer or = n m -> n || m
+or = n m -> n || m
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "or": "forall a, b, c: a -> b -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> b -> c",
+      "Bool -> Bool -> Bool"
+    ]
+  ]
+}
