@@ -1,0 +1,16 @@
+-- infer divide10 = n -> n / 10
+divide10 = n -> n - 10
+-- typeInference
+{
+  "variableCounter": 2,
+  "env": {
+    "divide10": "forall a, b: a -> b"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> Int -> b",
+      "Int -> Int -> Int"
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+-- infer minus10 = n -> n - 10
+minus10 = n -> n - 10
+-- typeInference
+{
+  "variableCounter": 2,
+  "env": {
+    "minus10": "forall a, b: a -> b"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "a -> Int -> b",
+      "Int -> Int -> Int"
+    ]
+  ]
+}
