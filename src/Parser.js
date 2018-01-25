@@ -110,10 +110,10 @@ module.exports = $importAll([
 
     const parseBooleanOrExpression = lexicalConstraint => lexer =>
         C.andMap([
-            parseRelationalOpExpression(lexicalConstraint),
+            parseBooleanAndExpression(lexicalConstraint),
             C.many(C.and([
                 C.backtrack(tokenName(Tokens.BAR_BAR)),
-                parseRelationalOpExpression(lexicalConstraint)
+                parseBooleanAndExpression(lexicalConstraint)
             ]))
         ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
 
