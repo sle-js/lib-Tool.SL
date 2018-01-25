@@ -1,0 +1,16 @@
+-- infer notEquals = n -> "Hello" != n
+notEquals = n -> "Hello" != n
+-- typeInference
+{
+  "variableCounter": 3,
+  "env": {
+    "notEquals": "forall a, c: a -> c"
+  },
+  "scopes": [],
+  "subst": [
+    [
+      "String -> a -> c",
+      "a -> a -> Bool"
+    ]
+  ]
+}
