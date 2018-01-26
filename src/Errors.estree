@@ -43,3 +43,10 @@ interface UnknownOperator <: Errors {
     loc: LocationRange;
     operator: string;
 }
+
+
+interface UnknownIdentifier <: Errors {
+    kind: "UnknownIdentifier";
+    loc: LocationRange;
+    name: string;
+}

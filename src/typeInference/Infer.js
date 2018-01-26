@@ -20,6 +20,7 @@ module.exports = $importAll([
 ]).then($imports => {
     const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
+    const Errors = $imports[0].Errors;
     const Schema = $imports[1];
     const Set = $imports[0].Set;
     const Subst = $imports[2].Subst;
@@ -101,10 +102,10 @@ module.exports = $importAll([
         Schema.Schema(Set.asArray(Type.ftv(type)))(type);
 
 
-    const lookupInEnv = name => is =>
+    const lookupInEnv = loc => name => is =>
         Dict.get(name)(is.env)
             .reduce(
-                () => Promise.reject(name + " is an unknown variable"))(
+                () => Promise.reject(Errors.UnknownIdentifier (loc, name)))(
                 t => instantiate(t)(is));
 
 
@@ -185,7 +186,7 @@ module.exports = $importAll([
             }
 
             case "LowerIDReference":
-                return lookupInEnv(e.name)(is);
+                return lookupInEnv(e.loc)(e.name)(is);
 
             case "Not":
                 return inferExpression(e.expression)(is)

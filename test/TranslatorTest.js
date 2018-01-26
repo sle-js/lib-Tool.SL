@@ -80,6 +80,7 @@ module.exports = $import(
             return content.typeInference
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
                     .then(is => astAssertion.equals(asString(showInferState(is)))(content.typeInference.join("\n").trim()))
+                    .catch(e => astAssertion.equals(asString(e))(content.typeInference.join("\n").trim()))
                 : astAssertion;
             } else if (astKey.isJust()) {
             const parseName =
