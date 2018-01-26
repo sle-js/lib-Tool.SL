@@ -143,7 +143,7 @@ module.exports = $importAll([
                     operationSignatures[e.operator.value];
 
                 return operation === undefined
-                    ? Promise.reject("Unknown operator " + e.operator.value)
+                    ? Promise.reject(Errors.UnknownOperator(e.operator.loc, e.operator.value))
                     : instantiate(operation)(is)
                         .then(os => freshVariable(os[1])
                             .then(fv => inferExpression(e.left)(fv[1])

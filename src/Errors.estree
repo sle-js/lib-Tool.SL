@@ -36,3 +36,10 @@ interface ExpectedTokens <: Errors {
         symbol: string;
     } ];
 }
+
+
+interface UnknownOperator <: Errors {
+    kind: "UnknownOperator";
+    loc: LocationRange;
+    operator: string;
+}
