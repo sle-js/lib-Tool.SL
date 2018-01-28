@@ -7,7 +7,7 @@ le = n m -> n <= m
     "le": "forall a, b, c: a -> b -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> b -> c",
       "Int -> Int -> Bool"

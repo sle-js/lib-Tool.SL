@@ -7,7 +7,7 @@ compose = f -> g -> x -> f (g x)
     "compose": "forall a, b, c, e: a -> b -> c -> e"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "b",
       "c -> d"

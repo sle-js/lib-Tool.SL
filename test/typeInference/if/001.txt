@@ -7,7 +7,7 @@ identity = x y -> if x then y else 2
     "identity": "forall a, b: a -> b -> b"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a",
       "Bool"

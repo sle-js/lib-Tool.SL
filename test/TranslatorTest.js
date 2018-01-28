@@ -58,7 +58,7 @@ module.exports = $import(
     const showInferState = is =>
         Object.assign({}, is, {
             env: Dict.mapValue(Schema.show)(is.env),
-            subst: Array.map(Array.map(Type.show))(is.subst)
+            constraints: Array.map(Array.map(Type.show))(is.constraints)
         });
 
 

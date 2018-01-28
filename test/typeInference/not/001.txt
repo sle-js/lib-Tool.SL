@@ -7,7 +7,7 @@ identity = x -> !x
     "identity": "forall a: a -> Bool"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a",
       "Bool"

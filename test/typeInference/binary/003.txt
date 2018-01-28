@@ -7,7 +7,7 @@ multiply10 = n -> n * 10
     "multiply10": "forall a, b: a -> b"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> Int -> b",
       "Int -> Int -> Int"

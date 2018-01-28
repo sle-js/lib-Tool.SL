@@ -7,7 +7,7 @@ equals = n -> n == 10
     "equals": "forall a, c: a -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> Int -> c",
       "a -> a -> Bool"

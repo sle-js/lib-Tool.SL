@@ -7,7 +7,7 @@ notEquals = n -> "Hello" != n
     "notEquals": "forall a, c: a -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "String -> a -> c",
       "a -> a -> Bool"

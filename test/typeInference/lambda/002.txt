@@ -7,7 +7,7 @@ apply = f x -> f x
     "apply": "forall a, b, c: a -> b -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a",
       "b -> c"

@@ -7,7 +7,7 @@ aa = n m -> n && m
     "aa": "forall a, b, c: a -> b -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> b -> c",
       "Bool -> Bool -> Bool"

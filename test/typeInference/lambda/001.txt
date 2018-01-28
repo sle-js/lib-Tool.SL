@@ -7,5 +7,5 @@ identity = x -> x
     "identity": "forall a: a -> a"
   },
   "scopes": [],
-  "subst": []
+  "constraints": []
 }

@@ -7,7 +7,7 @@ divide10 = n -> n - 10
     "divide10": "forall a, b: a -> b"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> Int -> b",
       "Int -> Int -> Int"

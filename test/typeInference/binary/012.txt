@@ -7,7 +7,7 @@ ge = n m -> n >= m
     "ge": "forall a, b, c: a -> b -> c"
   },
   "scopes": [],
-  "subst": [
+  "constraints": [
     [
       "a -> b -> c",
       "Int -> Int -> Bool"

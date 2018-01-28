@@ -64,7 +64,7 @@ module.exports = $importAll([
     const uni = t1 => t2 => is =>
         Promise.resolve({
             ...is,
-            subst: Array.append([t1, t2])(is.subst)
+            constraints: Array.append([t1, t2])(is.constraints)
         });
 
 
@@ -87,7 +87,7 @@ module.exports = $importAll([
         variableCounter: 0,
         env: TypeEnv.empty,
         scopes: [],
-        subst: []
+        constraints: []
     };
 
 
