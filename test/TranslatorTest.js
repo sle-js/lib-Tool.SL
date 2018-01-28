@@ -87,8 +87,8 @@ module.exports = $import(
             return content.typeSolver
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
                     .then(is => Solver.solver(is.subst))
-                    .then(r => typeInference.equals(asString(r))(content.typeSolver.join("\n").trim()))
-                    .catch(e => astAssertion.equals(asString(e))(content.typeInference.join("\n").trim()))
+                    .then(r => typeInference.then(t => t.equals(asString(r))(content.typeSolver.join("\n").trim())))
+                    .catch(e => typeInference.then(t => t.equals(asString(e))(content.typeInference.join("\n").trim())))
                 : typeInference;
         } else if (astKey.isJust()) {
             const parseName =
