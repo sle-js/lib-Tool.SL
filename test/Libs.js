@@ -8,6 +8,7 @@ module.exports = $importAll([
     "path",
     "../src/Regex",
     "../src/typeInference/Schema",
+    "../src/typeInference/Solver",
     "../src/typeInference/Type",
     "../src/Tokens",
     "../src/typeInference/Infer",
@@ -21,8 +22,9 @@ module.exports = $importAll([
     Path: $imports[6],
     Regex: $imports[7],
     Schema: $imports[8],
-    Type: $imports[9],
-    Tokens: $imports[10],
-    Infer: $imports[11],
-    Unit: $imports[12]
+    Solver: $imports[9],
+    Type: $imports[10],
+    Tokens: $imports[11],
+    Infer: $imports[12],
+    Unit: $imports[13]
 }));

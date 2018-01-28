@@ -57,6 +57,12 @@ module.exports = $importAll([
         Constant("String");
 
 
+    const equals = t1 => t2 =>
+        t1[0] === t2[0]
+            ? t1[0] === 2 ? equals(t1[1])(t2[1]) && equals(t1[2])(t2[2]) : t1[1] === t2[1]
+            : false;
+
+
     const show = t => {
         const showDomain = item =>
             isFunction(item) ? `(${show(item)})` : show(item);
@@ -90,7 +96,8 @@ module.exports = $importAll([
     const Subst = {
         nullSubst: Dict.empty,
         getWithDefault: Dict.getWithDefault,
-        fromArray: Dict.fromArray
+        fromArray: Dict.fromArray,
+        isNullSubst: Dict.isEmpty
     };
 
 
@@ -101,6 +108,7 @@ module.exports = $importAll([
         ConstantInt,
         constantName,
         ConstantString,
+        equals,
         ftv,
         Function,
         functionDomain,

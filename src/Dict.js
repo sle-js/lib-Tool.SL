@@ -8,6 +8,17 @@ module.exports = $importAll([
         {};
 
 
+    const isEmpty = d => {
+        const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+        for (const key in d) {
+            if (hasOwnProperty.call(d, key)) return false;
+        }
+
+        return true;
+    };
+
+
     const insert = k => v => d => {
         const t =
             {};
@@ -66,6 +77,7 @@ module.exports = $importAll([
         get,
         getWithDefault,
         insert,
+        isEmpty,
         mapValue
     };
 });

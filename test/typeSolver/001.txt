@@ -1,0 +1,4 @@
+-- infer compose = f g x -> f (g x)
+compose = f g x -> f (g x)
+-- typeSolver
+{}

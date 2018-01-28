@@ -19,6 +19,10 @@ module.exports = $importAll([
         Array.zipWith(a => b => [a, b]);
 
 
+    Array.isEmpty = a =>
+        Array.length(a) === 0;
+
+
     return Array;
 });
 

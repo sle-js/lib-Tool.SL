@@ -50,3 +50,13 @@ interface UnknownIdentifier <: Errors {
     loc: LocationRange;
     name: string;
 }
+
+
+interface UnificationFail <: Errors {
+    kind: "UnificationFail";
+}
+
+
+interface UnificationMismatch <: Errors {
+    kind: "UnificationMismatch";
+}
