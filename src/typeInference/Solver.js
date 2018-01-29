@@ -33,7 +33,7 @@ module.exports = $importAll([
         Promise.resolve([Subst.singleton(name)(type), []]);
 
 
-    const apply = subst => types =>
+    const typesApply = subst => types =>
         Array.map(Type.apply(subst))(types);
 
 
@@ -54,7 +54,7 @@ module.exports = $importAll([
                 () => Promise.reject(Errors.UnificationMismatch()))(
                 t2h => t2t =>
                     unifies(t1h)(t2h)
-                        .then(r1 => unifyMany(apply(unifierSubst(r1))(t1t))(apply(unifierSubst(r1))(t2t))
+                        .then(r1 => unifyMany(typesApply(unifierSubst(r1))(t1t))(typesApply(unifierSubst(r1))(t2t))
                             .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstraint(r1))(unifierConstraint(r2)))))
                         )
             )(t2s))(t1s);
