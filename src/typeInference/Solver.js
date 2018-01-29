@@ -14,7 +14,7 @@ module.exports = $importAll([
 
 
     const emptyUnifier =
-        Promise.resolve(newUnifier(Type.nullSubst)([]));
+        Promise.resolve(newUnifier(Subst.nullSubst)([]));
 
 
     const isEmptyUnifier = u =>
@@ -30,7 +30,11 @@ module.exports = $importAll([
 
 
     const bind = name => type =>
-        Promise.resolve([Subst.fromArray([name, type]), []]);
+        Promise.resolve([Subst.singleton(name)(type), []]);
+
+
+    const apply = subst => types =>
+        Array.map(Type.apply(subst))(types);
 
 
     const unifies = t1 => t2 =>
@@ -50,13 +54,18 @@ module.exports = $importAll([
                 () => Promise.reject(Errors.UnificationMismatch()))(
                 t2h => t2t =>
                     unifies(t1h)(t2h)
-                        .then(r1 => unifyMany(apply(unifierSubst(r1))(t1t))(apply(unifierSubst(r1))(t2t)))
-                        .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstaint(r1))(unifierConstaint(r2)))))
+                        .then(r1 => unifyMany(apply(unifierSubst(r1))(t1t))(apply(unifierSubst(r1))(t2t))
+                            .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstaint(r1))(unifierConstaint(r2)))))
+                        )
             )(t2s))(t1s);
 
 
-    const solver = x =>
-        Dict.empty;
+    const solver = constraints =>
+        Array.reduce(
+            () => Promise.resolve(Dict.empty))(
+            c => cs => unifies(c[0])(c[1])
+                .then(r => Promise.resolve(r))
+        )(constraints);
 
 
     return {

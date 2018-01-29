@@ -8,6 +8,10 @@ module.exports = $importAll([
         {};
 
 
+    const singleton = k => v =>
+        insert(k)(v)(empty);
+
+
     const isEmpty = d => {
         const hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -25,7 +29,7 @@ module.exports = $importAll([
 
         t[k] = v;
 
-        return Object.assign({}, d, t)
+        return {...d, ...t}
     };
 
 
@@ -71,6 +75,10 @@ module.exports = $importAll([
     };
 
 
+    const union = d1 => d2 =>
+        ({...d2, ...d1});
+
+
     return {
         empty,
         fromArray,
@@ -78,6 +86,8 @@ module.exports = $importAll([
         getWithDefault,
         insert,
         isEmpty,
-        mapValue
+        mapValue,
+        singleton,
+        union
     };
 });

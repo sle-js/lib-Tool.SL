@@ -15,4 +15,7 @@ add20 = x -> x + 10
   ]
 }
 -- typeSolver
-{}
+{
+  "b": "Int",
+  "a": "Int"
+}

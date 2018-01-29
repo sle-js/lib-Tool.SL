@@ -94,10 +94,12 @@ module.exports = $importAll([
 
 
     const Subst = {
-        nullSubst: Dict.empty,
-        getWithDefault: Dict.getWithDefault,
+        compose: s1 => s2 => Dict.union(Dict.mapValue(apply(s1))(s2))(s1),
         fromArray: Dict.fromArray,
-        isNullSubst: Dict.isEmpty
+        getWithDefault: Dict.getWithDefault,
+        isNullSubst: Dict.isEmpty,
+        nullSubst: Dict.empty,
+        singleton: Dict.singleton
     };
 
 
