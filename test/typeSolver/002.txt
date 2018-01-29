@@ -1,0 +1,25 @@
+-- infer compose = f g x -> f (g x)
+compose = f g x -> f (g x)
+-- typeInference
+{
+  "variableCounter": 5,
+  "env": {
+    "compose": "forall a, b, c, e: a -> b -> c -> e"
+  },
+  "scopes": [],
+  "constraints": [
+    [
+      "b",
+      "c -> d"
+    ],
+    [
+      "a",
+      "d -> e"
+    ]
+  ]
+}
+-- typeSolver
+{
+  "a": "d -> e",
+  "b": "c -> d"
+}

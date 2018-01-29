@@ -37,6 +37,10 @@ module.exports = $importAll([
         Array.map(Type.apply(subst))(types);
 
 
+    const constraintsApply = subst => constraints =>
+        Array.map(Array.map(Type.apply(subst)))(constraints);
+
+
     const unifies = t1 => t2 =>
         Type.equals(t1)(t2)
             ? emptyUnifier
@@ -55,17 +59,20 @@ module.exports = $importAll([
                 t2h => t2t =>
                     unifies(t1h)(t2h)
                         .then(r1 => unifyMany(typesApply(unifierSubst(r1))(t1t))(typesApply(unifierSubst(r1))(t2t))
-                            .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstraint(r1))(unifierConstraint(r2)))))
-                        )
+                            .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstraint(r1))(unifierConstraint(r2))))))
             )(t2s))(t1s);
 
 
-    const solver = constraints =>
+    const solve = subst => constraints =>
         Array.reduce(
-            () => Promise.resolve(Dict.empty))(
+            () => Promise.resolve(subst))(
             c => cs => unifies(c[0])(c[1])
-                .then(r => Promise.resolve(r))
+                .then(r => solve(Subst.compose(r[0])(subst))(Array.concat(r[1])(constraintsApply(r[0])(cs))))
         )(constraints);
+
+
+    const solver = constraints =>
+        solve(Subst.nullSubst)(constraints);
 
 
     return {
