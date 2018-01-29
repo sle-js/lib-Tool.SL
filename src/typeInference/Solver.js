@@ -25,7 +25,7 @@ module.exports = $importAll([
         u[0];
 
 
-    const unifierConstaint = u =>
+    const unifierConstraint = u =>
         u[1];
 
 
@@ -55,7 +55,7 @@ module.exports = $importAll([
                 t2h => t2t =>
                     unifies(t1h)(t2h)
                         .then(r1 => unifyMany(apply(unifierSubst(r1))(t1t))(apply(unifierSubst(r1))(t2t))
-                            .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstaint(r1))(unifierConstaint(r2)))))
+                            .then(r2 => Promise.resolve(newUnifier(Subst.compose(unifierSubst(r2))(unifierSubst(r1)))(Array.concat(unifierConstraint(r1))(unifierConstraint(r2)))))
                         )
             )(t2s))(t1s);
 
