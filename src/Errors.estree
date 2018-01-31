@@ -54,6 +54,8 @@ interface UnknownIdentifier <: Errors {
 
 interface UnificationFail <: Errors {
     kind: "UnificationFail";
+    type1: string;
+    type2: string;
 }
 
 

@@ -5,6 +5,7 @@ module.exports = $importAll([
     const Array = $imports[0].Array;
     const Dict = $imports[0].Dict;
     const Errors = $imports[0].Errors;
+    const Set = $imports[0].Set;
     const Type = $imports[1];
     const Subst = Type.Subst;
 
@@ -29,8 +30,14 @@ module.exports = $importAll([
         u[1];
 
 
+    const occursCheck = name => type =>
+        Set.member(name)(Type.ftv(type));
+
+
     const bind = name => type =>
-        Promise.resolve([Subst.singleton(name)(type), []]);
+        Type.isVariable(type) && Type.variableName(type) === name ? Promise.resolve([Subst.nullSubst, []])
+            : occursCheck(name)(type) ? Promise.reject("error")
+            : Promise.resolve([Subst.singleton(name)(type), []]);
 
 
     const typesApply = subst => types =>
@@ -42,11 +49,11 @@ module.exports = $importAll([
 
 
     const unifies = t1 => t2 =>
-        Type.equals(t1)(t2)
-            ? emptyUnifier
+        Type.equals(t1)(t2) ? emptyUnifier
             : Type.isVariable(t1) ? bind(Type.variableName(t1))(t2)
             : Type.isVariable(t2) ? bind(Type.variableName(t2))(t1)
-                : unifyMany([Type.functionDomain(t1), Type.functionRange(t1)])([Type.functionDomain(t2), Type.functionRange(t2)]);
+                : Type.isFunction(t1) && Type.isFunction(t2) ? unifyMany([Type.functionDomain(t1), Type.functionRange(t1)])([Type.functionDomain(t2), Type.functionRange(t2)])
+                    : Promise.reject(Errors.UnificationFail(Type.show(t1), Type.show(t2)));
 
 
     const unifyMany = t1s => t2s =>

@@ -22,6 +22,7 @@ module.exports = $import(
     const asString = o =>
         typeof o === "string"
             ? o
+            : o.message && o.stack ? `${o.message}: ${JSON.stringify(o.stack)}`
             : JSON.stringify(o, null, 2);
 
 
@@ -88,7 +89,8 @@ module.exports = $import(
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
                     .then(is => Solver.solver(is.constraints))
                     .then(r => typeInference.then(t => t.equals(asString(Dict.mapValue(Type.show)(r)))(content.typeSolver.join("\n").trim())))
-                    .catch(e => typeInference.then(t => t.equals(asString(e))(content.typeSolver.join("\n").trim())))
+                    .catch(e => typeInference.then(t =>
+                        t.equals(asString(e))(content.typeSolver.join("\n").trim())))
                 : typeInference;
         } else if (astKey.isJust()) {
             const parseName =
