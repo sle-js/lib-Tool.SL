@@ -1,0 +1,9 @@
+-- infer funnyAdd = x y -> x + (x && y)
+funnyAdd = x y -> x + (x && y)
+-- typeSolver
+{
+  "package": "Tool.SL",
+  "kind": "UnificationFail",
+  "type1": "Bool",
+  "type2": "Int"
+}
