@@ -37,6 +37,10 @@ const equals = as => bs => {
 };
 
 
+const member = e => s =>
+    s[e] !== undefined;
+
+
 module.exports = Promise.resolve({
     asArray,
     difference,
@@ -44,6 +48,7 @@ module.exports = Promise.resolve({
     equals,
     fromArray,
     intersection,
+    member,
     show,
     singleton,
     union
