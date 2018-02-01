@@ -31,6 +31,7 @@ interface Module <: Node {
 
 interface Declaration <: Node {
     name: string;
+    schema: Schema;
 }
 
 
@@ -41,6 +42,7 @@ interface NameDeclaration <: Declaration {
 
 
 interface Expression <: Node {
+    schema: Schema | null;
 }
 
 

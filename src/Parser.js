@@ -73,7 +73,7 @@ module.exports = $importAll([
             tokenName(Tokens.lowerID),
             token(Tokens.EQUAL),
             parseExpression(lexicalConstraint)
-        ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], r[2]))(lexer);
+        ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], undefined, r[2]))(lexer);
     };
 
 
@@ -90,7 +90,7 @@ module.exports = $importAll([
                 parseLambdaExpression(lexicalConstraint),
                 token(Tokens.ELSE),
                 parseLambdaExpression(lexicalConstraint)
-            ])(r => SLAST.If(stretchSourceLocation(locationAt(r[0]))(r[5].loc), r[1], r[3], r[5])),
+            ])(r => SLAST.If(stretchSourceLocation(locationAt(r[0]))(r[5].loc), undefined, r[1], r[3], r[5])),
             parseLambdaExpression(lexicalConstraint)
         ])(lexer);
 
@@ -103,7 +103,7 @@ module.exports = $importAll([
                     token(Tokens.MINUS_GREATER)
                 ])(r => r[0])),
                 parseExpression(lexicalConstraint)
-            ])(r => SLAST.Lambda(stretchSourceLocation(locationFromNodes(r[0]).withDefault(r[0][0].loc))(r[1].loc), r[0], r[1])),
+            ])(r => SLAST.Lambda(stretchSourceLocation(locationFromNodes(r[0]).withDefault(r[0][0].loc))(r[1].loc), undefined, r[0], r[1])),
             parseBooleanOrExpression(lexicalConstraint)
         ])(lexer);
 
@@ -115,7 +115,7 @@ module.exports = $importAll([
                 C.backtrack(tokenName(Tokens.BAR_BAR)),
                 parseBooleanAndExpression(lexicalConstraint)
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), undefined, item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseBooleanAndExpression = lexicalConstraint => lexer =>
@@ -125,7 +125,7 @@ module.exports = $importAll([
                 C.backtrack(tokenName(Tokens.AMPERSAND_AMPERSAND)),
                 parseRelationalOpExpression(lexicalConstraint)
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), undefined, item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseRelationalOpExpression = lexicalConstraint => lexer =>
@@ -142,7 +142,7 @@ module.exports = $importAll([
                 ])),
                 parseAdditiveExpression(lexicalConstraint)
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), undefined, item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseAdditiveExpression = lexicalConstraint => lexer =>
@@ -155,7 +155,7 @@ module.exports = $importAll([
                 ])),
                 parseMultiplicativeExpression(lexicalConstraint)
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), undefined, item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseMultiplicativeExpression = lexicalConstraint => lexer =>
@@ -168,26 +168,26 @@ module.exports = $importAll([
                 ])),
                 parseFunctionalApplicationExpression(lexicalConstraint)
             ]))
-        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), item[0], left, item[1]))(r[1]))(lexer);
+        ])(r => Array.foldl(r[0])(left => item => SLAST.Binary(stretchSourceLocation(left.loc)(item[1].loc), undefined, item[0], left, item[1]))(r[1]))(lexer);
 
 
     const parseFunctionalApplicationExpression = lexicalConstraint => lexer =>
         C.many1Map(C.backtrack(parseTerminalExpression(lexicalConstraint)))(
-            r => Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), operator, operand))(Array.drop(1)(r))
+            r => Array.foldl(r[0])(operator => operand => SLAST.Apply(stretchSourceLocation(operator.loc)(operand.loc), undefined, operator, operand))(Array.drop(1)(r))
         )(lexer);
 
 
     const parseTerminalExpression = lexicalConstraint => lexer =>
         or([Tokens.constantInteger, Tokens.TRUE, Tokens.FALSE, Tokens.constantString, Tokens.BANG, Tokens.MINUS, Tokens.lowerID, Tokens.LPAREN])([
-            C.backtrack(tokenMap(Tokens.constantInteger)(t => SLAST.ConstantInteger(locationAt(t), t.token().value))),
-            C.backtrack(tokenMap(Tokens.TRUE)(t => SLAST.ConstantBoolean(locationAt(t), true))),
-            C.backtrack(tokenMap(Tokens.FALSE)(t => SLAST.ConstantBoolean(locationAt(t), false))),
-            C.backtrack(tokenMap(Tokens.constantString)(t => SLAST.ConstantString(locationAt(t), t.token().value))),
+            C.backtrack(tokenMap(Tokens.constantInteger)(t => SLAST.ConstantInteger(locationAt(t), undefined, t.token().value))),
+            C.backtrack(tokenMap(Tokens.TRUE)(t => SLAST.ConstantBoolean(locationAt(t), undefined, true))),
+            C.backtrack(tokenMap(Tokens.FALSE)(t => SLAST.ConstantBoolean(locationAt(t), undefined, false))),
+            C.backtrack(tokenMap(Tokens.constantString)(t => SLAST.ConstantString(locationAt(t), undefined, t.token().value))),
             C.andMap([
                 C.backtrack(token(Tokens.BANG)),
                 parseExpression(lexicalConstraint)
-            ])(t => SLAST.Not(stretchSourceLocation(locationAt(t[0]))(t[1]), t[1])),
-            C.backtrack(conditionMap([Tokens.lowerID])(t => t.token().id === Tokens.lowerID && lexicalConstraint(t))(t => SLAST.LowerIDReference(locationAt(t), t.token().value))),
+            ])(t => SLAST.Not(stretchSourceLocation(locationAt(t[0]))(t[1]), undefined, t[1])),
+            C.backtrack(conditionMap([Tokens.lowerID])(t => t.token().id === Tokens.lowerID && lexicalConstraint(t))(t => SLAST.LowerIDReference(locationAt(t), undefined, t.token().value))),
 
             C.andMap([
                 C.backtrack(token(Tokens.LPAREN)),
