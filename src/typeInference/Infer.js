@@ -103,11 +103,10 @@ module.exports = $importAll([
 
     const instantiate = schema => is =>
         freshVariables(Array.length(Schema.names(schema)))(is)
-            .then(fv =>
-                ({
-                    type: Type.apply(Subst.fromArray(Array.zip(Schema.names(schema))(fv.schemas)))(Schema.type(schema)),
-                    is: fv.is
-                }));
+            .then(fv => ({
+                type: Type.apply(Subst.fromArray(Array.zip(Schema.names(schema))(fv.schemas)))(Schema.type(schema)),
+                is: fv.is
+            }));
 
 
     const generalise = type =>
@@ -115,10 +114,9 @@ module.exports = $importAll([
 
 
     const lookupInEnv = loc => name => is =>
-        Dict.get(name)(is.env)
-            .reduce(
-                () => Promise.reject(Errors.UnknownIdentifier(loc, name)))(
-                t => instantiate(t)(is));
+        Dict.get(name)(is.env).reduce(
+            () => Promise.reject(Errors.UnknownIdentifier(loc, name)))(
+            t => instantiate(t)(is));
 
 
     const operationSignatures = {
