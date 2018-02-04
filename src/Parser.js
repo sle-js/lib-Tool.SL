@@ -73,7 +73,7 @@ module.exports = $importAll([
             tokenName(Tokens.lowerID),
             token(Tokens.EQUAL),
             parseExpression(lexicalConstraint)
-        ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], undefined, r[2]))(lexer);
+        ])(r => SLAST.NameDeclaration(stretchSourceLocation(r[0].loc)(r[2].loc), r[0], r[2]))(lexer);
     };
 
 

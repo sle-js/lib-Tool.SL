@@ -23,6 +23,7 @@ module.exports = $importAll([
     const Errors = $imports[0].Errors;
     const Schema = $imports[1];
     const Set = $imports[0].Set;
+    const SLAST = $imports[0].SLAST;
     const Subst = $imports[2].Subst;
     const Type = $imports[2];
     const TypeEnv = $imports[3];
@@ -39,19 +40,28 @@ module.exports = $importAll([
 
 
     const freshVariable = infer =>
-        Promise.resolve([
-            Schema.Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))), {
+        Promise.resolve({
+            schema: Schema.Schema([])(Type.Variable(variableNameFromInt(infer.variableCounter))),
+            is: {
                 ...infer,
                 variableCounter: infer.variableCounter + 1
-            }]);
+            }
+        })
+    ;
 
 
     const freshVariables = n => infer =>
         n === 0
-            ? Promise.resolve([[], infer])
+            ? Promise.resolve({
+                schemas: [],
+                is: infer
+            })
             : freshVariable(infer)
-                .then(t => freshVariables(n - 1)(t[1])
-                    .then(fv => Promise.resolve([Array.append(t[0])(fv[0]), fv[1]])));
+                .then(t => freshVariables(n - 1)(t.is)
+                    .then(fv => Promise.resolve({
+                        schemas: Array.append(t.schema)(fv.schemas),
+                        is: fv.is
+                    })));
 
 
     const bindSchema = name => schema => is =>
@@ -93,9 +103,11 @@ module.exports = $importAll([
 
     const instantiate = schema => is =>
         freshVariables(Array.length(Schema.names(schema)))(is)
-            .then(fv => [
-                Type.apply(Subst.fromArray(Array.zip(Schema.names(schema))(fv[0])))(Schema.type(schema)),
-                fv[1]]);
+            .then(fv =>
+                ({
+                    type: Type.apply(Subst.fromArray(Array.zip(Schema.names(schema))(fv.schemas)))(Schema.type(schema)),
+                    is: fv.is
+                }));
 
 
     const generalise = type =>
@@ -105,7 +117,7 @@ module.exports = $importAll([
     const lookupInEnv = loc => name => is =>
         Dict.get(name)(is.env)
             .reduce(
-                () => Promise.reject(Errors.UnknownIdentifier (loc, name)))(
+                () => Promise.reject(Errors.UnknownIdentifier(loc, name)))(
                 t => instantiate(t)(is));
 
 
@@ -128,15 +140,18 @@ module.exports = $importAll([
     };
 
 
-    // inferExpression: Expression -> InferState -> Promise Error (Type, InferState)
+    // inferExpression: Expression -> InferState -> Promise Error {ast: SLAST, is: InferState}
     const inferExpression = e => is => {
         switch (e.kind) {
             case "Apply":
                 return inferExpression(e.operator)(is)
-                    .then(t1 => inferExpression(e.operand)(t1[1])
-                        .then(t2 => freshVariable(t2[1])
-                            .then(tv => uni(t1[0])(Type.Function(t2[0])(Schema.type(tv[0])))(tv[1])
-                                .then(unifyResult => Promise.resolve([Schema.type(tv[0]), unifyResult])))));
+                    .then(t1 => inferExpression(e.operand)(t1.is)
+                        .then(t2 => freshVariable(t2.is)
+                            .then(tv => uni(t1.ast.type)(Type.Function(t2.ast.type)(Schema.type(tv.schema)))(tv.is)
+                                .then(unifyResult => Promise.resolve({
+                                    ast: SLAST.Apply(e.loc, Schema.type(tv.schema), t1.ast, t2.ast),
+                                    is: unifyResult
+                                })))));
 
 
             case "Binary": {
@@ -146,52 +161,86 @@ module.exports = $importAll([
                 return operation === undefined
                     ? Promise.reject(Errors.UnknownOperator(e.operator.loc, e.operator.value))
                     : instantiate(operation)(is)
-                        .then(os => freshVariable(os[1])
-                            .then(fv => inferExpression(e.left)(fv[1])
-                                .then(le => inferExpression(e.right)(le[1])
-                                    .then(re => uni(Type.Function(le[0])(Type.Function(re[0])(Schema.type(fv[0]))))(os[0])(re[1])
-                                        .then(unifyResult => Promise.resolve([Schema.type(fv[0]), unifyResult]))))));
+                        .then(os => freshVariable(os.is)
+                            .then(fv => inferExpression(e.left)(fv.is)
+                                .then(le => inferExpression(e.right)(le.is)
+                                    .then(re => uni(Type.Function(le.ast.type)(Type.Function(re.ast.type)(Schema.type(fv.schema))))(os.type)(re.is)
+                                        .then(unifyResult => Promise.resolve({
+                                            ast: SLAST.Binary(e.loc, Schema.type(fv.schema), e.operator, le.ast, re.ast),
+                                            is: unifyResult
+                                        }))))));
             }
 
             case "ConstantBoolean":
-                return Promise.resolve([Type.ConstantBool, is]);
+                return Promise.resolve({
+                    ast: SLAST.ConstantBoolean(e.loc, Type.ConstantBool, e.value),
+                    is: is
+                });
 
             case "ConstantInteger":
-                return Promise.resolve([Type.ConstantInt, is]);
+                return Promise.resolve({
+                    ast: SLAST.ConstantInteger(e.loc, Type.ConstantInt, e.value),
+                    is: is
+                });
 
             case "ConstantString":
-                return Promise.resolve([Type.ConstantString, is]);
+                return Promise.resolve({
+                    ast: SLAST.ConstantString(e.loc, Type.ConstantString, e.value),
+                    is: is
+                });
 
             case "If":
                 return inferExpression(e.testExpression)(is)
-                    .then(testType => inferExpression(e.thenExpression)(testType[1])
-                        .then(thenType => inferExpression(e.elseExpression)(thenType[1])
-                            .then(elseType => uni(testType[0])(Type.ConstantBool)(elseType[1])
-                                .then(uni(thenType[0])(elseType[0]))
-                                .then(finalIs => Promise.resolve([thenType[0], finalIs])))));
+                    .then(testType => inferExpression(e.thenExpression)(testType.is)
+                        .then(thenType => inferExpression(e.elseExpression)(thenType.is)
+                            .then(elseType => uni(testType.ast.type)(Type.ConstantBool)(elseType.is)
+                                .then(uni(thenType.ast.type)(elseType.ast.type))
+                                .then(finalIs => Promise.resolve({
+                                    ast: SLAST.If(e.loc, thenType.ast.type, testType.ast, thenType.ast, elseType.ast),
+                                    is: finalIs
+                                })))));
 
             case "Lambda": {
                 const lambda = params => expression => is =>
                     Array.length(params) === 1
                         ? freshVariable(is)
-                            .then(tv => bindSchema(params[0].value)(tv[0])(openScope(tv[1]))
+                            .then(tv => bindSchema(params[0].value)(tv.schema)(openScope(tv.is))
                                 .then(inferExpression(expression))
-                                .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])))
+                                .then(et => Promise.resolve({
+                                    type: Type.Function(Schema.type(tv.schema))(et.ast.type),
+                                    ast: et.ast,
+                                    is: closeScope(et.is)
+                                })))
                         : freshVariable(is)
-                            .then(tv => bindSchema(params[0].value)(tv[0])(openScope(tv[1]))
+                            .then(tv => bindSchema(params[0].value)(tv.schema)(openScope(tv.is))
                                 .then(lambda(params.slice(1))(expression))
-                                .then(et => Promise.resolve([Type.Function(Schema.type(tv[0]))(et[0]), closeScope(et[1])])));
+                                .then(et => Promise.resolve({
+                                    type: Type.Function(Schema.type(tv.schema))(et.type),
+                                    ast: et.ast,
+                                    is: closeScope(et.is)
+                                })));
 
-                return lambda(e.names)(e.expression)(is);
+                return lambda(e.names)(e.expression)(is)
+                    .then(l => Promise.resolve({
+                        ast: SLAST.Lambda(e.loc, l.type, e.names, l.ast),
+                        is: l.is
+                    }));
             }
 
             case "LowerIDReference":
-                return lookupInEnv(e.loc)(e.name)(is);
+                return lookupInEnv(e.loc)(e.name)(is)
+                    .then(id => Promise.resolve({
+                        ast: SLAST.LowerIDReference(e.loc, id.type, e.name),
+                        is: id.is
+                    }));
 
             case "Not":
                 return inferExpression(e.expression)(is)
-                    .then(t1 => uni(t1[0])(Type.ConstantBool)(t1[1]))
-                    .then(t2 => Promise.resolve([Type.ConstantBool, t2]));
+                    .then(t1 => uni(t1.ast.type)(Type.ConstantBool)(t1.is)
+                        .then(t2 => Promise.resolve({
+                            ast: SLAST.Not(e.loc, Type.ConstantBool, t1.ast),
+                            is: t2
+                        })));
 
             default:
                 return Promise.reject("Unable to infer kind " + e.kind);
@@ -204,7 +253,7 @@ module.exports = $importAll([
         switch (declaration.kind) {
             case "NameDeclaration":
                 return inferExpression(declaration.expression)(is)
-                    .then(e1 => bindSchema(declaration.name.value)(generalise(e1[0]))(e1[1]));
+                    .then(e1 => bindSchema(declaration.name.value)(generalise(e1.ast.type))(e1.is));
             default:
                 return Promise.resolve(is);
         }
