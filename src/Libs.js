@@ -11,7 +11,7 @@ module.exports = $importAll([
     "core:Text.Parsing.Combinators:1.2.0",
     "core:Native.Data.Result:1.0.0",
     "./Set",
-    "use:./SLAST.estree core:Tool.ESTree:1.0.3",
+    "./AST",
     "core:Data.Collection.InfiniteStream:1.0.0",
     "core:Native.Data.String:1.0.0"
 ]).then($imports => ({
