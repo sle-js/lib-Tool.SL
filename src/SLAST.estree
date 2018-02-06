@@ -36,6 +36,7 @@ interface Declaration <: Node {
 
 interface NameDeclaration <: Declaration {
     kind: "NameDeclaration";
+    schema: Schema;
     expression: Expression;
 }
 
