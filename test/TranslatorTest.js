@@ -10,6 +10,7 @@ module.exports = $import(
     const Infer = $imports.Infer;
     const Path = $imports.Path;
     const Schema = $imports.Schema;
+    const SLAST = $imports.SLAST;
     const Solver = $imports.Solver;
     const String = $imports.String;
     const Type = $imports.Type;
@@ -63,11 +64,18 @@ module.exports = $import(
         });
 
 
+    const typeAST = ast =>
+        Infer.inferModule(ast)(Infer.initialInferState)
+            .then(s =>
+                Solver.solver(s.is.constraints)
+                    .then(solver => SLAST.apply(solver)(s.ast)));
+
+
     const processFile = suiteName => content => assertion => {
         const astKey =
             Array.find(String.startsWith("ast"))(Object.keys(content));
 
-        if (astKey.map(v => v === "ast").withDefault(false) || content.typeSolver || content.typeInference || content.js || content.jsast) {
+        if (astKey.map(v => v === "ast").withDefault(false) || content.typeAST || content.typeSolver || content.typeInference || content.js || content.jsast) {
             const ast =
                 Parser.parseModule(_ => true)(LexerConfiguration.fromNamedString(suiteName)(content.src.join("\n")));
 
@@ -81,17 +89,23 @@ module.exports = $import(
 
             const typeInference = content.typeInference
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
-                    .then(is => astAssertion.equals(asString(showInferState(is)))(content.typeInference.join("\n").trim()))
+                    .then(is => astAssertion.equals(asString(showInferState(is.is)))(content.typeInference.join("\n").trim()))
                     .catch(e =>
                         astAssertion.equals(asString(e))(content.typeInference.join("\n").trim()))
                 : Promise.resolve(astAssertion);
 
-            return content.typeSolver
+            const typeSolver = content.typeSolver
                 ? Infer.inferModule(ast.content[1].result)(Infer.initialInferState)
-                    .then(is => Solver.solver(is.constraints))
+                    .then(is => Solver.solver(is.is.constraints))
                     .then(r => typeInference.then(t => t.equals(asString(Dict.mapValue(Type.show)(r)))(content.typeSolver.join("\n").trim())))
                     .catch(e => typeInference.then(t => t.equals(asString(e))(content.typeSolver.join("\n").trim())))
                 : typeInference;
+
+            return content.typeAST
+                ? typeAST(ast.content[1].result)
+                    .then(ast => typeSolver.then(t => t.equals(asString(ast))(content.typeAST.join("\n").trim())))
+                    .catch(e => typeSolver.then(t => t.equals(asString(e))(content.typeAST.join("\n").trim())))
+                : typeSolver;
         } else if (astKey.isJust()) {
             const parseName =
                 astKey.withDefault("ast parseModule").split(" ")[1];
@@ -132,6 +146,7 @@ module.exports = $import(
         // loadSuite("parseModule")(dirname("./translator")),
         loadSuite("parse")(dirname("./parser")),
         loadSuite("Type Inference")(dirname("./typeInference")),
-        loadSuite("Type Solver")(dirname("./typeSolver"))
+        loadSuite("Type Solver")(dirname("./typeSolver")),
+        loadSuite("Type AST")(dirname("./typeAST"))
     ]);
 });

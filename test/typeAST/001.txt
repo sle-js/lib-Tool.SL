@@ -1,0 +1,146 @@
+-- infer add20 = x -> x + 10
+add20 = x -> x + 10
+-- typeAST
+{
+  "kind": "Module",
+  "loc": {
+    "source": "001.txt",
+    "start": {
+      "line": 1,
+      "column": 1
+    },
+    "end": {
+      "line": 1,
+      "column": 20
+    }
+  },
+  "declarations": [
+    {
+      "kind": "NameDeclaration",
+      "loc": {
+        "source": "001.txt",
+        "start": {
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "line": 1,
+          "column": 19
+        }
+      },
+      "name": {
+        "kind": "Name",
+        "loc": {
+          "source": "001.txt",
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 5
+          }
+        },
+        "value": "add20"
+      },
+      "schema": {
+        "kind": "Lambda",
+        "loc": {
+          "source": "001.txt",
+          "start": {
+            "line": 1,
+            "column": 9
+          },
+          "end": {
+            "line": 1,
+            "column": 19
+          }
+        },
+        "type": [
+          2,
+          [
+            1,
+            "Int"
+          ],
+          [
+            1,
+            "Int"
+          ]
+        ],
+        "names": [
+          {
+            "kind": "Name",
+            "loc": {
+              "source": "001.txt",
+              "start": {
+                "line": 1,
+                "column": 9
+              },
+              "end": {
+                "line": 1,
+                "column": 9
+              }
+            },
+            "value": "x"
+          }
+        ],
+        "expression": {
+          "kind": "Binary",
+          "loc": {
+            "source": "001.txt",
+            "start": {
+              "line": 1,
+              "column": 14
+            },
+            "end": {
+              "line": 1,
+              "column": 19
+            }
+          },
+          "type": [
+            1,
+            "Int"
+          ],
+          "operator": {
+            "kind": "LowerIDReference",
+            "loc": {
+              "source": "001.txt",
+              "start": {
+                "line": 1,
+                "column": 14
+              },
+              "end": {
+                "line": 1,
+                "column": 14
+              }
+            },
+            "type": [
+              1,
+              "Int"
+            ],
+            "name": "x"
+          },
+          "left": {
+            "kind": "ConstantInteger",
+            "loc": {
+              "source": "001.txt",
+              "start": {
+                "line": 1,
+                "column": 18
+              },
+              "end": {
+                "line": 1,
+                "column": 19
+              }
+            },
+            "type": [
+              1,
+              "Int"
+            ],
+            "value": 10
+          }
+        }
+      }
+    }
+  ]
+}

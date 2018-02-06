@@ -246,21 +246,41 @@ module.exports = $importAll([
     };
 
 
-    // infer: InferState -> AST -> Promise Error InferState
+    // infer: InferState -> AST -> Promise Error {ast: SLAST, is: InferState}
     const infer = declaration => is => {
         switch (declaration.kind) {
             case "NameDeclaration":
                 return inferExpression(declaration.expression)(is)
-                    .then(e1 => bindSchema(declaration.name.value)(generalise(e1.ast.type))(e1.is));
+                    .then(e1 => {
+                        const schema =
+                            generalise(e1.ast.type);
+
+                        return bindSchema(declaration.name.value)(schema)(e1.is).then(is => ({
+                            ast: SLAST.NameDeclaration(declaration.loc, declaration.name, schema, e1.ast),
+                            is: is
+                        }));
+                    });
+
             default:
-                return Promise.resolve(is);
+                return Promise.reject("Unable to infer " + declaration.kind);
         }
     };
 
 
     const inferModule = module => inferState =>
-        Array.foldl(Promise.resolve(inferState))(acc => declaration => acc.then(is => infer(declaration)(is)))(module.declarations);
-
+        Array.foldl(Promise.resolve({
+            declarations: [], is: inferState
+        }))(acc => declaration => acc
+            .then(state =>
+                infer(declaration)(state.is)
+                    .then(inferResult => ({
+                        declarations: Array.append(inferResult.ast)(state.declarations),
+                        is: inferResult.is
+                    }))))(module.declarations)
+            .then(s => ({
+                ast: SLAST.Module(module.loc, s.declarations),
+                is: s.is
+            }));
 
     return {
         freshVariable,
