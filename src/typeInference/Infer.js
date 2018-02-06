@@ -269,7 +269,8 @@ module.exports = $importAll([
 
     const inferModule = module => inferState =>
         Array.foldl(Promise.resolve({
-            declarations: [], is: inferState
+            declarations: [],
+            is: inferState
         }))(acc => declaration => acc
             .then(state =>
                 infer(declaration)(state.is)
