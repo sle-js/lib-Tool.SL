@@ -1,8 +1,9 @@
 module.exports = $importAll([
-    "./../Libs"
+    "./../Dict",
+    "./../Set"
 ]).then($imports => {
-    const Dict = $imports[0].Dict;
-    const Set = $imports[0].Set;
+    const Dict = $imports[0];
+    const Set = $imports[1];
 
 
     const Variable = name =>
